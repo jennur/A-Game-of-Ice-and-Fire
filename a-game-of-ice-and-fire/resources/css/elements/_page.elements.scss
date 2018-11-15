@@ -1,6 +1,17 @@
 html {
-  
+  min-width: 100%; 
+  min-height: 100%; 
+  margin: $none auto;
+  background-image: url(../../assets/trees.jpg);
+  background-position: center; 
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 body {
-    
+  display: block; 
+  width: 100vw; 
+  min-height: 100vh; 
+  margin: $none auto; 
+  background-color: rgba(49,51,58, 0.7); 
 }

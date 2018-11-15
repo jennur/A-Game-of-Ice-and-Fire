@@ -1,0 +1,19 @@
+
+.cta-button {
+  align-self: center; 
+  width: 250px;
+  height: 100px; 
+  background-color: $strongRed;
+  font-family: $buttonFont; 
+  font-size: $Xlarge; 
+  color: $black; 
+  border: none; 
+  border-radius: 20px;
+  outline: none;  
+  box-shadow: 0px 10px 10px rgba(0,0,0,0.2);
+  cursor: pointer; 
+
+  &:focus {
+      box-shadow: none; 
+  }
+}

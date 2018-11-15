@@ -1,11 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Homemade+Apple');
+
+/* Settings */
+
+@import 'settings/general.settings.scss';
+@import 'settings/font.settings.scss';
+
 
 /* Components */
+
 @import 'components/_board.components.scss';
 @import 'components/_button.components.scss';
+@import 'components/_header.components.scss';
 @import 'components/_player.components.scss';
 @import 'components/_score-list.components.scss';
 @import 'components/_welcome.components.scss';
 
+
 /* Elements */
 
 @import 'elements/_page.elements.scss';
+
+
+/* Objects */
+
+@import 'objects/_wrapper.objects.scss';
+@import 'objects/_grid.objects.scss';
+
+/* Utilities */
+@import 'utilities/_general.utilities.scss';
+
