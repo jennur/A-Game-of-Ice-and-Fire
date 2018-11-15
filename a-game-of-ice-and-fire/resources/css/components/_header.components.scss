@@ -1,0 +1,15 @@
+
+.header {
+
+  &-wrap {
+      display: flex; 
+      width: inherit;
+      margin: $none auto;  
+      padding: $spacingXLarge; 
+      justify-content: center; 
+  }
+  &__item {
+    flex-basis: 30%; 
+    padding-top: $spacingXLarge;
+  }
+}

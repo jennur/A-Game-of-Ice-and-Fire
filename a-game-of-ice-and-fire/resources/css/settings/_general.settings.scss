@@ -1,0 +1,52 @@
+
+/* Colors */
+
+$black: #000;
+$white: #fff;
+$darkGray: #31333a; /* rgb: 49 51 58*/
+$lightGreen: #a9ae9d;  
+$cream: #e4e3df; 
+$strongRed: #99282e;
+
+$red: #993f40;
+$orange: #ce874b;
+$yellow: #d6bf53;
+$blue: #4761a0;
+$green: #688951;
+
+
+/* Fonts */
+
+$buttonFont: 'Homemade Apple', cursive;
+
+$small: 12px; 
+$regular: 16px; 
+$medium: 20px; 
+$large: 24px; 
+$Xlarge: 30px;
+
+
+/* Spacing */
+
+$none: 0px; 
+$spacingXSmall: 5px; 
+$spacingSmall: 10px;
+$spacingMedium: 15px;
+$spacingLarge: 20px;
+$spacingXLarge: 25px; 
+
+
+/* Widths */
+
+$fullWidth: 100%;
+$siteWidth: 1280px;
+$mediumWidth: 1000px;
+$narrowWidth: 700px;
+
+
+/* Media queries */
+
+$mobile: 'only screen and (max-width: 767px)';
+$tablet: 'only screen and (min-width: 768px)';
+$desktop: 'only screen and (min-width: 1000px)';
+$desktop-wide: 'only screen and (min-width: 1200px)';

@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css?family=Homemade+Apple");
+/* Settings */
+/* Colors */
+/* rgb: 49 51 58*/
+/* Fonts */
+/* Spacing */
+/* Widths */
+/* Media queries */
+/* Components */
+.cta-button {
+  align-self: center;
+  width: 250px;
+  height: 100px;
+  background-color: #99282e;
+  font-family: "Homemade Apple", cursive;
+  font-size: 30px;
+  color: #000;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+.cta-button:focus {
+  box-shadow: none;
+}
+
+.header-wrap {
+  display: flex;
+  width: inherit;
+  margin: 0px auto;
+  padding: 25px;
+  justify-content: center;
+}
+.header__item {
+  flex-basis: 30%;
+  padding-top: 25px;
+}
+
+/* Elements */
+html {
+  min-width: 100%;
+  min-height: 100%;
+  margin: 0px auto;
+  background-image: url(../../assets/trees.jpg);
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+body {
+  display: block;
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0px auto;
+  background-color: rgba(49, 51, 58, 0.7);
+}
+
+/* Objects */
+.main-wrapper {
+  width: inherit;
+  margin: 0px auto;
+  padding: 15px;
+}
+@media only screen and (min-width: 768px) {
+  .main-wrapper {
+    width: 700px;
+  }
+}
+
+.grid {
+  display: flex;
+  width: inherit;
+}
+.grid__item {
+  flex-basis: 100%;
+}
+.grid__item--one-third {
+  flex-basis: 33%;
+}
+.grid__item--two-thirds {
+  flex-basis: 66%;
+}
+.grid--center {
+  justify-content: center;
+}
+
+/* Utilities */
+.padding-top--xlarge {
+  padding-top: 30px;
+}
+
+/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,10 @@
+
+.main-wrapper {
+  width: inherit;
+  margin: $none auto; 
+  padding: $spacingMedium; 
+  
+  @media #{$tablet} {
+    width: $narrowWidth; 
+  }
+}
