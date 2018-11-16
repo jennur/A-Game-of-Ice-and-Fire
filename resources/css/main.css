@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Kalam");
+@import url("https://fonts.googleapis.com/css?family=Carrois+Gothic+SC");
 /* Settings */
 /* Colors */
 /* rgb: 49 51 58*/
@@ -60,7 +61,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 100%;
+  width: inherit;
   margin: 0px auto;
   padding: 20px;
 }
@@ -70,26 +71,44 @@
   }
 }
 .characters__card {
-  width: 150px;
-  height: 200px;
+  text-decoration: none;
+  color: inherit;
+  width: 270px;
+  height: auto;
   padding: 20px;
   margin: 20px;
-  border-radius: 10px;
+  border-radius: 3px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
   transition: 0.1s;
+}
+@media only screen and (min-width: 768px) {
+  .characters__card {
+    flex-grow: 1;
+  }
 }
 .characters__card:hover {
   padding: 25px;
   margin: 15px;
   cursor: pointer;
 }
-.characters__card:focus {
+.characters__card:active {
   padding: 15px;
   margin: 25px;
+  color: inherit;
+}
+.characters__card:visited {
+  color: inherit;
 }
 
 .card__title {
-  color: #31333a;
+  color: #000;
   align-self: center;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+.card__titles-list {
+  display: block;
+  list-style: none;
+  padding: 0px;
 }
 
 .header-wrap {
@@ -99,13 +118,39 @@
   padding: 25px;
   justify-content: center;
 }
-.header__item {
+.header__logo {
   flex-basis: 50%;
+  min-width: 250px;
   padding-top: 25px;
 }
 @media only screen and (min-width: 768px) {
-  .header__item {
+  .header__logo {
     flex-basis: 30%;
+  }
+}
+.header__logo--static {
+  width: 150px;
+  height: auto;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+}
+@media only screen and (max-width: 767px) {
+  .header__logo--static {
+    width: 110px;
+  }
+}
+.header__headline {
+  font-size: 30px;
+  font-family: "Kalam", cursive;
+  margin: 0px auto;
+  padding: 25px;
+  color: #e4e3df;
+}
+@media only screen and (max-width: 767px) {
+  .header__headline {
+    position: relative;
+    top: 50px;
   }
 }
 
@@ -127,6 +172,7 @@ body {
   min-height: 100vh;
   margin: 0px auto;
   background-color: rgba(49, 51, 58, 0.4);
+  font-family: "Carrois Gothic SC", sans-serif;
 }
 
 /* Objects */
