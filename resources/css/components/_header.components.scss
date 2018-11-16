@@ -8,8 +8,12 @@
       padding: $spacingXLarge; 
       justify-content: center; 
   }
+
   &__item {
-    flex-basis: 30%; 
+    flex-basis: 50%; 
+    @media #{$tablet}{
+      flex-basis: 30%;  
+    }
     padding-top: $spacingXLarge;
   }
 }
