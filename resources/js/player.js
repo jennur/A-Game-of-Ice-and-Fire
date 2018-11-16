@@ -16,19 +16,22 @@ for(let i = 0; i < characterNumbers.length; i++){
   })
   .then(function(data){
     console.log(data);
-    let card = document.createElement('div'); 
+    let card = document.createElement('a'); 
+    card.setAttribute('href', 'in-game.html');
     card.classList.add('characters__card');
     card.style.backgroundColor = houseColors[i];
     
     let title = document.createElement('h3'); 
     title.classList.add('card__title');
     title.innerHTML = data.name;
-
+    
     card.appendChild(title);
     let titleList = document.createElement('ul');
-    for(let i = 0; i < data.titles.length; i++){
+    titleList.classList.add('card__titles-list');
+    for(let i = 0; i < data['titles'].length; i++){
       let listItem = document.createElement('li');
       listItem.innerHTML = data.titles[i];
+      titleList.appendChild(listItem);
     }
     card.appendChild(titleList);
     characterContainer.appendChild(card);
