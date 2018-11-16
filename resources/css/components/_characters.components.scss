@@ -5,29 +5,40 @@
     display: flex; 
     flex-wrap: wrap; 
     justify-content: center;
-    width: $fullWidth;
+    width: inherit;
     @media #{$tablet}{
       width: $narrowWidth;
     } 
     margin: $none auto; 
     padding: $spacingLarge;
   }
+
   &__card {
-    width: 150px; 
-    height: 200px; 
+    text-decoration: none; 
+    color: inherit;
+    width: 270px; 
+    height: auto; 
     padding: $spacingLarge;
     margin: $spacingLarge;
-    border-radius: 10px; 
+    //background: radial-gradient(circle, transparent 15%, #2D2E2B 115%, #1C1C1A 145%);
+    border-radius: 3px; 
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
     transition: 0.1s;
-    
+    @media #{$tablet}{
+      flex-grow: 1;
+    } 
     &:hover {
       padding: $spacingXLarge;
       margin: $spacingMedium; 
       cursor: pointer; 
     }
-    &:focus {
+    &:active {
       padding: $spacingMedium; 
       margin: $spacingXLarge;
+      color: inherit;
+    }
+    &:visited {
+      color: inherit;
     }
   }
 }
@@ -35,7 +46,13 @@
 .card {
 
   &__title {
-    color: $darkGray;
+    color: $black;
     align-self: center; 
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  }
+  &__titles-list {
+      display: block; 
+      list-style: none; 
+      padding: $none; 
   }
 }
