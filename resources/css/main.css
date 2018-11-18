@@ -8,6 +8,33 @@
 /* Widths */
 /* Media queries */
 /* Components */
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1050px;
+  height: 500px;
+  margin: 0px auto;
+  padding: 0px;
+  background-color: #a9ae9d;
+  border-bottom: 3px solid #1C1C1A;
+  border-top: 3px solid #F2E4CE;
+  border-radius: 3px;
+}
+.board-wrapper {
+  width: 1050px;
+  height: 500px;
+  background-color: #2D2E2B;
+  padding: 20px;
+}
+.board__tile {
+  display: inline-flex;
+  width: 50px;
+  height: 50px;
+}
+.board__tile:nth-child(2n) {
+  background-color: #F2E4CE;
+}
+
 .game-btn:focus {
   box-shadow: none;
 }
@@ -32,7 +59,7 @@
   height: 72px;
   padding: 7px 5px;
   background-color: #31333a;
-  border-top: 2px solid #e4e3df;
+  border-top: 2px solid #F2E4CE;
   border-bottom: 2px solid #1C1C1A;
   border-radius: 3px;
 }
@@ -75,8 +102,9 @@
   color: inherit;
   width: 270px;
   height: auto;
-  padding: 20px;
+  padding: 10px;
   margin: 20px;
+  background: radial-gradient(ellipse, transparent 75%, #2D2E2B 145%);
   border-radius: 3px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
   transition: 0.1s;
@@ -87,12 +115,12 @@
   }
 }
 .characters__card:hover {
-  padding: 25px;
+  padding: 15px;
   margin: 15px;
   cursor: pointer;
 }
 .characters__card:active {
-  padding: 15px;
+  padding: 5px;
   margin: 25px;
   color: inherit;
 }
@@ -104,11 +132,14 @@
   color: #000;
   align-self: center;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  padding: 15px;
 }
 .card__titles-list {
   display: block;
   list-style: none;
   padding: 0px;
+  background-color: #F2E4CE;
+  padding: 15px;
 }
 
 .header-wrap {
@@ -145,7 +176,7 @@
   font-family: "Kalam", cursive;
   margin: 0px auto;
   padding: 25px;
-  color: #e4e3df;
+  color: #F2E4CE;
 }
 @media only screen and (max-width: 767px) {
   .header__headline {

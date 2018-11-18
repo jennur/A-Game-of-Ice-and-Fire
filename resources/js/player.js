@@ -20,7 +20,10 @@ for(let i = 0; i < characterNumbers.length; i++){
     card.setAttribute('href', 'in-game.html');
     card.classList.add('characters__card');
     card.style.backgroundColor = houseColors[i];
-    
+    card.addEventListener('click', function(e){
+      localStorage.setItem('player', data);
+    });
+
     let title = document.createElement('h3'); 
     title.classList.add('card__title');
     title.innerHTML = data.name;

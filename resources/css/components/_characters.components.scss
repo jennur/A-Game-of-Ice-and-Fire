@@ -18,9 +18,9 @@
     color: inherit;
     width: 270px; 
     height: auto; 
-    padding: $spacingLarge;
+    padding: $spacingSmall;
     margin: $spacingLarge;
-    //background: radial-gradient(circle, transparent 15%, #2D2E2B 115%, #1C1C1A 145%);
+    background: radial-gradient(ellipse, transparent 75%, $brown 145%);
     border-radius: 3px; 
     box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
     transition: 0.1s;
@@ -28,12 +28,12 @@
       flex-grow: 1;
     } 
     &:hover {
-      padding: $spacingXLarge;
+      padding: $spacingMedium;
       margin: $spacingMedium; 
       cursor: pointer; 
     }
     &:active {
-      padding: $spacingMedium; 
+      padding: $spacingXSmall; 
       margin: $spacingXLarge;
       color: inherit;
     }
@@ -49,10 +49,13 @@
     color: $black;
     align-self: center; 
     text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    padding: $spacingMedium;
   }
   &__titles-list {
       display: block; 
       list-style: none; 
       padding: $none; 
+      background-color: $cream;
+      padding: $spacingMedium;
   }
 }
