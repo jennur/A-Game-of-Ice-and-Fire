@@ -1,6 +1,52 @@
 
 .characters {
+  &__modal {
+    display: none; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    min-width: 100%; 
+    min-height: 100%; 
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    background-color: rgba(49,51,58, 1); 
+    z-index: 99999;
 
+    &--cards {
+      display: flex; 
+      flex-direction: row; 
+      padding: $spacingLarge; 
+    }
+    &--message {
+      padding: $spacingLarge; 
+      color: $cream; 
+      font-size: $Xlarge;
+    }
+    &--button-wrap {
+      display: flex; 
+      flex-direction: row; 
+    }
+    &--button {
+      background-color: $strongRed; 
+      border-top: 2px solid $cream; 
+      border-bottom: 2px solid $darkBrown; 
+      padding: $spacingMedium;
+      margin: $spacingMedium; 
+      color: $cream; 
+      font-family: $buttonFont; 
+      font-size: $large;
+      cursor: pointer; 
+    }
+  }
+  &__headline {
+    font-size: $large;
+    font-family: $bodyFont;
+    min-height: 60px; 
+    margin: $none auto;
+    padding: $spacingXLarge;
+    color: $cream;
+  }
   &__container {
     display: flex; 
     flex-wrap: wrap; 
@@ -57,5 +103,8 @@
       padding: $none; 
       background-color: $cream;
       padding: $spacingMedium;
+  }
+  &--selected {
+    box-shadow: 0px 0px 10px $brightRed;
   }
 }
