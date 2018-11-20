@@ -1,29 +1,49 @@
-
 .board {
   display: flex; 
   flex-wrap: wrap; 
-  width: 1050px; 
+  width: 600px; 
   height: 500px;
   margin: $none auto; 
   padding: $none; 
-  background-color: $lightGreen;
-  border-bottom: 3px solid $darkBrown; 
-  border-top: 3px solid $cream;
+  background-color: $darkBrown;
   border-radius: 3px; 
 
   &-wrapper {
-    width: 1050px; 
+    width: 600px; 
     height: 500px;
     background-color: $brown; 
     padding: $spacingLarge; 
+    border-top: 2px solid $cream;
+    border-bottom: 2px solid $darkBrown;
+    border-radius: 3px; 
+    margin: $none auto;
   }
   &__tile {
     display: inline-flex;
     width: 50px;
     height: 50px;
-    
-    &:nth-child(2n) {
+    &--start, &--end {
+      background-color: $blue; 
+    }
+    &--path {
       background-color: $cream; 
+      &:nth-child(2n){
+        background-color: $lightGreen;
+      }
+    }
+    &--challenge {
+      background-color: $brightRed;
+    }
+    &--correct {
+      background-color: $green;
+    }
+    &--wrong {
+      background-color: $strongRed;
     }
   }
+}
+
+.question-image {
+  width: inherit; 
+  height: inherit; 
 }

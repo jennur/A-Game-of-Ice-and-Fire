@@ -18,17 +18,30 @@
             <img src="../assets/head.svg" alt="A Game of Ice and Fire" />
           </a>
         </div>
-        <h1 class="header__headline">In Game</h1>
+        <h1 class="header__headline"></h1>
       </div>
     </header>  
   
     <main>
-      <div class="">
-        <ul class="score__list"></ul>
-      </div>
-      <div class="board-wrapper">
-          <div class="board"></div>
-      </div>
+        <div class="grid grid--center">
+          <div class="grid__item--twothirds">
+            <div class="board-wrapper">
+                <div class="board"></div>
+            </div>
+          </div>
+          <div class="grid__item--onethird">
+              <div class="score-wrapper">
+                  <ul class="score__list"></ul>
+              </div>
+              <div class="dice-wrapper">
+                <h2 class="dice-headline">Roll the dice!</h2>
+                <div class="dice">
+                    <img class="dice-face" src="../assets/dice1.svg" alt="dice face" />
+                </div>
+                <div class="dice-message"></div>
+              </div>
+            </div>
+        </div>
     </main>
 
     <script src="../resources/js/game.js"></script>
