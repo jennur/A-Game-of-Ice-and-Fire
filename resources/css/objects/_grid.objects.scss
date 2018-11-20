@@ -1,19 +1,18 @@
 
 .grid {
   display: flex; 
-  width: inherit;
   
   &__item {
     flex-basis: 100%;
-
-    &--one-third {
-      flex-basis: 33%;
-    }
-
-    &--two-thirds {
-      flex-basis: 66%;
-    } 
   }
+  &--one-third {
+    flex-basis: 33%;
+  }
+
+  &--two-thirds {
+    flex-basis: 66%;
+  } 
+
   &--center {   
     justify-content: center; 
   }   
