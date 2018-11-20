@@ -11,28 +11,50 @@
 .board {
   display: flex;
   flex-wrap: wrap;
-  width: 1050px;
+  width: 600px;
   height: 500px;
   margin: 0px auto;
   padding: 0px;
-  background-color: #a9ae9d;
-  border-bottom: 3px solid #1C1C1A;
-  border-top: 3px solid #F2E4CE;
+  background-color: #1C1C1A;
   border-radius: 3px;
 }
 .board-wrapper {
-  width: 1050px;
+  width: 600px;
   height: 500px;
   background-color: #2D2E2B;
   padding: 20px;
+  border-top: 2px solid #F2E4CE;
+  border-bottom: 2px solid #1C1C1A;
+  border-radius: 3px;
+  margin: 0px auto;
 }
 .board__tile {
   display: inline-flex;
   width: 50px;
   height: 50px;
 }
-.board__tile:nth-child(2n) {
+.board__tile--start, .board__tile--end {
+  background-color: #4761a0;
+}
+.board__tile--path {
   background-color: #F2E4CE;
+}
+.board__tile--path:nth-child(2n) {
+  background-color: #a9ae9d;
+}
+.board__tile--challenge {
+  background-color: #FF434D;
+}
+.board__tile--correct {
+  background-color: #688951;
+}
+.board__tile--wrong {
+  background-color: #99282e;
+}
+
+.question-image {
+  width: inherit;
+  height: inherit;
 }
 
 .game-btn:focus {
@@ -84,6 +106,52 @@
   user-select: none;
 }
 
+.characters__modal {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 100%;
+  min-height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #31333a;
+  z-index: 99999;
+}
+.characters__modal--cards {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+}
+.characters__modal--message {
+  padding: 20px;
+  color: #F2E4CE;
+  font-size: 30px;
+}
+.characters__modal--button-wrap {
+  display: flex;
+  flex-direction: row;
+}
+.characters__modal--button {
+  background-color: #99282e;
+  border-top: 2px solid #F2E4CE;
+  border-bottom: 2px solid #1C1C1A;
+  padding: 15px;
+  margin: 15px;
+  color: #F2E4CE;
+  font-family: "Kalam", cursive;
+  font-size: 24px;
+  cursor: pointer;
+}
+.characters__headline {
+  font-size: 24px;
+  font-family: "Carrois Gothic SC", sans-serif;
+  min-height: 60px;
+  margin: 0px auto;
+  padding: 25px;
+  color: #F2E4CE;
+}
 .characters__container {
   display: flex;
   flex-wrap: wrap;
@@ -141,10 +209,55 @@
   background-color: #F2E4CE;
   padding: 15px;
 }
+.card--selected {
+  box-shadow: 0px 0px 10px #FF434D;
+}
+
+.dice {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 70px;
+  height: 70px;
+  background-color: #99282e;
+  border-right: 7px solid #993f40;
+  border-bottom: 7px solid #1C1C1A;
+  border-radius: 7px;
+  transform: rotate(-7deg);
+  -moz-transform: rotate(-7deg);
+  -o-transform: rotate(-7deg);
+  -webkit-transform: rotate(-7deg);
+}
+.dice:hover {
+  cursor: pointer;
+}
+.dice-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  padding: 25px;
+}
+.dice-headline {
+  color: #F2E4CE;
+  padding: 25px;
+}
+.dice-face {
+  width: inherit;
+  height: inherit;
+}
+.dice-message {
+  display: block;
+  max-width: 150px;
+  color: #F2E4CE;
+  padding: 25px;
+}
 
 .header-wrap {
   display: flex;
   width: inherit;
+  min-height: 70px;
   margin: 0px auto;
   padding: 25px;
   justify-content: center;
@@ -171,18 +284,12 @@
     width: 110px;
   }
 }
-.header__headline {
-  font-size: 30px;
-  font-family: "Kalam", cursive;
-  margin: 0px auto;
-  padding: 25px;
-  color: #F2E4CE;
-}
-@media only screen and (max-width: 767px) {
-  .header__headline {
-    position: relative;
-    top: 50px;
-  }
+
+.player {
+  display: flex;
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
 }
 
 /* Elements */
@@ -206,6 +313,11 @@ body {
   font-family: "Carrois Gothic SC", sans-serif;
 }
 
+main {
+  padding-bottom: 25px;
+  margin: 0px auto;
+}
+
 /* Objects */
 .main-wrapper {
   width: inherit;
@@ -220,15 +332,14 @@ body {
 
 .grid {
   display: flex;
-  width: inherit;
 }
 .grid__item {
   flex-basis: 100%;
 }
-.grid__item--one-third {
+.grid--one-third {
   flex-basis: 33%;
 }
-.grid__item--two-thirds {
+.grid--two-thirds {
   flex-basis: 66%;
 }
 .grid--center {

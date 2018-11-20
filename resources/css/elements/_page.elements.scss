@@ -16,3 +16,7 @@ body {
   background-color: rgba(49,51,58, 0.4); 
   font-family: $bodyFont;
 }
+main {
+  padding-bottom: $spacingXLarge; 
+  margin: $none auto; 
+}

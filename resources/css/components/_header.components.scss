@@ -4,6 +4,7 @@
   &-wrap {
       display: flex; 
       width: inherit;
+      min-height: 70px; 
       margin: $none auto;  
       padding: $spacingXLarge; 
       justify-content: center; 
@@ -25,17 +26,6 @@
       position: absolute;
       top: $spacingXLarge;
       left: $spacingXLarge;
-    }
-  }
-  &__headline {
-    font-size: $Xlarge;
-    font-family: $buttonFont;
-    margin: $none auto;
-    padding: $spacingXLarge;
-    color: $cream;
-    @media #{$mobile}{
-      position: relative;
-      top: 50px; 
     }
   }
 }
