@@ -1,0 +1,42 @@
+.dice {
+    display: flex; 
+    justify-content: center; 
+    align-content: center; 
+    width: 70px;
+    height: 70px; 
+    background-color: $strongRed;
+    border-right: 7px solid $red; 
+    border-bottom: 7px solid $darkBrown;
+    border-radius: 7px;
+    transform: rotate(-7deg);
+    -moz-transform: rotate(-7deg);
+    -o-transform: rotate(-7deg);
+    -webkit-transform: rotate(-7deg);
+    
+    &:hover {
+        cursor: pointer; 
+    }
+  
+    &-wrapper {
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      min-width: 200px; 
+      padding: $spacingXLarge;
+    }
+    &-headline {
+      color: $cream;
+      padding: $spacingXLarge;
+    }
+    &-face {
+      width: inherit; 
+      height: inherit; 
+    }
+    &-message {
+      display: block; 
+      max-width: 150px; 
+      color: $cream;
+      padding: $spacingXLarge;
+    }
+  }
