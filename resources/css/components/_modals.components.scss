@@ -1,0 +1,23 @@
+
+.question-modal, .info-modal{
+  display: none; 
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+  min-width: 100%; 
+  min-height: 100%;
+  background-color: $strongRed;
+  position: fixed;
+  top: 0; 
+  left: 0;
+  z-index: 9999;
+  opacity: 0;
+
+  &__headline {
+      padding: $spacingXLarge;
+  }
+
+  &__question {
+      padding: $spacingXLarge;
+  }
+}
