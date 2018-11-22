@@ -36,16 +36,12 @@
       color: $cream; 
       font-family: $buttonFont; 
       font-size: $large;
+      text-decoration: none; 
+      -webkit-user-select: none; 
+      -moz-user-select: none; 
+      user-select: none; 
       cursor: pointer; 
     }
-  }
-  &__headline {
-    font-size: $large;
-    font-family: $bodyFont;
-    min-height: 60px; 
-    margin: $none auto;
-    padding: $spacingXLarge;
-    color: $cream;
   }
   &__container {
     display: flex; 
@@ -61,7 +57,7 @@
 
   &__card {
     text-decoration: none; 
-    color: inherit;
+    color: $black;
     width: 270px; 
     height: auto; 
     padding: $spacingSmall;
