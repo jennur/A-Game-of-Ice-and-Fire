@@ -7,7 +7,7 @@
 window.localStorage.clear();
 
 var characterContainer = document.getElementsByClassName('characters__container')[0];
-var headline = document.getElementsByClassName('characters__headline')[0];
+var headline = document.getElementsByClassName('header__headline')[0];
 var charactersModal = document.getElementsByClassName('characters__modal')[0];
 var characterNumbers = [27, 271, 583, 565, 148];
 var houseColors = ['#d6bf53', '#993f40', '#a9ae9d', '#ce874b', '#a9ae9d'];
@@ -19,7 +19,9 @@ for(let i = 0; i < characterNumbers.length; i++){
   .then(function(response){
       return response.json(); 
   })
-  .then(function(data){ //Create character cards
+  .then(function(data){ 
+    
+    /* Create character cards */
     let card = document.createElement('div'); 
     card.classList.add('characters__card');
     card.style.backgroundColor = houseColors[i];
@@ -38,13 +40,17 @@ for(let i = 0; i < characterNumbers.length; i++){
     }
     card.appendChild(titleList);
 
+    /* Character selection */
     card.addEventListener('click', function(e){
       cardList.push(card);
       if(players.length < 2){
         players.push(data);
         if(players.length === 2){
           localStorage.setItem('players', JSON.stringify(players));
+          localStorage.setItem('colors', JSON.stringify([{color: cardList[0].style.backgroundColor}, 
+                                                         {color: cardList[1].style.backgroundColor}]));
           
+          /* Create modal box for verification */ 
           let modalMessage = document.createElement('div'); 
           modalMessage.classList.add('characters__modal--message');
           modalMessage.innerHTML = 'You will play "' 
@@ -63,16 +69,16 @@ for(let i = 0; i < characterNumbers.length; i++){
           let modalButtonBox = document.createElement('div'); 
           modalButtonBox.classList.add('characters__modal--button-wrap');
 
+          let redoButton = document.createElement('a');
+          redoButton.classList.add('characters__modal--button'); 
+          redoButton.innerHTML = "Change players"; 
+          modalButtonBox.appendChild(redoButton); 
+          
           let modalButton = document.createElement('a'); 
           modalButton.classList.add('characters__modal--button');
           modalButton.setAttribute('href', 'in-game.html');
           modalButton.innerHTML = "I'm ready!";
           modalButtonBox.appendChild(modalButton); 
-
-          let redoButton = document.createElement('a');
-          redoButton.classList.add('characters__modal--button'); 
-          redoButton.innerHTML = "Change players"; 
-          modalButtonBox.appendChild(redoButton); 
           
           charactersModal.appendChild(modalButtonBox);
           cardList[0].classList.remove('card--selected');
