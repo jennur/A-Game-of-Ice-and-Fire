@@ -4,15 +4,13 @@
 // 565 Joffrey Baratheon
 // 148 Arya Stark
 var infoModal, headline, dice, playerMessages, player1Message, player2Message, board, numTiles, tiles, startTile, endTile, challengeTilesNum, challengeTiles, questions, path, 
-    character, humanPlayerFeatures, autoPlayerFeatures, humanPlayerPiece, autoPlayerPiece; 
+    character; //, player1features, player2features, player1piece, player2piece; 
 
 infoModal = document.getElementsByClassName('info-modal')[0];
 headline = document.getElementsByClassName('header__headline')[0];
 dice = document.getElementsByClassName('dice')[0];
 diceFace = document.getElementsByClassName('dice-face')[0];
 playerMessages = document.getElementsByClassName('player-messages')[0];
-player1Message = document.getElementById('player1');
-player2Message = document.getElementById('player2');
 board = document.getElementsByClassName('board')[0];
 
 numTiles = 120; 
@@ -25,43 +23,142 @@ path = [0,1,2,3,4,5,6,7,8, //right
         85,86,87,88,89,90,91, //right
         103, //down
         115,116,117,118,119]; //right
-
+/*
 startTile = path[0];
 endTile = path[path.length-1];
 tiles = [];
-challengeTiles = [3,32,40,50,84,89,117];
+challengeTiles = [3,32,40,50,84,89,117];*/
 questions = [];
 
 characters = JSON.parse(localStorage.getItem('players'));
 charactersColors = JSON.parse(localStorage.getItem('colors'));
 
-humanPlayerFeatures = [characters[0], charactersColors[0]];
-autoPlayerFeatures = [characters[1], charactersColors[1]];
+//player1features = [characters[0], charactersColors[0]];
+//player2features = [characters[1], charactersColors[1]];
 
-// Creating character board elements
-humanPlayerPiece = document.createElement('span');
-humanPlayerPiece.classList.add('player'); 
-humanPlayerPiece.style.backgroundColor = charactersColors[0].color;
-humanPlayerPiece.innerHTML = humanPlayerFeatures[0].name.charAt(0);
+class Board {
+  constructor(numTiles, path){
+    this.numTiles = numTiles;
+    this.tiles = [];
+    this.challengeTiles = [];
 
-autoPlayerPiece = document.createElement('span');
-autoPlayerPiece.classList.add('player'); 
-autoPlayerPiece.style.backgroundColor = charactersColors[1].color;
-autoPlayerPiece.innerHTML = autoPlayerFeatures[0].name.charAt(0);
+    this.path = path; 
+    this.startTile = path[0];    
+    this.endTile = path[path.length-1];
+
+    for(let i = 0; i < this.numTiles; i++){
+      let tile = document.createElement('span'); 
+      tile.classList.add('board__tile');
+      tile.setAttribute('data-tile-number', i); 
+      board.appendChild(tile);
+
+      for(let j = 0; j < this.path.length; j++){
+        if(this.path[j] === i){
+          if(j === 0){
+            tile.classList.add('board__tile--start');
+            this.startTile = tile;
+          }
+          else if(j%5 === 2 || j%12 === 0){
+            tile.classList.add('board__tile--challenge');
+            let question = document.createElement('img');
+            question.setAttribute('src', '../assets/question.svg');
+            question.classList.add('question-image');
+            tile.appendChild(question);
+            this.challengeTiles.push(tile);
+          }
+          else if(j%2 === 0){
+            tile.classList.add('board__tile--pathgreen');
+          }
+          else{
+            tile.classList.add('board__tile--path');
+          }
+          this.path[i] = tile;
+        }
+        this.tiles.push(tile);
+      }
+    }
+  }
+
+  getTileNumber(tile){
+    return parseInt(tile.getAttribute('data-tile-number'));
+  }
+  
+  isPathTile(tile){
+    for(let i = 0; i < this.path.length; i++){
+      if(tile === this.path[i]){
+        return true;
+      }
+    }
+    return false;
+  } 
+  
+  getPathTile(num){
+    return this.path[num];
+  }
+   
+  isChallengeTile(tile){
+    for(let i = 0; i < this.challengeTiles.length; i++){
+      if(tile === this.challengeTiles[i]){
+          return true; 
+      }
+    }
+    return false;
+  }
+}
+
+class Player{
+  constructor(auto, name, color){
+    this.board; 
+    this.auto = auto;
+    this.piece = document.createElement('span');
+    this.piece.classList.add('player'); 
+    this.piece.style.backgroundColor = color;
+    this.piece.innerHTML = name.charAt(0);
+
+    this.color = color;
+    this.name = name;
+  }
+  setBoard(board){ this.board = board; }
+  addToTile(tile){ tile.appendChild( this.piece); }
+  moveForward(steps){
+    let newTile, currentTile;
+    currentTile = this.piece.parentElement;
+
+    if(board.isPathTile(currentTile)){
+      let tileIndex = path.indexOf(currentTile);
+      if(tileIndex + steps < path.length){
+        newTile = path[tileIndex + number];
+      }
+      else{
+        newTile = path[path.length-1];
+      }
+      currentTile.removeChild(playerPiece);
+      newTile.appendChild(playerPiece);
+    }
+    return newTile;
+  }
+  moveBackward(){
+
+  }
+  listMessage(message){
+    let newMessage = document.createElement('li');
+    newMessage.innerHTML = message;
+    playerMessages.insertBefore(newMessage, playerMessages.firstChild);
+  }
+
+}
+
+const player1 = new Player(false, characters[0].name, charactersColors[0].color);
+const player2 = new Player(true, characters[1].name, charactersColors[1].color);
 
 // Appending tiles to board
-buildBoard();
+
+initiateGame([player1, player2]);
+/*buildBoard();*/
 
 //Roll dice when click
 dice.addEventListener('click', diceEventHandle);
 
-function diceEventHandle(){
-    playGame();
-    let victory = checkVictory();
-    if(victory){
-      dice.removeEventListener('click', diceEventHandle);
-    }
-}
 
 
 //Functions
@@ -82,6 +179,26 @@ function buildBoardPath(steps){
 }
 */
 
+
+
+function initiateGame(players){
+  const gameBoard = new Board(numTiles, path);
+  for(let i = 0; i < players.length; i++){
+    players[i].addBoard(gameBoard);
+    players[i].addToTile(gameBoard.startTile);
+  }
+  dice.addEventListener('click', diceEventHandle);
+}
+
+function diceEventHandle(){
+  playGame(player1);
+  dice.removeEventListener('click', diceEventHandle);
+  /*let victory = checkVictory();
+  if(victory){
+    dice.removeEventListener('click', diceEventHandle);
+  }*/
+}
+/*
 function buildBoard(){
   for(let i = 0; i < numTiles; i++){
     let tile = document.createElement('span'); 
@@ -94,8 +211,8 @@ function buildBoard(){
     if(i === startTile){
         tile.classList.add('board__tile--start');
         startTile = tile;
-        tile.appendChild(humanPlayerPiece);
-        tile.appendChild(autoPlayerPiece);
+        tile.appendChild(player1piece);
+        tile.appendChild(player2piece);
     }
     else if(i === endTile){
         tile.classList.add('board__tile--end');
@@ -126,7 +243,7 @@ function buildBoard(){
     }//Done adding challenge tile
   }
 }
-
+*/
 function rollDice(){
     let result = 1 + Math.floor(Math.random()*6);
     let face;
@@ -154,18 +271,81 @@ function rollDice(){
     return result;
 }
 
-function playGame(player){
-  let diceResult;
-  diceResult = rollDice();
-  
-  if(diceResult === 6){
-    player.message.innerHTML = "You got 6! Roll dice again."
+function runAutoChallenge(player){
+  let result, newTile;
+  result = Math.round(Math.random());
+
+  if(result){
+    player.moveForward(2);
+    player.displayMessage(player.name + " answered correctly and moved 2 extra steps forward.");
   }
   else{
-    movePlayer(player.piece)
+    player.moveForward(2);
+    player2Message.innerHTML = player2features.name + " didn't know the correct answer and moved 2 steps back.";
+  }
+
+  newTile = player.piece.parentElement;
+  if(player.board.isChallengeTile(newTile)){
+    runAutoChallenge(player);
   }
 }
 
+function playGame(player){
+  dice.removeEventListener('click', diceEventHandle);
+  let steps, newTile, challenge, buttonWrap, button;
+
+  steps = rollDice();
+  newTile = player.moveForward(steps);
+  challenge = player.board.isChallengeTile(newTile);
+
+  if(player.auto){
+    if(challenge){
+      runAutoChallenge(player);
+    
+    }
+  }
+  if(challenge && !player.auto){
+    buttonWrap = document.createElement('li');
+    button = document.createElement('button');
+    button.classList.add('question-button');
+    button.innerHTML = "Accept challenge to continue";
+    buttonWrap.appendChild(button);
+    button.addEventListener('click', function(){
+      askQuestion();
+      button.parentElement.removeChild(button);
+    });
+
+    playerMessages.insertBefore(buttonWrap, playerMessages.firstChild);
+    player.displayMessage("You moved " + steps + " steps and stepped on a challenge tile!");
+  }
+  /*else if(challenge && player.auto){
+    let result = Math.round(Math.random());
+    if(result){
+      newerTile = moveForward(playerPiece, newTile, 2)
+      player2Message.innerHTML = player2features.name + " answered correctly and moved " + number + " + 2 extra steps forward.";
+    }
+    else{
+      newTile = moveBack(playerPiece, newTile, 2);
+      player2Message.innerHTML = player2features.name + " didn't know the correct answer and moved 2 steps back.";
+    }
+  }*/
+  else if(!challenge){
+    player.displayMessage(player.name + " moved " + steps + " steps.");
+  }
+
+  if(steps === 6 &&){
+    player.displayMessage(player.name + " got 6! Roll dice again.");
+
+    if(!player.auto){
+      setTimeOut(function(){ dice.addEventListener('click', diceEventHandle); }, 1000);
+    }
+    else if(player.auto){
+      playGame(player);
+    }
+  }
+  return newTile; 
+}
+/*
 function playGame(){
     let diceResult1, diceResult2, number, face; 
 
@@ -174,11 +354,11 @@ function playGame(){
     face = diceResult1[1];
     diceFace.setAttribute('src', face);
     player1Message.innerHTML = "You moved " + number + " steps.";
-    movePlayer(humanPlayerPiece, number); 
+    movePlayer(player1piece, number); 
   
     if(number !== 6){
       diceResult2 = rollDice();
-      movePlayer(autoPlayerPiece, diceResult2[0]);
+      movePlayer(player2piece, diceResult2[0]);
       diceFace.setAttribute('src', diceResult2[1]);
       player2Message.innerHTML = "Player 2 moved " + diceResult2[0] + " steps.";
     }
@@ -186,14 +366,15 @@ function playGame(){
       player1Message.innerHTML = "You got 6! Roll dice again.";
     }
 }
-
-function movePlayer(playerPiece, number){
-  let currentTile = playerPiece.parentElement;
+*/
+/*
+function movePlayer(player, steps){
+  let currentTile = player.piece.parentElement;
   let newTile;
 
-  newTile = moveForward(playerPiece, currentTile, number);
+  newTile = moveForward(player.piece, currentTile, steps);
 
-  if(isChallengeTile(newTile) && playerPiece === humanPlayerPiece){
+  if(player.board.isChallengeTile(newTile) && player.auto === false){
     let button = document.createElement('button');
     button.classList.add('question-button');
     button.innerHTML = "Accept challenge to continue";
@@ -202,24 +383,25 @@ function movePlayer(playerPiece, number){
       button.parentElement.removeChild(button);
     });
 
-    playerMessages.appendChild(button);
-    player1Message.innerHTML = "You moved " + number + " steps and stepped on a challenge tile!";
+    playerMessages.insertBefore(button, playerMessages.firstChild);
+    let updateMessage = "You moved " + steps + " steps and stepped on a challenge tile!";
+    player.displayMessage(updateMessage);
 
   }
-  else if(isChallengeTile(newTile) && playerPiece === autoPlayerPiece){
+  else if(isChallengeTile(newTile) && playerPiece === player2piece){
     let result = Math.round(Math.random());
     if(result){
       newerTile = moveForward(playerPiece, newTile, 2)
-      player2Message.innerHTML = autoPlayerFeatures.name + " answered correctly and moved " + number + " + 2 extra steps forward.";
+      player2Message.innerHTML = player2features.name + " answered correctly and moved " + number + " + 2 extra steps forward.";
     }
     else{
       newTile = moveBack(playerPiece, newTile, 2);    
-      player2Message.innerHTML = autoPlayerFeatures.name + " didn't know the correct answer and moved 2 steps back.";
+      player2Message.innerHTML = player2features.name + " didn't know the correct answer and moved 2 steps back.";
     }
   }
   return newTile; 
-}
-
+}*/
+/*
 function moveForward(playerPiece, currentTile, number){
   let newTile;
   if(isPathTile(currentTile)){
@@ -234,7 +416,7 @@ function moveForward(playerPiece, currentTile, number){
     newTile.appendChild(playerPiece);
   }
   return newTile;
-}
+}*/
 
 function moveBack(playerPiece, currentTile, steps){
   let newTile;
@@ -249,31 +431,7 @@ function moveBack(playerPiece, currentTile, steps){
 }
 
 
-function getTileNumber(tile){
-  return parseInt(tile.getAttribute('data-tile-number'));
-}
 
-function isPathTile(tile){
-  for(let i = 0; i < path.length; i++){
-    if(tile === path[i]){
-      return true;
-    }
-  }
-  return false;
-} 
-
-function getPathTile(num){
-  return path[num];
-}
- 
-function isChallengeTile(tile){
-  for(let i = 0; i < challengeTiles.length; i++){
-    if(tile === challengeTiles[i]){
-        return true; 
-    }
-  }
-  return false;
-}
 
 function askQuestion(){
   fetch('https://got-quotes.herokuapp.com/quotes')
@@ -332,14 +490,14 @@ function askQuestion(){
       e.preventDefault();
       questionModal.removeChild(answer);
       console.log(answerInput.value.toLowerCase() + " " + data.character.toLowerCase());
-      let currentTile = humanPlayerPiece.parentElement;
+      let currentTile = player1piece.parentElement;
 
       if(answerInput.value.toLowerCase() === data.character.toLowerCase()){
         result.innerHTML = 'Correct! "' + data.character + '" said this!';
         result.classList.add('question-modal__result--correct');
         questionModal.append(result, okBtn);
 
-        moveForward(humanPlayerPiece, currentTile, 2);
+        moveForward(player1piece, currentTile, 2);
         player1Message.innerHTML = "Congrats! You moved 2 extra steps forward.";
       }
       else{
@@ -347,7 +505,7 @@ function askQuestion(){
         result.classList.add('question-modal__result--wrong');
         questionModal.append(result, okBtn);
         
-        moveBack(humanPlayerPiece, currentTile, 2);
+        moveBack(player1piece, currentTile, 2);
         player1Message.innerHTML = "You moved 2 steps back.";
       }
     });
@@ -355,8 +513,8 @@ function askQuestion(){
 }
 
 function checkVictory(){
-  let player1tileNumber = parseInt(humanPlayerPiece.parentElement.getAttribute('data-tile-number'));
-  let player2tileNumber = parseInt(autoPlayerPiece.parentElement.getAttribute('data-tile-number'));
+  let player1tileNumber = parseInt(player1piece.parentElement.getAttribute('data-tile-number'));
+  let player2tileNumber = parseInt(player2piece.parentElement.getAttribute('data-tile-number'));
   let finalTile = parseInt(endTile.getAttribute('data-tile-number'));
 
   if(player1tileNumber === finalTile || player2tileNumber === finalTile){
@@ -383,7 +541,7 @@ function checkVictory(){
     answer.append(yesBtn, noBtn);
 
     if(player1tileNumber === finalTile && player2tileNumber < finalTile){
-      headline.innerHTML = "You beat " + autoPlayerFeatures[0].name + ", Congratulations!";
+      headline.innerHTML = "You beat " + player2features[0].name + ", Congratulations!";
 
       infoModal.style.display = "flex";
       infoModal.append(headline, question, answer);
@@ -391,7 +549,7 @@ function checkVictory(){
       return true; 
     }
     else if(player2tileNumber === finalTile && player1tileNumber < finalTile){
-      headline.innerHTML = "You got defeated by " + autoPlayerFeatures[0].name + ".";
+      headline.innerHTML = "You got defeated by " + player2features[0].name + ".";
       infoModal.style.display = "flex";
       infoModal.append(headline, question, answer);
       return true; 
