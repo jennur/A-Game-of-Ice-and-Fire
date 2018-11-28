@@ -3,14 +3,16 @@
 // 27 Tywin Lannister
 // 565 Joffrey Baratheon
 // 148 Arya Stark
-var infoModal, headline, dice, diceMessage, board, numTiles, tiles, startTile, endTile, challengeTilesNum, challengeTiles, questions, path, 
-    character, player1features, player2features, player1piece, player2piece; 
+var infoModal, headline, dice, playerMessages, player1Message, player2Message, board, numTiles, tiles, startTile, endTile, challengeTilesNum, challengeTiles, questions, path, 
+    character, humanPlayerFeatures, autoPlayerFeatures, humanPlayerPiece, autoPlayerPiece; 
 
 infoModal = document.getElementsByClassName('info-modal')[0];
 headline = document.getElementsByClassName('header__headline')[0];
 dice = document.getElementsByClassName('dice')[0];
 diceFace = document.getElementsByClassName('dice-face')[0];
-diceMessage = document.getElementsByClassName('dice-message')[0];
+playerMessages = document.getElementsByClassName('player-messages')[0];
+player1Message = document.getElementById('player1');
+player2Message = document.getElementById('player2');
 board = document.getElementsByClassName('board')[0];
 
 numTiles = 120; 
@@ -33,19 +35,19 @@ questions = [];
 characters = JSON.parse(localStorage.getItem('players'));
 charactersColors = JSON.parse(localStorage.getItem('colors'));
 
-player1features = [characters[0], charactersColors[0]];
-player2features = [characters[1], charactersColors[1]];
+humanPlayerFeatures = [characters[0], charactersColors[0]];
+autoPlayerFeatures = [characters[1], charactersColors[1]];
 
 // Creating character board elements
-player1piece = document.createElement('span');
-player1piece.classList.add('player'); 
-player1piece.style.backgroundColor = charactersColors[0].color;
-player1piece.innerHTML = player1features[0].name.charAt(0);
+humanPlayerPiece = document.createElement('span');
+humanPlayerPiece.classList.add('player'); 
+humanPlayerPiece.style.backgroundColor = charactersColors[0].color;
+humanPlayerPiece.innerHTML = humanPlayerFeatures[0].name.charAt(0);
 
-player2piece = document.createElement('span');
-player2piece.classList.add('player'); 
-player2piece.style.backgroundColor = charactersColors[1].color;
-player2piece.innerHTML = player2features[0].name.charAt(0);
+autoPlayerPiece = document.createElement('span');
+autoPlayerPiece.classList.add('player'); 
+autoPlayerPiece.style.backgroundColor = charactersColors[1].color;
+autoPlayerPiece.innerHTML = autoPlayerFeatures[0].name.charAt(0);
 
 // Appending tiles to board
 buildBoard();
@@ -92,8 +94,8 @@ function buildBoard(){
     if(i === startTile){
         tile.classList.add('board__tile--start');
         startTile = tile;
-        tile.appendChild(player1piece);
-        tile.appendChild(player2piece);
+        tile.appendChild(humanPlayerPiece);
+        tile.appendChild(autoPlayerPiece);
     }
     else if(i === endTile){
         tile.classList.add('board__tile--end');
@@ -148,88 +150,19 @@ function rollDice(){
           face = '../assets/dice6.svg';
           break;
     }
-    return [result, face];
+    diceFace.setAttribute('src', face);
+    return result;
 }
 
-function movePlayer(playerPiece, number){
-  let currentTile = playerPiece.parentElement;
-  let newTile;
-
-  moveForward(playerPiece, currentTile, number);
-
-
-  for(let i = 0; i < challengeTiles.length; i++){
-    if(playerPiece === player1piece && newTile === challengeTiles[i]){
-      let result = askQuestion();
-      if(!result){
-        for(let i = 0; i < path.length; i++){
-          if(newTile === path[i]){
-            newTile.removeChild(playerPiece);
-            newTile = path[i-2];
-            newTile.appendChild(playerPiece);
-            diceMessage.innerHTML = "You moved 2 steps back. Waiting for " + player2features.name + "."; 
-          }
-        }
-      }
-      break;
-    }
-    else if(playerPiece === player2piece && newTile === challengeTiles[i]){
-      let result = Math.round(Math.random());
-
-      if(!result){
-        moveBack(playerPiece, newTile);    
-        diceMessage.innerHTML = player2features.name + " didn't know the correct answer and moved 2 steps back.";
-        break;
-      }
-      else{
-        diceMessage.innerHTML = player2features.name + " moved " + number + " steps forward."; 
-        break;
-      }
-    }
+function playGame(player){
+  let diceResult;
+  diceResult = rollDice();
+  
+  if(diceResult === 6){
+    player.message.innerHTML = "You got 6! Roll dice again."
   }
-}
-
-function moveForward(playerPiece, currentTile, number){
-    for(let i = 0; i < path.length; i++){
-        if(path[i] === currentTile){
-          if( i + number < path.length){
-            //currentTile.removeChild(playerPiece);
-            
-            for(let j = i; j <= i + number; j++){
-                  currentTile.removeChild(playerPiece);
-                  newTile = path[j];
-                  newTile.appendChild(playerPiece);
-                  currentTile = newTile;
-                }
-            //newTile = path[i + number];
-            //newTile.appendChild(playerPiece);
-            break;
-          }
-          else {
-            setTimeout(function(){
-            for(let j = i; j > path.length; j++){
-                  currentTile.removeChild(playerPiece);
-                  newTile = path[j];
-                  newTile.appendChild(playerPiece);
-                  currentTile = newTile;
-                }
-              }, 1000);
-            //newTile = path[path.length-1];
-            //newTile.appendChild(playerPiece);
-            break;
-          }
-        }
-      }
-}
-
-function moveBack(playerPiece, currentTile){
-  let newTile;
-  for(let i = 0; i < path.length; i++){
-    if(currentTile === path[i]){
-    currentTile.removeChild(playerPiece);
-    newTile = path[i-2];
-    newTile.appendChild(playerPiece);
-    }
+  else{
+    movePlayer(player.piece)
   }
 }
 
@@ -240,18 +173,106 @@ function playGame(){
     number = diceResult1[0];
     face = diceResult1[1];
     diceFace.setAttribute('src', face);
-    diceMessage.innerHTML = "You moved " + number + " steps. Waiting for " + player2features[0].name + ".";
-    movePlayer(player1piece, number); 
+    player1Message.innerHTML = "You moved " + number + " steps.";
+    movePlayer(humanPlayerPiece, number); 
   
     if(number !== 6){
       diceResult2 = rollDice();
-      movePlayer(player2piece, diceResult2[0]);
+      movePlayer(autoPlayerPiece, diceResult2[0]);
       diceFace.setAttribute('src', diceResult2[1]);
-      diceMessage.innerHTML = "Player 2 moved " + diceResult2[0] + " steps. Your turn to roll the dice!";
+      player2Message.innerHTML = "Player 2 moved " + diceResult2[0] + " steps.";
     }
     else {
-      diceMessage.innerHTML = "You got 6! Roll dice again.";
+      player1Message.innerHTML = "You got 6! Roll dice again.";
     }
+}
+
+function movePlayer(playerPiece, number){
+  let currentTile = playerPiece.parentElement;
+  let newTile;
+
+  newTile = moveForward(playerPiece, currentTile, number);
+
+  if(isChallengeTile(newTile) && playerPiece === humanPlayerPiece){
+    let button = document.createElement('button');
+    button.classList.add('question-button');
+    button.innerHTML = "Accept challenge to continue";
+    button.addEventListener('click', function(){
+      askQuestion();
+      button.parentElement.removeChild(button);
+    });
+
+    playerMessages.appendChild(button);
+    player1Message.innerHTML = "You moved " + number + " steps and stepped on a challenge tile!";
+
+  }
+  else if(isChallengeTile(newTile) && playerPiece === autoPlayerPiece){
+    let result = Math.round(Math.random());
+    if(result){
+      newerTile = moveForward(playerPiece, newTile, 2)
+      player2Message.innerHTML = autoPlayerFeatures.name + " answered correctly and moved " + number + " + 2 extra steps forward.";
+    }
+    else{
+      newTile = moveBack(playerPiece, newTile, 2);    
+      player2Message.innerHTML = autoPlayerFeatures.name + " didn't know the correct answer and moved 2 steps back.";
+    }
+  }
+  return newTile; 
+}
+
+function moveForward(playerPiece, currentTile, number){
+  let newTile;
+  if(isPathTile(currentTile)){
+    let tileIndex = path.indexOf(currentTile);
+    if(tileIndex + number < path.length){
+      newTile = path[tileIndex + number];
+    }
+    else{
+      newTile = path[path.length-1];
+    }
+    currentTile.removeChild(playerPiece);
+    newTile.appendChild(playerPiece);
+  }
+  return newTile;
+}
+
+function moveBack(playerPiece, currentTile, steps){
+  let newTile;
+
+  if(isPathTile(currentTile)){
+    currentTile.removeChild(playerPiece);
+    let tileIndex = path.indexOf(currentTile);
+    newTile = path[tileIndex-steps];
+    newTile.appendChild(playerPiece);
+  }
+  return newTile;
+}
+
+
+function getTileNumber(tile){
+  return parseInt(tile.getAttribute('data-tile-number'));
+}
+
+function isPathTile(tile){
+  for(let i = 0; i < path.length; i++){
+    if(tile === path[i]){
+      return true;
+    }
+  }
+  return false;
+} 
+
+function getPathTile(num){
+  return path[num];
+}
+ 
+function isChallengeTile(tile){
+  for(let i = 0; i < challengeTiles.length; i++){
+    if(tile === challengeTiles[i]){
+        return true; 
+    }
+  }
+  return false;
 }
 
 function askQuestion(){
@@ -311,26 +332,31 @@ function askQuestion(){
       e.preventDefault();
       questionModal.removeChild(answer);
       console.log(answerInput.value.toLowerCase() + " " + data.character.toLowerCase());
-      
+      let currentTile = humanPlayerPiece.parentElement;
+
       if(answerInput.value.toLowerCase() === data.character.toLowerCase()){
         result.innerHTML = 'Correct! "' + data.character + '" said this!';
         result.classList.add('question-modal__result--correct');
         questionModal.append(result, okBtn);
-        return true;
+
+        moveForward(humanPlayerPiece, currentTile, 2);
+        player1Message.innerHTML = "Congrats! You moved 2 extra steps forward.";
       }
       else{
         result.innerHTML = 'Wrong! "' + data.character + '" said this! You must move two steps back';
         result.classList.add('question-modal__result--wrong');
         questionModal.append(result, okBtn);
-        return false; 
+        
+        moveBack(humanPlayerPiece, currentTile, 2);
+        player1Message.innerHTML = "You moved 2 steps back.";
       }
     });
   });
 }
 
 function checkVictory(){
-  let player1tileNumber = parseInt(player1piece.parentElement.getAttribute('data-tile-number'));
-  let player2tileNumber = parseInt(player2piece.parentElement.getAttribute('data-tile-number'));
+  let player1tileNumber = parseInt(humanPlayerPiece.parentElement.getAttribute('data-tile-number'));
+  let player2tileNumber = parseInt(autoPlayerPiece.parentElement.getAttribute('data-tile-number'));
   let finalTile = parseInt(endTile.getAttribute('data-tile-number'));
 
   if(player1tileNumber === finalTile || player2tileNumber === finalTile){
@@ -357,7 +383,7 @@ function checkVictory(){
     answer.append(yesBtn, noBtn);
 
     if(player1tileNumber === finalTile && player2tileNumber < finalTile){
-      headline.innerHTML = "You beat " + player2features[0].name + ", Congratulations!";
+      headline.innerHTML = "You beat " + autoPlayerFeatures[0].name + ", Congratulations!";
 
       infoModal.style.display = "flex";
       infoModal.append(headline, question, answer);
@@ -365,7 +391,7 @@ function checkVictory(){
       return true; 
     }
     else if(player2tileNumber === finalTile && player1tileNumber < finalTile){
-      headline.innerHTML = "You got defeated by " + player2features[0].name + ".";
+      headline.innerHTML = "You got defeated by " + autoPlayerFeatures[0].name + ".";
       infoModal.style.display = "flex";
       infoModal.append(headline, question, answer);
       return true; 
@@ -390,15 +416,15 @@ function fadeIn(element){
 }
 
 function fadeOut(element){
-  element.style.display = "flex";
   let opacity, timer;
-  opacity = 0;
+  opacity = 1;
   
   timer = setInterval(function(){ 
-  if(opacity >= 1){
-      clearInterval(timer);
+  if(opacity <= 0){
+    element.style.display = "none";
+    clearInterval(timer);
   }
   element.style.opacity = opacity;
-  opacity += 0.1;
+  opacity -= 0.1;
   }, 20);
 }
