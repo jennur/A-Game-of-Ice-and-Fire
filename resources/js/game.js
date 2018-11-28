@@ -118,27 +118,41 @@ class Player{
     this.color = color;
     this.name = name;
   }
-  setBoard(board){ this.board = board; }
-  addToTile(tile){ tile.appendChild( this.piece); }
+  addBoard(board){ 
+    this.board = board; 
+  }
+  addToTile(tile){ 
+    tile.appendChild(this.piece); 
+  }
   moveForward(steps){
-    let newTile, currentTile;
+    let newTile, currentTile, path, tileIndex;
+    path = this.board.path;
     currentTile = this.piece.parentElement;
 
-    if(board.isPathTile(currentTile)){
-      let tileIndex = path.indexOf(currentTile);
-      if(tileIndex + steps < path.length){
-        newTile = path[tileIndex + number];
-      }
-      else{
+    if(this.board.isPathTile(currentTile)){
+      tileIndex = path.indexOf(currentTile);
+      if(tileIndex + steps > path.length-1){
         newTile = path[path.length-1];
       }
-      currentTile.removeChild(playerPiece);
-      newTile.appendChild(playerPiece);
+      else{
+        newTile = path[tileIndex + steps];
+      }
+      currentTile.removeChild(this.piece);
+      newTile.appendChild(this.piece);
+    }
+  }
+  moveBackward(steps){
+    let newTile, currentTile, path;
+    path = this.board.path;
+    currentTile = this.piece.parentElement;
+
+    if(this.board.isPathTile(currentTile)){
+      currentTile.removeChild(player.piece);
+      let tileIndex = path.indexOf(currentTile);
+      newTile = path[tileIndex-steps];
+      newTile.appendChild(player.piece);
     }
     return newTile;
-  }
-  moveBackward(){
-
   }
   listMessage(message){
     let newMessage = document.createElement('li');
@@ -157,7 +171,6 @@ initiateGame([player1, player2]);
 /*buildBoard();*/
 
 //Roll dice when click
-dice.addEventListener('click', diceEventHandle);
 
 
 
@@ -192,7 +205,6 @@ function initiateGame(players){
 
 function diceEventHandle(){
   playGame(player1);
-  dice.removeEventListener('click', diceEventHandle);
   /*let victory = checkVictory();
   if(victory){
     dice.removeEventListener('click', diceEventHandle);
@@ -277,7 +289,7 @@ function runAutoChallenge(player){
 
   if(result){
     player.moveForward(2);
-    player.displayMessage(player.name + " answered correctly and moved 2 extra steps forward.");
+    player.listMessage(player.name + " answered correctly and moved 2 extra steps forward.");
   }
   else{
     player.moveForward(2);
@@ -292,7 +304,7 @@ function runAutoChallenge(player){
 
 function playGame(player){
   dice.removeEventListener('click', diceEventHandle);
-  let steps, newTile, challenge, buttonWrap, button;
+  let steps, newTile, challenge, buttonWrap, button, finalTile, path;
 
   steps = rollDice();
   newTile = player.moveForward(steps);
@@ -316,7 +328,7 @@ function playGame(player){
     });
 
     playerMessages.insertBefore(buttonWrap, playerMessages.firstChild);
-    player.displayMessage("You moved " + steps + " steps and stepped on a challenge tile!");
+    player.listMessage("You moved " + steps + " steps and stepped on a challenge tile!");
   }
   /*else if(challenge && player.auto){
     let result = Math.round(Math.random());
@@ -330,20 +342,23 @@ function playGame(player){
     }
   }*/
   else if(!challenge){
-    player.displayMessage(player.name + " moved " + steps + " steps.");
+    player.listMessage(player.name + " moved " + steps + " steps.");
   }
-
-  if(steps === 6 &&){
-    player.displayMessage(player.name + " got 6! Roll dice again.");
+  if(steps === 6){
+    player.listMessage(player.name + " got 6! Roll dice again.");
 
     if(!player.auto){
-      setTimeOut(function(){ dice.addEventListener('click', diceEventHandle); }, 1000);
+      dice.addEventListener('click', diceEventHandle);
     }
-    else if(player.auto){
+    else{
       playGame(player);
     }
   }
-  return newTile; 
+  playGame(player2);
+  finalTile = player.piece.parentElement;
+  path = player.board.path;
+  
+  return(finalTile === path[path.length-1] ? true : false);
 }
 /*
 function playGame(){
@@ -385,7 +400,7 @@ function movePlayer(player, steps){
 
     playerMessages.insertBefore(button, playerMessages.firstChild);
     let updateMessage = "You moved " + steps + " steps and stepped on a challenge tile!";
-    player.displayMessage(updateMessage);
+    player.listMessage(updateMessage);
 
   }
   else if(isChallengeTile(newTile) && playerPiece === player2piece){
@@ -417,7 +432,7 @@ function moveForward(playerPiece, currentTile, number){
   }
   return newTile;
 }*/
-
+/*
 function moveBack(playerPiece, currentTile, steps){
   let newTile;
 
@@ -429,7 +444,7 @@ function moveBack(playerPiece, currentTile, steps){
   }
   return newTile;
 }
-
+*/
 
 
 
@@ -490,23 +505,19 @@ function askQuestion(){
       e.preventDefault();
       questionModal.removeChild(answer);
       console.log(answerInput.value.toLowerCase() + " " + data.character.toLowerCase());
-      let currentTile = player1piece.parentElement;
 
       if(answerInput.value.toLowerCase() === data.character.toLowerCase()){
         result.innerHTML = 'Correct! "' + data.character + '" said this!';
         result.classList.add('question-modal__result--correct');
         questionModal.append(result, okBtn);
 
-        moveForward(player1piece, currentTile, 2);
-        player1Message.innerHTML = "Congrats! You moved 2 extra steps forward.";
+        player.moveForward(2);
       }
       else{
         result.innerHTML = 'Wrong! "' + data.character + '" said this! You must move two steps back';
         result.classList.add('question-modal__result--wrong');
         questionModal.append(result, okBtn);
-        
-        moveBack(player1piece, currentTile, 2);
-        player1Message.innerHTML = "You moved 2 steps back.";
+        player.moveBack(2);
       }
     });
   });
