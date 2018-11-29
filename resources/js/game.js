@@ -3,9 +3,10 @@
 // 27 Tywin Lannister
 // 565 Joffrey Baratheon
 // 148 Arya Stark
-var infoModal, headline, dice, playerMessages, player1Message, player2Message, board, numTiles, tiles, startTile, endTile, challengeTilesNum, challengeTiles, questions, path, 
-    character; //, player1features, player2features, player1piece, player2piece; 
+var body, infoModal, headline, dice, playerMessages, board, numTiles, questions, path, characters, charactersColors, 
+    startRound, continueRound; 
 
+body = document.querySelector('body');
 infoModal = document.getElementsByClassName('info-modal')[0];
 headline = document.getElementsByClassName('header__headline')[0];
 dice = document.getElementsByClassName('dice')[0];
@@ -23,18 +24,11 @@ path = [0,1,2,3,4,5,6,7,8, //right
         85,86,87,88,89,90,91, //right
         103, //down
         115,116,117,118,119]; //right
-/*
-startTile = path[0];
-endTile = path[path.length-1];
-tiles = [];
-challengeTiles = [3,32,40,50,84,89,117];*/
+
 questions = [];
 
 characters = JSON.parse(localStorage.getItem('players'));
 charactersColors = JSON.parse(localStorage.getItem('colors'));
-
-//player1features = [characters[0], charactersColors[0]];
-//player2features = [characters[1], charactersColors[1]];
 
 class Board {
   constructor(numTiles, path){
@@ -43,7 +37,7 @@ class Board {
     this.challengeTiles = [];
 
     this.path = path; 
-    this.startTile = path[0];    
+    this.startTile = path[0];
     this.endTile = path[path.length-1];
 
     for(let i = 0; i < this.numTiles; i++){
@@ -56,46 +50,51 @@ class Board {
         if(this.path[j] === i){
           if(j === 0){
             tile.classList.add('board__tile--start');
+            let startImg = document.createElement('img');
+            startImg.setAttribute('src', '../assets/start.svg');
+            startImg.classList.add('board__tile--image');
+            tile.appendChild(startImg);
             this.startTile = tile;
           }
-          else if(j%5 === 2 || j%12 === 0){
-            tile.classList.add('board__tile--challenge');
-            let question = document.createElement('img');
-            question.setAttribute('src', '../assets/question.svg');
-            question.classList.add('question-image');
-            tile.appendChild(question);
-            this.challengeTiles.push(tile);
+          else if(j === this.path.length-1){
+            this.endTile = tile;
           }
-          else if(j%2 === 0){
-            tile.classList.add('board__tile--pathgreen');
+          if(j !== 0 && j!== this.path.length-1){
+            if(j%5 === 2 || j%12 === 0){
+              tile.classList.add('board__tile--challenge');
+              let questionImg = document.createElement('img');
+              questionImg.setAttribute('src', '../assets/question.svg');
+              questionImg.classList.add('board__tile--image');
+              tile.appendChild(questionImg);
+              this.challengeTiles.push(tile);
+            }
+            else if(j%2 === 0){
+              tile.classList.add('board__tile--pathgreen');
+            }
+            else{
+              tile.classList.add('board__tile--path');
+            }
           }
-          else{
-            tile.classList.add('board__tile--path');
-          }
-          this.path[i] = tile;
+          this.path[j] = tile;
         }
         this.tiles.push(tile);
       }
     }
   }
-
   getTileNumber(tile){
     return parseInt(tile.getAttribute('data-tile-number'));
   }
-  
   isPathTile(tile){
     for(let i = 0; i < this.path.length; i++){
       if(tile === this.path[i]){
-        return true;
+        return true; 
       }
     }
     return false;
-  } 
-  
+  }
   getPathTile(num){
     return this.path[num];
   }
-   
   isChallengeTile(tile){
     for(let i = 0; i < this.challengeTiles.length; i++){
       if(tile === this.challengeTiles[i]){
@@ -107,9 +106,11 @@ class Board {
 }
 
 class Player{
-  constructor(auto, name, color){
+  constructor(name, color, index, auto){
     this.board; 
+    this.results = [];
     this.auto = auto;
+    this.index = index;
     this.piece = document.createElement('span');
     this.piece.classList.add('player'); 
     this.piece.style.backgroundColor = color;
@@ -125,52 +126,49 @@ class Player{
     tile.appendChild(this.piece); 
   }
   moveForward(steps){
-    let newTile, currentTile, path, tileIndex;
-    path = this.board.path;
-    currentTile = this.piece.parentElement;
-
-    if(this.board.isPathTile(currentTile)){
-      tileIndex = path.indexOf(currentTile);
-      if(tileIndex + steps > path.length-1){
-        newTile = path[path.length-1];
+    let tileIndex;
+    
+    if(this.board.isPathTile(this.piece.parentElement)){
+      tileIndex = this.board.path.indexOf(this.piece.parentElement);
+      if(tileIndex + steps < this.board.path.length-1){
+        this.board.path[tileIndex + steps].appendChild(this.piece);
       }
       else{
-        newTile = path[tileIndex + steps];
+        this.board.endTile.appendChild(this.piece);
       }
-      currentTile.removeChild(this.piece);
-      newTile.appendChild(this.piece);
     }
   }
   moveBackward(steps){
-    let newTile, currentTile, path;
+    let tileIndex;
     path = this.board.path;
-    currentTile = this.piece.parentElement;
-
-    if(this.board.isPathTile(currentTile)){
-      currentTile.removeChild(player.piece);
-      let tileIndex = path.indexOf(currentTile);
-      newTile = path[tileIndex-steps];
-      newTile.appendChild(player.piece);
+    if(this.board.isPathTile(this.piece.parentElement)){
+      tileIndex = this.board.path.indexOf(this.piece.parentElement);
+      this.piece.parentElement.removeChild(this.piece);
+      if(tileIndex - steps < this.board.path.indexOf(this.board.startTile)){
+        this.board.startTile.appendChild(this.piece);
+      }
+      else {
+        this.board.path[tileIndex - steps].appendChild(this.piece);
+      }
     }
-    return newTile;
   }
   listMessage(message){
     let newMessage = document.createElement('li');
+    newMessage.style.color = this.color;
     newMessage.innerHTML = message;
     playerMessages.insertBefore(newMessage, playerMessages.firstChild);
   }
-
+  addQuestionResult(result){
+    this.results.push(result);
+  }
 }
 
-const player1 = new Player(false, characters[0].name, charactersColors[0].color);
-const player2 = new Player(true, characters[1].name, charactersColors[1].color);
+const player1 = new Player(characters[0].name, charactersColors[0].color, 0, false);
+const player2 = new Player(characters[1].name, charactersColors[1].color, 1, true);
+const players = [player1, player2];
 
-// Appending tiles to board
+initiateGame(players);
 
-initiateGame([player1, player2]);
-/*buildBoard();*/
-
-//Roll dice when click
 
 
 
@@ -203,59 +201,28 @@ function initiateGame(players){
   dice.addEventListener('click', diceEventHandle);
 }
 
+
 function diceEventHandle(){
-  playGame(player1);
+  for(let i = 0; i < players.length; i++){
+    let gameManager = playGame(players[i]);
+    if(gameManager === 2){
+      return;
+    }
+    else if(gameManager === 6){
+      i = i-1;
+    }
+    else if(gameManager){
+      checkVictory(players[i]);
+    }
+   }
+  }
+
   /*let victory = checkVictory();
   if(victory){
     dice.removeEventListener('click', diceEventHandle);
-  }*/
-}
-/*
-function buildBoard(){
-  for(let i = 0; i < numTiles; i++){
-    let tile = document.createElement('span'); 
-    tile.classList.add('board__tile');
-    tile.setAttribute('data-tile-number', i); 
-    board.appendChild(tile);
-    tiles.push(tile);
-    
-    //Adding path-tile
-    if(i === startTile){
-        tile.classList.add('board__tile--start');
-        startTile = tile;
-        tile.appendChild(player1piece);
-        tile.appendChild(player2piece);
-    }
-    else if(i === endTile){
-        tile.classList.add('board__tile--end');
-        endTile = tile;
-    }//Done adding path-tile
-
-    //Adding challenge tile
-    for(let k = 0; k < challengeTiles.length; k++){
-      for(let j = 0; j < path.length; j++){
-          if( i === challengeTiles[k]){
-              tile.classList.add('board__tile--challenge');
-              let question = document.createElement('img');
-              question.setAttribute('src', '../assets/question.svg');
-              question.classList.add('question-image');
-              tile.appendChild(question);
-              challengeTiles[k] = tile;
-          }
-          else if(i === path[j]){
-              if(!tile.classList.contains('board__tile--challenge')){
-              tile.classList.add('board__tile--path');
-              }
-              if(j%2 === 0){
-              tile.classList.add('board__tile--pathgreen');
-              }
-              path[j] = tile;
-          }
-      }
-    }//Done adding challenge tile
   }
-}
-*/
+}*/
+
 function rollDice(){
     let result = 1 + Math.floor(Math.random()*6);
     let face;
@@ -283,172 +250,83 @@ function rollDice(){
     return result;
 }
 
+function playGame(player){
+  let steps, newTile, challenge, buttonWrap, button, finalTile, path;
+
+  steps = rollDice();
+  player.moveForward(steps);
+  newTile = player.piece.parentElement;
+  challenge = player.board.isChallengeTile(newTile);
+
+  if(challenge){
+    player.listMessage(player.name + " moved " + steps + " steps and stepped on a challenge tile!");
+    if(!player.auto){
+      prepareChallenge(player,steps);
+      return 2;
+    }
+    else{
+      runAutoChallenge(player);
+    }
+  }
+  else{
+    player.listMessage(player.name + " moved " + steps + " steps.");
+  }
+
+  if(steps === 6){
+    player.listMessage(player.name + ", roll dice again!");
+    if(!player.auto){
+      return 6;
+    }
+    else{
+      playGame(player);
+      return;
+    }
+  }
+  
+  finalTile = player.piece.parentElement;
+  path = player.board.path;
+  
+  return(finalTile === path[path.length-1] ? true : false);
+}
+
+function prepareChallenge(player, steps){
+  dice.removeEventListener('click', diceEventHandle);
+  dice.classList.add('dice--inactive');
+  buttonWrap = document.createElement('li');
+  button = document.createElement('button');
+  button.classList.add('question-button');
+  button.innerHTML = "Accept challenge to continue";
+  buttonWrap.appendChild(button);
+  button.addEventListener('click', function(){
+    askQuestion(player, steps);
+    button.parentElement.removeChild(button);
+  });
+
+  playerMessages.insertBefore(buttonWrap, playerMessages.firstChild);
+}
 function runAutoChallenge(player){
   let result, newTile;
   result = Math.round(Math.random());
 
   if(result){
     player.moveForward(2);
+    player.addQuestionResult("correct");
     player.listMessage(player.name + " answered correctly and moved 2 extra steps forward.");
   }
   else{
-    player.moveForward(2);
-    player2Message.innerHTML = player2features.name + " didn't know the correct answer and moved 2 steps back.";
+    player.moveBackward(2);
+    player.addQuestionResult("wrong");
+    player.listMessage(player.name + " didn't know the correct answer and moved 2 steps back.");
   }
 
   newTile = player.piece.parentElement;
   if(player.board.isChallengeTile(newTile)){
+    player.listMessage(player.name + " stepped on another challenge tile!");
     runAutoChallenge(player);
   }
 }
 
-function playGame(player){
-  dice.removeEventListener('click', diceEventHandle);
-  let steps, newTile, challenge, buttonWrap, button, finalTile, path;
-
-  steps = rollDice();
-  newTile = player.moveForward(steps);
-  challenge = player.board.isChallengeTile(newTile);
-
-  if(player.auto){
-    if(challenge){
-      runAutoChallenge(player);
-    
-    }
-  }
-  if(challenge && !player.auto){
-    buttonWrap = document.createElement('li');
-    button = document.createElement('button');
-    button.classList.add('question-button');
-    button.innerHTML = "Accept challenge to continue";
-    buttonWrap.appendChild(button);
-    button.addEventListener('click', function(){
-      askQuestion();
-      button.parentElement.removeChild(button);
-    });
-
-    playerMessages.insertBefore(buttonWrap, playerMessages.firstChild);
-    player.listMessage("You moved " + steps + " steps and stepped on a challenge tile!");
-  }
-  /*else if(challenge && player.auto){
-    let result = Math.round(Math.random());
-    if(result){
-      newerTile = moveForward(playerPiece, newTile, 2)
-      player2Message.innerHTML = player2features.name + " answered correctly and moved " + number + " + 2 extra steps forward.";
-    }
-    else{
-      newTile = moveBack(playerPiece, newTile, 2);
-      player2Message.innerHTML = player2features.name + " didn't know the correct answer and moved 2 steps back.";
-    }
-  }*/
-  else if(!challenge){
-    player.listMessage(player.name + " moved " + steps + " steps.");
-  }
-  if(steps === 6){
-    player.listMessage(player.name + " got 6! Roll dice again.");
-
-    if(!player.auto){
-      dice.addEventListener('click', diceEventHandle);
-    }
-    else{
-      playGame(player);
-    }
-  }
-  playGame(player2);
-  finalTile = player.piece.parentElement;
-  path = player.board.path;
-  
-  return(finalTile === path[path.length-1] ? true : false);
-}
-/*
-function playGame(){
-    let diceResult1, diceResult2, number, face; 
-
-    diceResult1 = rollDice();
-    number = diceResult1[0];
-    face = diceResult1[1];
-    diceFace.setAttribute('src', face);
-    player1Message.innerHTML = "You moved " + number + " steps.";
-    movePlayer(player1piece, number); 
-  
-    if(number !== 6){
-      diceResult2 = rollDice();
-      movePlayer(player2piece, diceResult2[0]);
-      diceFace.setAttribute('src', diceResult2[1]);
-      player2Message.innerHTML = "Player 2 moved " + diceResult2[0] + " steps.";
-    }
-    else {
-      player1Message.innerHTML = "You got 6! Roll dice again.";
-    }
-}
-*/
-/*
-function movePlayer(player, steps){
-  let currentTile = player.piece.parentElement;
-  let newTile;
-
-  newTile = moveForward(player.piece, currentTile, steps);
-
-  if(player.board.isChallengeTile(newTile) && player.auto === false){
-    let button = document.createElement('button');
-    button.classList.add('question-button');
-    button.innerHTML = "Accept challenge to continue";
-    button.addEventListener('click', function(){
-      askQuestion();
-      button.parentElement.removeChild(button);
-    });
-
-    playerMessages.insertBefore(button, playerMessages.firstChild);
-    let updateMessage = "You moved " + steps + " steps and stepped on a challenge tile!";
-    player.listMessage(updateMessage);
-
-  }
-  else if(isChallengeTile(newTile) && playerPiece === player2piece){
-    let result = Math.round(Math.random());
-    if(result){
-      newerTile = moveForward(playerPiece, newTile, 2)
-      player2Message.innerHTML = player2features.name + " answered correctly and moved " + number + " + 2 extra steps forward.";
-    }
-    else{
-      newTile = moveBack(playerPiece, newTile, 2);    
-      player2Message.innerHTML = player2features.name + " didn't know the correct answer and moved 2 steps back.";
-    }
-  }
-  return newTile; 
-}*/
-/*
-function moveForward(playerPiece, currentTile, number){
-  let newTile;
-  if(isPathTile(currentTile)){
-    let tileIndex = path.indexOf(currentTile);
-    if(tileIndex + number < path.length){
-      newTile = path[tileIndex + number];
-    }
-    else{
-      newTile = path[path.length-1];
-    }
-    currentTile.removeChild(playerPiece);
-    newTile.appendChild(playerPiece);
-  }
-  return newTile;
-}*/
-/*
-function moveBack(playerPiece, currentTile, steps){
-  let newTile;
-
-  if(isPathTile(currentTile)){
-    currentTile.removeChild(playerPiece);
-    let tileIndex = path.indexOf(currentTile);
-    newTile = path[tileIndex-steps];
-    newTile.appendChild(playerPiece);
-  }
-  return newTile;
-}
-*/
-
-
-
-function askQuestion(){
+function askQuestion(player, steps){
   fetch('https://got-quotes.herokuapp.com/quotes')
   .then(function(response){
     return(response.json());
@@ -499,6 +377,22 @@ function askQuestion(){
 
     okBtn.addEventListener('click', function(){
       fadeOut(questionModal);
+      while(questionModal.firstChild){
+        questionModal.removeChild(questionModal.firstChild);
+      }
+      if(player.board.isChallengeTile(player.piece.parentElement)){
+        player.listMessage(player.name + " stepped on another challenge tile!");
+        prepareChallenge(player);
+      }
+      else{
+        if(steps !== 6){
+          continueRound = player.index + 1;
+          for(let i = continueRound; i < players.length; i++){
+            playGame(players[i]);
+          }
+        }
+        else{ return; }
+      }
     });
 
     answer.addEventListener('submit', function(e){
@@ -510,27 +404,68 @@ function askQuestion(){
         result.innerHTML = 'Correct! "' + data.character + '" said this!';
         result.classList.add('question-modal__result--correct');
         questionModal.append(result, okBtn);
-
+        
+        player.addQuestionResult("correct");
         player.moveForward(2);
+        player.listMessage(player.name + " answered correctly and moved 2 extra steps!");
       }
       else{
         result.innerHTML = 'Wrong! "' + data.character + '" said this! You must move two steps back';
         result.classList.add('question-modal__result--wrong');
         questionModal.append(result, okBtn);
-        player.moveBack(2);
+
+        player.addQuestionResult("wrong");
+        player.moveBackward(2);
+        player.listMessage(player.name + " didn't know the answer and moved 2 steps backwards.");
       }
+      //continueRound = player.index + 1; 
     });
   });
+  dice.addEventListener('click', diceEventHandle);
+  dice.classList.remove('dice--inactive');
 }
+function checkVictory(player){
+    let finalScreen, finalMessage, timer;
+    finalScreen = document.createElement('div');
+    finalScreen.classList.add('final-modal');
+    
+    finalMessage = document.createElement('h1');
+    finalMessage.classList.add('final-modal__message');
 
-function checkVictory(){
-  let player1tileNumber = parseInt(player1piece.parentElement.getAttribute('data-tile-number'));
-  let player2tileNumber = parseInt(player2piece.parentElement.getAttribute('data-tile-number'));
-  let finalTile = parseInt(endTile.getAttribute('data-tile-number'));
+    finalScreen.appendChild(finalMessage);
+    body.appendChild(finalScreen);
+    finalScreen.style.display = "flex";
 
-  if(player1tileNumber === finalTile || player2tileNumber === finalTile){
+    if(player.auto){
+      finalMessage.innerHTML= "You Lost";
+      finalScreen.classList.add('final-modal--lost');
+      fadeIn(finalScreen);
+      count = 0; 
+      timer = setInterval(function(){
+        count += 0.1;
+        if(count > 1){
+          fadeOut(finalScreen);
+          clearInterval(timer);
+        }
+      }, 100);
+    }
+    else {
+      finalMessage.innerHTML= "You Won";
+      finalScreen.classList.add('final-modal--won');
+      fadeIn(finalScreen);
+      count = 0; 
+      timer = setInterval(function(){
+        count += 0.1;
+        if(count > 1){
+          fadeOut(finalScreen);
+          clearInterval(timer);
+        }
+      }, 100);
+
+    }
     let headline = document.createElement('h1'); 
     headline.classList.add('info-modal__headline');
+    headline.innerHTML = player.name + " won the game!";
 
     let question = document.createElement('div');
     question.classList.add('info-modal__question');
@@ -540,7 +475,7 @@ function checkVictory(){
     answer.classList.add('question-modal__answer-wrapper');
 
     let yesBtn = document.createElement('a');
-    noBtn.setAttribute('href', 'select-character.html');
+    yesBtn.setAttribute('href', 'select-character.html');
     yesBtn.classList.add('info-modal__button');
     yesBtn.innerHTML = "One more time!";
 
@@ -551,23 +486,8 @@ function checkVictory(){
 
     answer.append(yesBtn, noBtn);
 
-    if(player1tileNumber === finalTile && player2tileNumber < finalTile){
-      headline.innerHTML = "You beat " + player2features[0].name + ", Congratulations!";
-
-      infoModal.style.display = "flex";
-      infoModal.append(headline, question, answer);
-
-      return true; 
-    }
-    else if(player2tileNumber === finalTile && player1tileNumber < finalTile){
-      headline.innerHTML = "You got defeated by " + player2features[0].name + ".";
-      infoModal.style.display = "flex";
-      infoModal.append(headline, question, answer);
-      return true; 
-    }
-  }
-
-  
+    infoModal.append(headline, question, answer);
+    infoModal.style.display = "flex";
 }
 
 function fadeIn(element){
@@ -575,7 +495,7 @@ function fadeIn(element){
   let opacity, timer;
   opacity = 0;
   
-  timer = setInterval(function(){ 
+  timer = setInterval(function(){
   if(opacity >= 1){
       clearInterval(timer);
   }

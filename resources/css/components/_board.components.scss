@@ -34,11 +34,10 @@
     &--challenge { background-color: $brightRed; }
     &--correct { background-color: $green; }
     &--wrong { background-color: $strongRed; }
+    &--image {
+      width: inherit; 
+      height: inherit; 
+      position: absolute; 
+    }
   }
-}
-
-.question-image {
-  width: inherit; 
-  height: inherit; 
-  position: absolute; 
 }

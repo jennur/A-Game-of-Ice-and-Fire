@@ -54,8 +54,7 @@
 .board__tile--wrong {
   background-color: #99282e;
 }
-
-.question-image {
+.board__tile--image {
   width: inherit;
   height: inherit;
   position: absolute;
@@ -227,21 +226,18 @@
   -moz-transform: rotate(-7deg);
   -o-transform: rotate(-7deg);
   -webkit-transform: rotate(-7deg);
+  margin: 20px;
 }
 .dice:hover {
   cursor: pointer;
 }
-.dice-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 200px;
-  padding: 25px;
+.dice--inactive:hover {
+  cursor: default;
 }
 .dice-headline {
   color: #F2E4CE;
-  padding: 25px;
+  padding: 0 0 20px 0;
+  margin: 0;
 }
 .dice-face {
   width: inherit;
@@ -252,6 +248,15 @@
   max-width: 150px;
   color: #F2E4CE;
   padding: 25px;
+}
+
+.history-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  padding: 0 25px;
 }
 
 .header-wrap {
@@ -292,7 +297,7 @@
   color: #F2E4CE;
 }
 
-.question-modal, .info-modal {
+.question-modal, .info-modal, .final-modal {
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -306,11 +311,32 @@
   z-index: 9999;
   opacity: 0;
 }
-.question-modal__headline, .info-modal__headline {
+.question-modal__headline, .info-modal__headline, .final-modal__headline {
   padding: 25px;
 }
-.question-modal__question, .info-modal__question {
+.question-modal__question, .info-modal__question, .final-modal__question {
   padding: 25px;
+}
+
+.info-modal {
+  opacity: 1;
+}
+
+.final-modal {
+  z-index: 999999;
+}
+.final-modal--won {
+  background-color: #688951;
+  color: #a9ae9d;
+}
+.final-modal--lost {
+  background-color: #99282e;
+  color: #FF434D;
+}
+.final-modal__message {
+  font-size: 100px;
+  font-family: "Carrois Gothic SC", sans-serif;
+  color: inherit;
 }
 
 .player {
@@ -322,6 +348,14 @@
   border-radius: 50%;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
   z-index: 999;
+}
+
+.player-messages {
+  width: 280px;
+  height: 350px;
+  overflow: scroll;
+  padding-top: 20px;
+  list-style: none;
 }
 
 /* Elements */

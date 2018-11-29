@@ -12,22 +12,19 @@
     -moz-transform: rotate(-7deg);
     -o-transform: rotate(-7deg);
     -webkit-transform: rotate(-7deg);
+    margin: $spacingLarge;
     
     &:hover {
-        cursor: pointer; 
+      cursor: pointer; 
     }
-  
-    &-wrapper {
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center; 
-      min-width: 200px; 
-      padding: $spacingXLarge;
+    
+    &--inactive:hover {
+      cursor: default;
     }
     &-headline {
       color: $cream;
-      padding: $spacingXLarge;
+      padding: 0 0 $spacingLarge 0;
+      margin: 0;
     }
     &-face {
       width: inherit; 
@@ -39,4 +36,13 @@
       color: $cream;
       padding: $spacingXLarge;
     }
+  }
+
+  .history-wrapper {
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      min-width: 200px; 
+      padding: 0 $spacingXLarge;
   }
