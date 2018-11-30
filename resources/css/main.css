@@ -36,7 +36,10 @@
   height: 50px;
   position: relative;
 }
-.board__tile--start, .board__tile--end {
+.board__tile--dark-brown {
+  background-color: #1D1D1B;
+}
+.board__tile--start, .board__tile--finish {
   background-color: #4761a0;
 }
 .board__tile--path {

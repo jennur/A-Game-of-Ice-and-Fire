@@ -15,10 +15,12 @@ playerMessages = document.getElementsByClassName('player-messages')[0];
 board = document.getElementsByClassName('board')[0];
 
 numTiles = 120; 
-path = [0,1,2,3,4,5,6,7,8, //right
-        20,32,44, //down
-        43,42,41,40,39,38, //left
-        50, //down
+path = [0,1,2,3,4,5,6,7,8,9,10,11, //right
+        23,35,47, //down
+        46,45,44,43,42,//41,40,39,38, //left
+        30, //up
+        29,28,27,26, //left
+        38,50, //down
         49,48, //left
         60,72,84, //down
         85,86,87,88,89,90,91, //right
@@ -36,16 +38,16 @@ class Board {
     this.tiles = [];
     this.challengeTiles = [];
 
-    this.path = path; 
+    this.path = path;
     this.startTile = path[0];
     this.endTile = path[path.length-1];
 
     for(let i = 0; i < this.numTiles; i++){
-      let tile = document.createElement('span'); 
+      let tile = document.createElement('span');
       tile.classList.add('board__tile');
-      tile.setAttribute('data-tile-number', i); 
+      tile.setAttribute('data-tile-number', i);
       board.appendChild(tile);
-
+      
       for(let j = 0; j < this.path.length; j++){
         if(this.path[j] === i){
           if(j === 0){
@@ -57,6 +59,11 @@ class Board {
             this.startTile = tile;
           }
           else if(j === this.path.length-1){
+            tile.classList.add('board__tile--finish');
+            let finishImg = document.createElement('img');
+            finishImg.setAttribute('src', '../assets/finish.svg');
+            finishImg.classList.add('board__tile--image');
+            tile.appendChild(finishImg);
             this.endTile = tile;
           }
           if(j !== 0 && j!== this.path.length-1){
@@ -203,25 +210,33 @@ function initiateGame(players){
 
 
 function diceEventHandle(){
-  for(let i = 0; i < players.length; i++){
+  startRound = continueRound ? continueRound : 0;
+  for(let i = startRound; i < players.length; i++){
     let gameManager = playGame(players[i]);
-    if(gameManager === 2){
+    debugger
+    if(gameManager === 6){
+      if(!players[i].auto){
+        return;
+      }
+      else{
+        extraRound = playGame(players[i]);
+
+        while(extraRound === 6){
+          newRound = playGame(players[i]);
+          extraRound = newRound; 
+        }
+        gameManager = extraRound;
+      }
+    }
+    else if(gameManager === 2){
       return;
     }
-    else if(gameManager === 6){
-      i = i-1;
-    }
-    else if(gameManager){
+    if(gameManager){
       checkVictory(players[i]);
     }
    }
+   continueRound = 0; 
   }
-
-  /*let victory = checkVictory();
-  if(victory){
-    dice.removeEventListener('click', diceEventHandle);
-  }
-}*/
 
 function rollDice(){
     let result = 1 + Math.floor(Math.random()*6);
@@ -251,7 +266,7 @@ function rollDice(){
 }
 
 function playGame(player){
-  let steps, newTile, challenge, buttonWrap, button, finalTile, path;
+  let steps, newTile, challenge, finalTile, path;
 
   steps = rollDice();
   player.moveForward(steps);
@@ -261,11 +276,22 @@ function playGame(player){
   if(challenge){
     player.listMessage(player.name + " moved " + steps + " steps and stepped on a challenge tile!");
     if(!player.auto){
-      prepareChallenge(player,steps);
-      return 2;
+      if(steps === 6){
+        prepareChallenge(player, steps);
+        player.listMessage(player.name + ", roll dice again!");
+        return 6;
+      }
+      else {
+        prepareChallenge(player, steps);
+        return 2;
+      }
     }
     else{
       runAutoChallenge(player);
+      if(steps === 6){
+        player.listMessage(player.name + ", roll dice again!");
+        return 6;
+      }
     }
   }
   else{
@@ -274,18 +300,14 @@ function playGame(player){
 
   if(steps === 6){
     player.listMessage(player.name + ", roll dice again!");
-    if(!player.auto){
-      return 6;
-    }
-    else{
-      playGame(player);
-      return;
-    }
+    return 6;
   }
   
   finalTile = player.piece.parentElement;
   path = player.board.path;
-  
+  if(finalTile === path[path.length-1]){
+    player.listMessage(player.name + " crossed the finish line!");
+  }
   return(finalTile === path[path.length-1] ? true : false);
 }
 
@@ -304,6 +326,7 @@ function prepareChallenge(player, steps){
 
   playerMessages.insertBefore(buttonWrap, playerMessages.firstChild);
 }
+
 function runAutoChallenge(player){
   let result, newTile;
   result = Math.round(Math.random());
@@ -384,21 +407,16 @@ function askQuestion(player, steps){
         player.listMessage(player.name + " stepped on another challenge tile!");
         prepareChallenge(player);
       }
-      else{
-        if(steps !== 6){
-          continueRound = player.index + 1;
-          for(let i = continueRound; i < players.length; i++){
-            playGame(players[i]);
-          }
-        }
-        else{ return; }
+      if(steps !== 6){
+        continueRound = player.index + 1;
+        diceEventHandle();
       }
+      
     });
 
     answer.addEventListener('submit', function(e){
       e.preventDefault();
       questionModal.removeChild(answer);
-      console.log(answerInput.value.toLowerCase() + " " + data.character.toLowerCase());
 
       if(answerInput.value.toLowerCase() === data.character.toLowerCase()){
         result.innerHTML = 'Correct! "' + data.character + '" said this!';
@@ -410,84 +428,88 @@ function askQuestion(player, steps){
         player.listMessage(player.name + " answered correctly and moved 2 extra steps!");
       }
       else{
-        result.innerHTML = 'Wrong! "' + data.character + '" said this! You must move two steps back';
+        result.innerHTML = '"' + answerInput.value + '" is wrong. "' + data.character + '" said this! You must move two steps back';
         result.classList.add('question-modal__result--wrong');
         questionModal.append(result, okBtn);
 
         player.addQuestionResult("wrong");
         player.moveBackward(2);
-        player.listMessage(player.name + " didn't know the answer and moved 2 steps backwards.");
+        player.listMessage(player.name + " didn't know the answer and moved 2 steps back.");
       }
-      //continueRound = player.index + 1; 
     });
   });
   dice.addEventListener('click', diceEventHandle);
   dice.classList.remove('dice--inactive');
 }
 function checkVictory(player){
-    let finalScreen, finalMessage, timer;
-    finalScreen = document.createElement('div');
-    finalScreen.classList.add('final-modal');
-    
-    finalMessage = document.createElement('h1');
-    finalMessage.classList.add('final-modal__message');
+  let finalScreen, finalMessage, timer;
+  finalScreen = document.createElement('div');
+  finalScreen.classList.add('final-modal');
+  
+  finalMessage = document.createElement('h1');
+  finalMessage.classList.add('final-modal__message');
 
-    finalScreen.appendChild(finalMessage);
-    body.appendChild(finalScreen);
-    finalScreen.style.display = "flex";
+  finalScreen.appendChild(finalMessage);
+  body.appendChild(finalScreen);
+  finalScreen.style.display = "flex";
 
-    if(player.auto){
-      finalMessage.innerHTML= "You Lost";
-      finalScreen.classList.add('final-modal--lost');
-      fadeIn(finalScreen);
-      count = 0; 
-      timer = setInterval(function(){
-        count += 0.1;
-        if(count > 1){
-          fadeOut(finalScreen);
-          clearInterval(timer);
-        }
-      }, 100);
-    }
-    else {
-      finalMessage.innerHTML= "You Won";
-      finalScreen.classList.add('final-modal--won');
-      fadeIn(finalScreen);
-      count = 0; 
-      timer = setInterval(function(){
-        count += 0.1;
-        if(count > 1){
-          fadeOut(finalScreen);
-          clearInterval(timer);
-        }
-      }, 100);
+  if(player.auto){
+    finalMessage.innerHTML= "You Lost";
+    finalScreen.classList.add('final-modal--lost');
+    fadeIn(finalScreen);
+    count = 0; 
+    timer = setInterval(function(){
+      count += 0.1;
+      if(count > 1){
+        fadeOut(finalScreen);
+        clearInterval(timer);
+      }
+    }, 100);
+  }
+  else {
+    finalMessage.innerHTML= "You Won";
+    finalScreen.classList.add('final-modal--won');
+    fadeIn(finalScreen);
+    count = 0; 
+    timer = setInterval(function(){
+      count += 0.1;
+      if(count > 1){
+        fadeOut(finalScreen);
+        clearInterval(timer);
+      }
+    }, 100);
+  }
+  let headline = document.createElement('h1'); 
+  headline.classList.add('info-modal__headline');
+  headline.innerHTML = player.name + " won the game!";
+  
+  let historyHeadline = document.createElement('h2');
+  historyHeadline.innerHTML = "Game history: ";
 
-    }
-    let headline = document.createElement('h1'); 
-    headline.classList.add('info-modal__headline');
-    headline.innerHTML = player.name + " won the game!";
+  let question = document.createElement('div');
+  question.classList.add('info-modal__question');
+  question.innerHTML = 'Play again?';
 
-    let question = document.createElement('div');
-    question.classList.add('info-modal__question');
-    question.innerHTML = 'Play again?';
+  let answer = document.createElement('div');
+  answer.classList.add('question-modal__answer-wrapper');
 
-    let answer = document.createElement('div');
-    answer.classList.add('question-modal__answer-wrapper');
+  let yesBtn = document.createElement('a');
+  yesBtn.setAttribute('href', 'select-character.html');
+  yesBtn.classList.add('info-modal__button');
+  yesBtn.innerHTML = "One more time!";
 
-    let yesBtn = document.createElement('a');
-    yesBtn.setAttribute('href', 'select-character.html');
-    yesBtn.classList.add('info-modal__button');
-    yesBtn.innerHTML = "One more time!";
+  let noBtn = document.createElement('a');
+  noBtn.setAttribute('href', 'final.html');
+  noBtn.classList.add('info-modal__button');
+  noBtn.innerHTML = "No, take me to the score view!";
 
-    let noBtn = document.createElement('a');
-    noBtn.setAttribute('href', 'final.html');
-    noBtn.classList.add('info-modal__button');
-    noBtn.innerHTML = "No, take me to the score view!";
+  answer.append(yesBtn, noBtn);
 
-    answer.append(yesBtn, noBtn);
+  infoModal.append(headline, historyHeadline, playerMessages, question, answer);
+  infoModal.style.display = "flex";
 
-    infoModal.append(headline, question, answer);
-    infoModal.style.display = "flex";
+  localStorage.setItem('history', playerMessages);
+  localStorage.setItem('players', JSON.stringify(players));
 }
 
 function fadeIn(element){

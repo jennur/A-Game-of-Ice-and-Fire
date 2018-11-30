@@ -26,7 +26,9 @@
     height: 50px;
     position: relative;
 
-    &--start, &--end { background-color: $blue; }
+    &--dark-brown { background-color: $darkerBrown; }
+
+    &--start, &--finish { background-color: $blue; }
     &--path {
       background-color: $cream; 
       &green { background-color: $lightGreen; }
