@@ -22,6 +22,60 @@
   }
 }
 
+.question-modal {
+  &__form{
+    display: flex; 
+    flex-direction: row; 
+    align-items: center; 
+  }
+  &__input{
+    min-width: 150px;
+    height: 40px;
+    padding: $spacingSmall;
+    border-top: 1px solid $cream;
+    border-bottom: 1px solid $darkBrown;
+    border-right: none; 
+    border-radius: 5px 0px 0px 5px;
+    background-color: #fff;
+    color: $black;
+    font-size: $regular; 
+    box-sizing: border-box; 
+    &:focus {
+      outline: none; 
+    }
+  }
+  &__submit, &__ok-btn { 
+    width: auto;
+    height: 40px; 
+    padding: $spacingSmall;
+    border-top: 1px solid $cream;
+    border-bottom: 1px solid $darkBrown;
+    border-right: 1px solid $brown;
+    border-left: none; 
+    border-radius: 0px 5px 5px 0px;
+    background-color: $brown; 
+    color: $cream; 
+    font-size: $regular;
+    font-family: $buttonFont;
+    box-sizing: border-box;
+    text-transform: uppercase;
+
+    &:focus {
+      outline: none; 
+    }
+    &:hover {
+      cursor: pointer; 
+      background-color: $darkBrown; 
+    }
+  }
+  &__ok-btn {
+    min-width: 100px; 
+    border-left: 1px solid $brown; 
+    border-radius: 5px; 
+    margin: $spacingMedium;  
+  }
+}
+
 .info-modal {
   opacity: 1; 
 }

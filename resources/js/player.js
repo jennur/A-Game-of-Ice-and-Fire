@@ -31,15 +31,7 @@ for(let i = 0; i < characterNumbers.length; i++){
     title.innerHTML = data.name;
     
     card.appendChild(title);
-    let titleList = document.createElement('ul');
-    titleList.classList.add('card__titles-list');
-    for(let i = 0; i < data['titles'].length; i++){
-      let listItem = document.createElement('li');
-      listItem.innerHTML = data.titles[i];
-      titleList.appendChild(listItem);
-    }
-    card.appendChild(titleList);
-
+    
     /* Character selection */
     card.addEventListener('click', function(e){
       cardList.push(card);

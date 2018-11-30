@@ -4,16 +4,19 @@
   
   &__item {
     flex-basis: 100%;
-  }
-  &--one-third {
-    flex-basis: 33%;
-  }
+  
+    &--one-third {
+      flex-basis: 33%;
+    }
 
-  &--two-thirds {
-    flex-basis: 66%;
-  } 
-
+    &--two-thirds {
+      flex-basis: 66%;
+    } 
+  }
   &--center {   
     justify-content: center; 
   }   
+  &--space {
+    justify-content: space-around;
+  }
 }

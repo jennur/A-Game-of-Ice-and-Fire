@@ -1,0 +1,24 @@
+
+.scores {
+  &__wrapper{
+    display: flex; 
+    flex-direction: row; 
+    width: 100%; 
+    justify-content: space-around;
+  }
+  &__container{
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    width: 300px;
+    padding: $spacingLarge; 
+    color: $darkBrown;
+    border-radius: 5px; 
+    margin-bottom: $spacingMedium;
+  }
+  &__number{
+    font-size: 100px; 
+    font-family: $buttonFont; 
+  }
+}

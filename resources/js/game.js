@@ -142,6 +142,7 @@ class Player{
       }
       else{
         this.board.endTile.appendChild(this.piece);
+        return true;
       }
     }
   }
@@ -213,7 +214,6 @@ function diceEventHandle(){
   startRound = continueRound ? continueRound : 0;
   for(let i = startRound; i < players.length; i++){
     let gameManager = playGame(players[i]);
-    debugger
     if(gameManager === 6){
       if(!players[i].auto){
         return;
@@ -266,12 +266,15 @@ function rollDice(){
 }
 
 function playGame(player){
-  let steps, newTile, challenge, finalTile, path;
+  let steps, newTile, challenge, victory, finalTile, path;
 
   steps = rollDice();
   player.moveForward(steps);
   newTile = player.piece.parentElement;
   challenge = player.board.isChallengeTile(newTile);
+  finalTile = player.piece.parentElement;
+  path = player.board.path;
+  victory = (finalTile === path[path.length-1] ? true : false);
 
   if(challenge){
     player.listMessage(player.name + " moved " + steps + " steps and stepped on a challenge tile!");
@@ -298,25 +301,25 @@ function playGame(player){
     player.listMessage(player.name + " moved " + steps + " steps.");
   }
 
-  if(steps === 6){
+  if(steps === 6 && !victory){
     player.listMessage(player.name + ", roll dice again!");
     return 6;
   }
   
-  finalTile = player.piece.parentElement;
-  path = player.board.path;
-  if(finalTile === path[path.length-1]){
+  if(victory){
     player.listMessage(player.name + " crossed the finish line!");
   }
-  return(finalTile === path[path.length-1] ? true : false);
+  return victory;
 }
 
 function prepareChallenge(player, steps){
   dice.removeEventListener('click', diceEventHandle);
   dice.classList.add('dice--inactive');
   buttonWrap = document.createElement('li');
+  buttonWrap.classList.add('player-messages__button-wrap');
   button = document.createElement('button');
-  button.classList.add('question-button');
+  button.classList.add('player-messages__button');
+  button.style.backgroundColor = player.color; 
   button.innerHTML = "Accept challenge to continue";
   buttonWrap.appendChild(button);
   button.addEventListener('click', function(){
@@ -371,6 +374,7 @@ function askQuestion(player, steps){
     question.innerHTML = 'Who said this: "' + data.quote + '" ? ';
 
     let answer = document.createElement('form');
+    answer.classList.add('question-modal__form');
     answer.setAttribute('id', 'answer');
     answer.setAttribute('method', 'get');
     answer.classList.add('question-modal__answer-wrapper');
@@ -403,11 +407,12 @@ function askQuestion(player, steps){
       while(questionModal.firstChild){
         questionModal.removeChild(questionModal.firstChild);
       }
-      if(player.board.isChallengeTile(player.piece.parentElement)){
+      let challenge = player.board.isChallengeTile(player.piece.parentElement);
+      if(challenge){
         player.listMessage(player.name + " stepped on another challenge tile!");
         prepareChallenge(player);
       }
-      if(steps !== 6){
+      if(steps !== 6 && !challenge){
         continueRound = player.index + 1;
         diceEventHandle();
       }
@@ -424,8 +429,9 @@ function askQuestion(player, steps){
         questionModal.append(result, okBtn);
         
         player.addQuestionResult("correct");
-        player.moveForward(2);
+        let move = player.moveForward(2);
         player.listMessage(player.name + " answered correctly and moved 2 extra steps!");
+        if(move){checkVictory(player);}
       }
       else{
         result.innerHTML = '"' + answerInput.value + '" is wrong. "' + data.character + '" said this! You must move two steps back';
@@ -441,6 +447,7 @@ function askQuestion(player, steps){
   dice.addEventListener('click', diceEventHandle);
   dice.classList.remove('dice--inactive');
 }
+
 function checkVictory(player){
   let finalScreen, finalMessage, timer;
   finalScreen = document.createElement('div');
@@ -453,15 +460,18 @@ function checkVictory(player){
   body.appendChild(finalScreen);
   finalScreen.style.display = "flex";
 
-  if(player.auto){
+  if(player.index !== 0){
     finalMessage.innerHTML= "You Lost";
     finalScreen.classList.add('final-modal--lost');
+    infoModal.style.backgroundColor = "#99282e";
+
     fadeIn(finalScreen);
     count = 0; 
     timer = setInterval(function(){
       count += 0.1;
       if(count > 1){
         fadeOut(finalScreen);
+        infoModal.style.display = "flex";
         clearInterval(timer);
       }
     }, 100);
@@ -469,12 +479,15 @@ function checkVictory(player){
   else {
     finalMessage.innerHTML= "You Won";
     finalScreen.classList.add('final-modal--won');
+    infoModal.style.backgroundColor = "#688951";
+
     fadeIn(finalScreen);
     count = 0; 
     timer = setInterval(function(){
       count += 0.1;
       if(count > 1){
         fadeOut(finalScreen);
+        infoModal.style.display = "flex";
         clearInterval(timer);
       }
     }, 100);
@@ -504,11 +517,10 @@ function checkVictory(player){
   noBtn.innerHTML = "No, take me to the score view!";
 
   answer.append(yesBtn, noBtn);
-
+  playerMessages.classList.add('player-messages--history');
   infoModal.append(headline, historyHeadline, playerMessages, question, answer);
-  infoModal.style.display = "flex";
 
-  localStorage.setItem('history', playerMessages);
+  localStorage.setItem('history', playerMessages.innerHTML);
   localStorage.setItem('players', JSON.stringify(players));
 }
 
