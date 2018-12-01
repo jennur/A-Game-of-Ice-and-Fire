@@ -1,10 +1,7 @@
 
-var players, history, playerMessages; 
+var players, playerMessages; 
 
 players = JSON.parse(window.localStorage.getItem('players'));
-history = window.localStorage.getItem('history');
-console.log(players);
-console.log(history)
 
 playerMessages = document.getElementsByClassName('player-messages')[0];
 playerMessages.innerHTML = localStorage.getItem('history'); 

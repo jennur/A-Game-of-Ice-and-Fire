@@ -1,4 +1,10 @@
 .dice {
+    &-wrapper {
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+    }
     display: flex; 
     justify-content: center; 
     align-content: center; 
@@ -40,9 +46,15 @@
 
   .history-wrapper {
       display: flex; 
-      flex-direction: column; 
+      flex-direction: row; 
+      justify-content: space-around;
       align-items: center; 
-      justify-content: center; 
-      min-width: 200px; 
+      width: 600px; 
       padding: 0 $spacingXLarge;
+      margin: $spacingSmall auto; 
+      @media #{$desktop} {
+        flex-direction: column;
+        justify-content: center;
+        width: 200px;
+      }
   }

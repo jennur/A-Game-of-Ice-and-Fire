@@ -4,7 +4,7 @@
 // 565 Joffrey Baratheon
 // 148 Arya Stark
 var body, infoModal, headline, dice, playerMessages, board, numTiles, questions, path, characters, charactersColors, 
-    startRound, continueRound; 
+    startRound, continueRound, ragequit; 
 
 body = document.querySelector('body');
 infoModal = document.getElementsByClassName('info-modal')[0];
@@ -13,6 +13,27 @@ dice = document.getElementsByClassName('dice')[0];
 diceFace = document.getElementsByClassName('dice-face')[0];
 playerMessages = document.getElementsByClassName('player-messages')[0];
 board = document.getElementsByClassName('board')[0];
+ragequit = document.getElementsByClassName('ragequit')[0];
+rageScreen = document.getElementsByClassName('rage-modal')[0];
+
+ragequit.addEventListener('click', function(){
+  let rageMessage = document.createElement('h1');
+  rageMessage.classList.add('rage-modal__message');
+  rageMessage.innerHTML = "AARRRRGGGHHHH!!!";
+  rageScreen.appendChild(rageMessage);
+  rageScreen.style.display = "flex";
+
+  fadeIn(rageScreen);
+  count = 0; 
+  timer = setInterval(function(){
+    count += 0.1;
+    if(count > 1){
+      location.reload();
+      clearInterval(timer);
+    }
+  }, 100);
+
+});
 
 numTiles = 120; 
 path = [0,1,2,3,4,5,6,7,8,9,10,11, //right
@@ -23,8 +44,14 @@ path = [0,1,2,3,4,5,6,7,8,9,10,11, //right
         38,50, //down
         49,48, //left
         60,72,84, //down
-        85,86,87,88,89,90,91, //right
-        103, //down
+        85,86,
+        74, //up
+        75,76, //left
+        64, //up
+        65,66,67,68,69,70, //left
+        82,94, //down
+        93,92,91,90, //right
+        102,114, //down
         115,116,117,118,119]; //right
 
 questions = [];
@@ -142,7 +169,6 @@ class Player{
       }
       else{
         this.board.endTile.appendChild(this.piece);
-        return true;
       }
     }
   }
@@ -168,6 +194,9 @@ class Player{
   }
   addQuestionResult(result){
     this.results.push(result);
+  }
+  checkVictory(){
+    return(this.piece.parentElement === this.board.endTile ? true : false);
   }
 }
 
@@ -232,7 +261,7 @@ function diceEventHandle(){
       return;
     }
     if(gameManager){
-      checkVictory(players[i]);
+      flashVictory(players[i]);
     }
    }
    continueRound = 0; 
@@ -266,15 +295,13 @@ function rollDice(){
 }
 
 function playGame(player){
-  let steps, newTile, challenge, victory, finalTile, path;
+  let steps, newTile, challenge, victory;
 
   steps = rollDice();
   player.moveForward(steps);
   newTile = player.piece.parentElement;
   challenge = player.board.isChallengeTile(newTile);
-  finalTile = player.piece.parentElement;
-  path = player.board.path;
-  victory = (finalTile === path[path.length-1] ? true : false);
+  victory = player.checkVictory();
 
   if(challenge){
     player.listMessage(player.name + " moved " + steps + " steps and stepped on a challenge tile!");
@@ -305,10 +332,7 @@ function playGame(player){
     player.listMessage(player.name + ", roll dice again!");
     return 6;
   }
-  
-  if(victory){
-    player.listMessage(player.name + " crossed the finish line!");
-  }
+
   return victory;
 }
 
@@ -402,23 +426,6 @@ function askQuestion(player, steps){
     okBtn.classList.add('question-modal__ok-btn');
     okBtn.innerHTML = "OK";
 
-    okBtn.addEventListener('click', function(){
-      fadeOut(questionModal);
-      while(questionModal.firstChild){
-        questionModal.removeChild(questionModal.firstChild);
-      }
-      let challenge = player.board.isChallengeTile(player.piece.parentElement);
-      if(challenge){
-        player.listMessage(player.name + " stepped on another challenge tile!");
-        prepareChallenge(player);
-      }
-      if(steps !== 6 && !challenge){
-        continueRound = player.index + 1;
-        diceEventHandle();
-      }
-      
-    });
-
     answer.addEventListener('submit', function(e){
       e.preventDefault();
       questionModal.removeChild(answer);
@@ -429,9 +436,8 @@ function askQuestion(player, steps){
         questionModal.append(result, okBtn);
         
         player.addQuestionResult("correct");
-        let move = player.moveForward(2);
+        player.moveForward(2);
         player.listMessage(player.name + " answered correctly and moved 2 extra steps!");
-        if(move){checkVictory(player);}
       }
       else{
         result.innerHTML = '"' + answerInput.value + '" is wrong. "' + data.character + '" said this! You must move two steps back';
@@ -443,12 +449,37 @@ function askQuestion(player, steps){
         player.listMessage(player.name + " didn't know the answer and moved 2 steps back.");
       }
     });
+
+    okBtn.addEventListener('click', function(){
+      fadeOut(questionModal);
+      while(questionModal.firstChild){
+        questionModal.removeChild(questionModal.firstChild);
+      }
+      let challenge = player.board.isChallengeTile(player.piece.parentElement);
+      let victory = player.piece.parentElement === player.board.endTile ? true : false;
+
+      if(challenge){
+        player.listMessage(player.name + " stepped on another challenge tile!");
+        prepareChallenge(player);
+      }
+      if(victory){
+        flashVictory(player); 
+      }
+      if(steps !== 6 && !challenge && !victory){
+        continueRound = player.index + 1;
+        diceEventHandle();
+      }
+    });
   });
   dice.addEventListener('click', diceEventHandle);
   dice.classList.remove('dice--inactive');
 }
 
-function checkVictory(player){
+function flashVictory(player){
+  player.listMessage(player.name + " crossed the finish line!");
+  while(infoModal.firstChild){
+    infoModal.removeChild(firstChild);
+  }
   let finalScreen, finalMessage, timer;
   finalScreen = document.createElement('div');
   finalScreen.classList.add('final-modal');

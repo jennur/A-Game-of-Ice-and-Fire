@@ -1,14 +1,16 @@
-
 .header {
 
   &-wrap {
       display: flex;
       flex-direction: column; 
-      width: inherit;
+      max-width: 600px;
       min-height: 140px;
       margin: $none auto;
       padding: $spacingXLarge;
       justify-content: center; 
+      @media #{$desktop}{
+        max-width: $mediumWidth;
+      }
     &--front{ flex-direction: row; }
   }
   &__logo {
@@ -26,9 +28,42 @@
 
     }
   }
-
+  &__content {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+  }
   &__headline{
     align-self: center; 
     color: $cream; 
+  }
+}
+.ragequit {
+  display: inline-flex;
+  justify-content: center; 
+  align-items: center;  
+  @media #{$desktop}{
+    align-self: flex-start;
+  }
+  width: 150px; 
+  height: 40px; 
+  padding: $spacingSmall;
+  background-color: $strongRed; 
+  border-top: 1px solid $cream;
+  border-right: 1px solid $red;
+  border-bottom: 1px solid $darkBrown; 
+  border-left: 1px solid $brown;
+  border-radius: 5px; 
+  box-sizing: border-box;
+  font-family: $buttonFont; 
+  font-size: $regular; 
+  color: $cream; 
+  text-transform: uppercase; 
+  text-decoration: none; 
+  margin-left: $spacingSmall;
+  &:hover {
+    background-color: $brightRed;
+    cursor: pointer;
   }
 }

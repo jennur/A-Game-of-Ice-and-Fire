@@ -1,5 +1,5 @@
 
-.question-modal, .info-modal, .final-modal{
+.question-modal, .info-modal, .final-modal, .rage-modal{
   display: none; 
   flex-direction: column;
   justify-content: center; 
@@ -16,7 +16,6 @@
   &__headline {
       padding: $spacingXLarge;
   }
-
   &__question {
       padding: $spacingXLarge;
   }
@@ -78,20 +77,60 @@
 
 .info-modal {
   opacity: 1; 
-}
-.final-modal {
-    z-index: 999999;
-    &--won {
-      background-color: $green;
-      color: $lightGreen; 
+
+  &__button{
+    display: inline-block;
+    min-width: 100px; 
+    height: 40px;
+    padding: $spacingSmall;
+    background-color: $brown;
+    border-top: 1px solid $cream;
+    border-bottom: 1px solid $darkBrown;
+    border-left: 1px solid $brown; 
+    border-right: 1px solid $brown; 
+    border-radius: 5px; 
+    box-sizing: border-box;
+    margin: $spacingMedium; 
+    font-family: $buttonFont; 
+    color: $cream;
+    text-decoration: none; 
+    text-transform: uppercase;
+    &:hover {
+      cursor: pointer;
+      background-color: $darkBrown;
     }
-    &--lost {
-      background-color: $strongRed;
-      color: $brightRed;
-    }
-    &__message {
-      font-size: 100px;
-      font-family: $bodyFont; 
-      color: inherit; 
+    &:visited, &:active{
+      color: inherit;
     }
   }
+}
+.final-modal {
+  z-index: 999999;
+  &--won {
+    background-color: $green;
+    color: $lightGreen; 
+  }
+  &--lost {
+    background-color: $strongRed;
+    color: $brightRed;
+  }
+  &__message {
+    font-size: 100px;
+    font-family: $bodyFont; 
+    color: inherit; 
+  }
+}
+
+.rage-modal {
+  &__message {
+    font-size: 80px;
+    transform: rotate(-40deg);
+    -ms-transform: rotate(-40deg);
+    -webkit-transform: rotate(-40deg);
+    color: $brightRed;
+    font-family: $buttonFont;
+    @media #{$desktop}{
+      font-size: 100px;
+    }
+  }
+}

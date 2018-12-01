@@ -1,20 +1,36 @@
 
 .grid {
   display: flex; 
-  
+  flex-wrap: wrap; 
+  margin: 0 auto;
+  @media #{$desktop} {
+    flex-wrap: nowrap; 
+    max-width: $mediumWidth; 
+  }
   &__item {
     flex-basis: 100%;
-  
+    padding: $spacingSmall;
+
     &--one-third {
-      flex-basis: 33%;
+      @media #{$desktop} {
+        flex-basis: 33%; 
+        order: 2; 
+
+      }
+      order: 1; 
     }
 
     &--two-thirds {
-      flex-basis: 66%;
+      @media #{$desktop} {
+        flex-basis: 66%; 
+        order: 1; 
+      }
+      order: 2; 
     } 
   }
   &--center {   
     justify-content: center; 
+    align-items: center; 
   }   
   &--space {
     justify-content: space-around;

@@ -1,10 +1,13 @@
 
 .player-messages {
   width: 280px; 
-  height: 350px;
+  height: 200px;
   overflow: scroll;
   padding-top: $spacingLarge;
   list-style: none;
+  @media #{$desktop} {
+    height: 350px;
+  }
 
   &__button {
     &-wrap {
@@ -22,6 +25,7 @@
     text-transform: uppercase;
     border-top: 1px solid $cream; 
     border-bottom: 1px solid $brown; 
+    border-radius: 5px;
     box-shadow: 3px 0px 3px rgba(0,0,0,0.3);
     margin: 10px 0px; 
     &:hover {
@@ -38,7 +42,7 @@
     padding: $spacingSmall;
   }
   &--final {
-    height: 630px; 
+    height: 650px; 
     margin-top: 0; 
     padding-top: 0; 
   }
