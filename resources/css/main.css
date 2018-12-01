@@ -172,6 +172,9 @@
   }
 }
 .characters__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-decoration: none;
   color: #000;
   width: 270px;
@@ -201,6 +204,12 @@
 .characters__card:visited {
   color: inherit;
 }
+.characters__card ul {
+  list-style: none;
+  font-family: "Kalam", cursive;
+  padding: 0 0 10px 0;
+  margin: 0;
+}
 
 .card__title {
   color: #000;
@@ -216,7 +225,7 @@
   padding: 15px;
 }
 .card--selected {
-  box-shadow: 0px 0px 10px #FF434D;
+  box-shadow: 0px 0px 10px #F2E4CE;
 }
 
 #loading {
@@ -351,37 +360,6 @@
 .header__headline {
   align-self: center;
   color: #F2E4CE;
-}
-
-.ragequit {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 150px;
-  height: 40px;
-  padding: 10px;
-  background-color: #99282e;
-  border-top: 1px solid #F2E4CE;
-  border-right: 1px solid #993f40;
-  border-bottom: 1px solid #1C1C1A;
-  border-left: 1px solid #2D2E2B;
-  border-radius: 5px;
-  box-sizing: border-box;
-  font-family: "Kalam", cursive;
-  font-size: 16px;
-  color: #F2E4CE;
-  text-transform: uppercase;
-  text-decoration: none;
-  margin-left: 10px;
-}
-@media only screen and (min-width: 1000px) {
-  .ragequit {
-    align-self: flex-start;
-  }
-}
-.ragequit:hover {
-  background-color: #FF434D;
-  cursor: pointer;
 }
 
 .question-modal, .info-modal, .final-modal, .rage-modal {
@@ -538,14 +516,14 @@
 
 .player-messages {
   width: 280px;
-  height: 200px;
+  height: 100px;
   overflow: scroll;
   padding-top: 20px;
   list-style: none;
 }
 @media only screen and (min-width: 1000px) {
   .player-messages {
-    height: 350px;
+    height: 270px;
   }
 }
 .player-messages__button {
@@ -582,6 +560,31 @@
   height: 650px;
   margin-top: 0;
   padding-top: 0;
+}
+
+.ragequit {
+  display: inline-flex;
+  justify-content: center;
+  width: 150px;
+  height: 40px;
+  padding: 10px;
+  background-color: #99282e;
+  border-top: 1px solid #F2E4CE;
+  border-right: 1px solid #993f40;
+  border-bottom: 1px solid #1C1C1A;
+  border-left: 1px solid #2D2E2B;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-family: "Kalam", cursive;
+  font-size: 16px;
+  color: #F2E4CE;
+  text-transform: uppercase;
+  text-decoration: none;
+  margin: 20px;
+}
+.ragequit:hover {
+  background-color: #FF434D;
+  cursor: pointer;
 }
 
 .scores__wrapper {

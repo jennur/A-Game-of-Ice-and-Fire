@@ -1,12 +1,12 @@
 
 .player-messages {
   width: 280px; 
-  height: 200px;
+  height: 100px;
   overflow: scroll;
   padding-top: $spacingLarge;
   list-style: none;
   @media #{$desktop} {
-    height: 350px;
+    height: 270px;
   }
 
   &__button {
@@ -45,5 +45,30 @@
     height: 650px; 
     margin-top: 0; 
     padding-top: 0; 
+  }
+}
+
+.ragequit {
+  display: inline-flex;
+  justify-content: center; 
+  width: 150px; 
+  height: 40px; 
+  padding: $spacingSmall;
+  background-color: $strongRed; 
+  border-top: 1px solid $cream;
+  border-right: 1px solid $red;
+  border-bottom: 1px solid $darkBrown; 
+  border-left: 1px solid $brown;
+  border-radius: 5px; 
+  box-sizing: border-box;
+  font-family: $buttonFont; 
+  font-size: $regular; 
+  color: $cream; 
+  text-transform: uppercase; 
+  text-decoration: none; 
+  margin: $spacingLarge;
+  &:hover {
+    background-color: $brightRed;
+    cursor: pointer;
   }
 }
