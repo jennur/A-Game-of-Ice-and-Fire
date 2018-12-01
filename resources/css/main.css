@@ -7,6 +7,10 @@
 /* Spacing */
 /* Widths */
 /* Media queries */
+@font-face {
+  font-family: "Game of Thrones";
+  src: url(http://icefireboard.com/fonts/Game%20of%20Thrones.ttf);
+}
 /* Components */
 .board {
   display: flex;
@@ -37,7 +41,7 @@
   position: relative;
 }
 .board__tile--dark-brown {
-  background-color: #1D1D1B;
+  background-color: #191918;
 }
 .board__tile--start, .board__tile--finish {
   background-color: #4761a0;
@@ -215,6 +219,16 @@
   box-shadow: 0px 0px 10px #FF434D;
 }
 
+#loading {
+  display: flex;
+  justify-content: center;
+}
+
+.loading-gif {
+  width: 400px;
+  height: 50px;
+}
+
 .dice {
   display: flex;
   justify-content: center;
@@ -297,6 +311,7 @@
   margin: 0px auto;
   padding: 25px;
   justify-content: center;
+  align-items: center;
 }
 @media only screen and (min-width: 1000px) {
   .header-wrap {
@@ -445,7 +460,9 @@
   opacity: 1;
 }
 .info-modal__button {
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   min-width: 100px;
   height: 40px;
   padding: 10px;
@@ -468,6 +485,13 @@
 }
 .info-modal__button:visited, .info-modal__button:active {
   color: inherit;
+}
+.info-modal__button--small {
+  max-width: 150px;
+  background-color: #99282e;
+}
+.info-modal__button--small:hover {
+  background-color: #FF434D;
 }
 
 .final-modal {

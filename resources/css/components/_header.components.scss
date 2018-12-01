@@ -8,6 +8,7 @@
       margin: $none auto;
       padding: $spacingXLarge;
       justify-content: center; 
+      align-items: center;
       @media #{$desktop}{
         max-width: $mediumWidth;
       }
@@ -25,7 +26,6 @@
       @media #{$mobile}{ width: 110px; }
       height: auto; 
       align-self: flex-start;
-
     }
   }
   &__content {

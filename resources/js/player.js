@@ -6,18 +6,23 @@
 // 148 Arya Stark
 window.localStorage.clear();
 
-var characterContainer = document.getElementsByClassName('characters__container')[0];
-var headline = document.getElementsByClassName('header__headline')[0];
-var charactersModal = document.getElementsByClassName('characters__modal')[0];
-var characterNumbers = [27, 271, 583, 565, 148];
-var houseColors = ['#d6bf53', '#993f40', '#a9ae9d', '#ce874b', '#a9ae9d'];
-var players = []; 
-var cardList = [];
+var characterContainer, headline, charactersModal, characterNumbers, houseColors, players, cardList, loading, loaded, error;
+
+characterContainer = document.getElementsByClassName('characters__container')[0];
+headline = document.getElementsByClassName('header__headline')[0];
+charactersModal = document.getElementsByClassName('characters__modal')[0];
+loading = document.getElementById('loading')
+characterNumbers = [27, 271, 583, 565, 148];
+houseColors = ['#d6bf53', '#993f40', '#a9ae9d', '#ce874b', '#a9ae9d'];
+players = []; 
+cardList = [];
+loaded = [];
 
 for(let i = 0; i < characterNumbers.length; i++){
   fetch('https://www.anapioficeandfire.com/api/characters/' + characterNumbers[i])
   .then(function(response){
-      return response.json(); 
+    if(response.status !== 200){ loading.innerHTML = "Unable to load content :/"; }
+    return response.json(); 
   })
   .then(function(data){ 
     
@@ -95,8 +100,7 @@ for(let i = 0; i < characterNumbers.length; i++){
         }
       }
     });
-
+    loading.style.display = "none"
     characterContainer.appendChild(card);
   });
 }
-
