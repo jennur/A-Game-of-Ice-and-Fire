@@ -399,6 +399,9 @@
 .question-modal__input:focus {
   outline: none;
 }
+.question-modal__answer-wrapper {
+  padding-top: 15px;
+}
 .question-modal__submit, .question-modal__ok-btn {
   width: auto;
   height: 40px;

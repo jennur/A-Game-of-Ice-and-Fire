@@ -530,26 +530,22 @@ function flashVictory(player){
   let historyHeadline = document.createElement('h2');
   historyHeadline.innerHTML = "Game history: ";
 
-  let question = document.createElement('div');
-  question.classList.add('info-modal__question');
-  question.innerHTML = 'Play again?';
-
   let answer = document.createElement('div');
   answer.classList.add('question-modal__answer-wrapper');
 
   let yesBtn = document.createElement('a');
   yesBtn.setAttribute('href', 'select-character.html');
   yesBtn.classList.add('info-modal__button');
-  yesBtn.innerHTML = "One more time!";
+  yesBtn.innerHTML = "Play again";
 
   let noBtn = document.createElement('a');
   noBtn.setAttribute('href', 'final.html');
   noBtn.classList.add('info-modal__button');
-  noBtn.innerHTML = "No, take me to the score view!";
+  noBtn.innerHTML = "Take me to the score view";
 
   answer.append(yesBtn, noBtn);
   playerMessages.classList.add('player-messages--history');
-  infoModal.append(headline, historyHeadline, playerMessages, question, answer);
+  infoModal.append(headline, historyHeadline, playerMessages, answer);
 
   localStorage.setItem('history', playerMessages.innerHTML);
   localStorage.setItem('players', JSON.stringify(players));

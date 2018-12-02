@@ -79,6 +79,9 @@
       outline: none; 
     }
   }
+  &__answer-wrapper {
+    padding-top: $spacingMedium;
+  }
   &__submit, &__ok-btn { 
     width: auto;
     height: 40px; 
