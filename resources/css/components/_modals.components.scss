@@ -1,5 +1,5 @@
 
-.question-modal, .info-modal, .final-modal, .rage-modal{
+.characters-modal, .question-modal, .info-modal, .final-modal, .rage-modal{
   display: none; 
   flex-direction: column;
   justify-content: center; 
@@ -20,8 +20,44 @@
       padding: $spacingXLarge;
   }
 }
+.characters-modal {
+  background-color: rgba(49,51,58, 1); 
+  opacity: 1; 
 
+  &__cards {
+    display: flex; 
+    flex-direction: row; 
+    padding: $spacingLarge; 
+  }
+  &__message {
+    padding: $spacingLarge; 
+    color: $cream; 
+    font-size: $Xlarge;
+  }
+  &__button-wrap {
+    display: flex; 
+    flex-direction: row; 
+  }
+  &__button {
+    background-color: $strongRed; 
+    border-top: 2px solid $cream; 
+    border-bottom: 2px solid $darkBrown; 
+    padding: $spacingMedium;
+    margin: $spacingMedium; 
+    color: $cream !important; 
+    font-family: $buttonFont; 
+    font-size: $large;
+    text-decoration: none; 
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    user-select: none; 
+    cursor: pointer; 
+  }
+}
 .question-modal {
+  &__question {
+    max-width: $narrowWidth;
+  }
   &__form{
     display: flex; 
     flex-direction: row; 

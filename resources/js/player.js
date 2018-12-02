@@ -15,11 +15,11 @@ var characterContainer, headline, charactersModal, characterNumbers, houseColors
 
 characterContainer = document.getElementsByClassName('characters__container')[0];
 headline = document.getElementsByClassName('header__headline')[0];
-charactersModal = document.getElementsByClassName('characters__modal')[0];
+charactersModal = document.getElementsByClassName('characters-modal')[0];
 loading = document.getElementById('loading')
 characterNumbers = [27, 238, 271, 583, 565, 148, 1052, 232, 862, 867];
 houseColors = ['#d6bf53', '#d6bf53','#993f40', '#a9ae9d', '#ce874b', '#a9ae9d', '#d6bf53', '#a9ae9d', '#ce874b', '#993f40'];
-players = []; 
+players = [];
 cardList = [];
 loaded = [];
 
@@ -64,7 +64,7 @@ for(let i = 0; i < characterNumbers.length; i++){
           
           /* Create modal box for verification */ 
           let modalMessage = document.createElement('div'); 
-          modalMessage.classList.add('characters__modal--message');
+          modalMessage.classList.add('characters-modal__message');
           modalMessage.innerHTML = 'You will play "' 
                                   + players[0].name 
                                   + '" against "' 
@@ -73,21 +73,21 @@ for(let i = 0; i < characterNumbers.length; i++){
           charactersModal.appendChild(modalMessage);  
           
           let modalCardBox = document.createElement('div');
-          modalCardBox.classList.add('characters__modal--cards');
+          modalCardBox.classList.add('characters-modal__cards');
           modalCardBox.appendChild(cardList[0]);
           modalCardBox.appendChild(cardList[1]);
           charactersModal.appendChild(modalCardBox);
 
           let modalButtonBox = document.createElement('div'); 
-          modalButtonBox.classList.add('characters__modal--button-wrap');
+          modalButtonBox.classList.add('characters-modal__button-wrap');
 
           let redoButton = document.createElement('a');
-          redoButton.classList.add('characters__modal--button'); 
+          redoButton.classList.add('characters-modal__button'); 
           redoButton.innerHTML = "Change players"; 
           modalButtonBox.appendChild(redoButton); 
           
           let modalButton = document.createElement('a'); 
-          modalButton.classList.add('characters__modal--button');
+          modalButton.classList.add('characters-modal__button');
           modalButton.setAttribute('href', 'in-game.html');
           modalButton.innerHTML = "I'm ready!";
           modalButtonBox.appendChild(modalButton); 

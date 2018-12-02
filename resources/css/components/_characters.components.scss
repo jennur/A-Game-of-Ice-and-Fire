@@ -1,48 +1,6 @@
 
 .characters {
-  &__modal {
-    display: none; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: center; 
-    min-width: 100%; 
-    min-height: 100%; 
-    position: fixed; 
-    top: 0; 
-    left: 0;
-    background-color: rgba(49,51,58, 1); 
-    z-index: 99999;
 
-    &--cards {
-      display: flex; 
-      flex-direction: row; 
-      padding: $spacingLarge; 
-    }
-    &--message {
-      padding: $spacingLarge; 
-      color: $cream; 
-      font-size: $Xlarge;
-    }
-    &--button-wrap {
-      display: flex; 
-      flex-direction: row; 
-    }
-    &--button {
-      background-color: $strongRed; 
-      border-top: 2px solid $cream; 
-      border-bottom: 2px solid $darkBrown; 
-      padding: $spacingMedium;
-      margin: $spacingMedium; 
-      color: $cream; 
-      font-family: $buttonFont; 
-      font-size: $large;
-      text-decoration: none; 
-      -webkit-user-select: none; 
-      -moz-user-select: none; 
-      user-select: none; 
-      cursor: pointer; 
-    }
-  }
   &__container {
     display: flex; 
     flex-wrap: wrap; 
@@ -66,7 +24,7 @@
     padding: $spacingSmall;
     margin: $spacingLarge;
     background: radial-gradient(ellipse, transparent 75%, $brown 145%);
-    border-radius: 3px; 
+    border-radius: 5px;
     box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
     transition: 0.1s;
     @media #{$tablet}{
