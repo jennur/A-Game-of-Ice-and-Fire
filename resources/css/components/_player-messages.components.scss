@@ -3,12 +3,19 @@
   width: 280px; 
   height: 100px;
   overflow: scroll;
-  padding-top: $spacingLarge;
   list-style: none;
   @media #{$desktop} {
     height: 270px;
   }
 
+  &-wrap {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    padding-top: $spacingLarge;
+
+  }
   &__button {
     &-wrap {
       display: flex; 

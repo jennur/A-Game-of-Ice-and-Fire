@@ -24,7 +24,7 @@
 }
 .board-wrapper {
   width: 600px;
-  height: 500px;
+  height: auto;
   background-color: #2D2E2B;
   padding: 20px;
   border-top: 2px solid #F2E4CE;
@@ -259,15 +259,13 @@
 
 .footer-wrap {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  width: inherit;
+  min-height: 130px;
+  margin: 0 auto;
   padding: 20px;
-}
-@media only screen and (max-width: 767px) {
-  .footer-wrap {
-    flex-direction: column;
-  }
 }
 
 .header-wrap {
@@ -318,6 +316,11 @@
 .header__headline {
   align-self: center;
   color: #F2E4CE;
+}
+.header__player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .characters-modal, .question-modal, .info-modal, .final-modal, .rage-modal {
@@ -502,7 +505,7 @@
 }
 
 .player {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   width: 48%;
@@ -511,18 +514,29 @@
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
   z-index: 999;
 }
+.player--set-size {
+  width: 40px;
+  height: 40px;
+  margin: 0 10px;
+}
 
 .player-messages {
   width: 280px;
   height: 100px;
   overflow: scroll;
-  padding-top: 20px;
   list-style: none;
 }
 @media only screen and (min-width: 1000px) {
   .player-messages {
     height: 270px;
   }
+}
+.player-messages-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
 }
 .player-messages__button {
   width: inherit;

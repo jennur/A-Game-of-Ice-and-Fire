@@ -38,4 +38,9 @@
     align-self: center; 
     color: $cream; 
   }
+  &__player{
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+  }
 }

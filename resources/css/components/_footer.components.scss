@@ -1,14 +1,14 @@
 
 .footer {
+  
   &-wrap {
     display: flex; 
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around; 
     align-items: center; 
+    width: inherit;
+    min-height: 130px; 
+    margin: 0 auto;
     padding: $spacingLarge;
-
-    @media #{$mobile}{
-      flex-direction: column; 
-    } 
   }
 }

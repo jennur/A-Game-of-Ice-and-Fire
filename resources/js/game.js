@@ -3,12 +3,13 @@
 // 27 Tywin Lannister
 // 565 Joffrey Baratheon
 // 148 Arya Stark
-var body, infoModal, headline, dice, playerMessages, board, numTiles, questions, path, characters, charactersColors, 
+var body, infoModal, headline, yourPlayer, dice, playerMessages, board, numTiles, questions, path, characters, charactersColors, 
     startRound, continueRound, ragequit; 
 
 body = document.querySelector('body');
 infoModal = document.getElementsByClassName('info-modal')[0];
 headline = document.getElementsByClassName('header__headline')[0];
+yourPlayer = document.getElementsByClassName('header__player')[0];
 dice = document.getElementsByClassName('dice')[0];
 diceFace = document.getElementsByClassName('dice-face')[0];
 playerMessages = document.getElementsByClassName('player-messages')[0];
@@ -203,6 +204,13 @@ class Player{
 const player1 = new Player(characters[0].name, charactersColors[0].color, 0, false);
 const player2 = new Player(characters[1].name, charactersColors[1].color, 1, true);
 const players = [player1, player2];
+
+const playerName = document.createTextNode(player1.name);
+yourPlayer.appendChild(playerName);
+const showPlayerPiece = document.getElementById('showPlayer');
+showPlayerPiece.innerHTML = player1.name.charAt(0);
+showPlayerPiece.style.backgroundColor = player1.color; 
+
 
 initiateGame(players);
 
@@ -429,8 +437,10 @@ function askQuestion(player, steps){
     answer.addEventListener('submit', function(e){
       e.preventDefault();
       questionModal.removeChild(answer);
+      let input = answerInput.value.toLowerCase();
+      let solution = data.character.toLowerCase();
 
-      if(answerInput.value.toLowerCase() === data.character.toLowerCase()){
+      if(solution.includes(input) || input.includes(solution) ){
         result.innerHTML = 'Correct! "' + data.character + '" said this!';
         result.classList.add('question-modal__result--correct');
         questionModal.append(result, okBtn);

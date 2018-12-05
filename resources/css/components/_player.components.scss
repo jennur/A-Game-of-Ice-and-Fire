@@ -1,6 +1,6 @@
 
 .player {
-    display: flex; 
+    display: inline-flex; 
     justify-content: center; 
     align-items: center; 
     width: 48%; 
@@ -8,4 +8,10 @@
     border-radius: 50%;
     box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     z-index: 999; 
+
+    &--set-size {
+      width: 40px; 
+      height: 40px;
+      margin: 0 $spacingSmall;
+    }
 }
