@@ -5,15 +5,16 @@
   height: 500px;
   margin: $none auto; 
   padding: $none; 
-  background-color: $darkBrown;
+  background-color: $darkGray;
   border-radius: 3px; 
 
   &-wrapper {
     width: 600px; 
     height: auto;
-    background-color: $brown; 
+    background-color: $darkGray; 
     padding: $spacingLarge; 
     border-top: 2px solid $cream;
+    border-right: 2px solid $brown;
     border-bottom: 2px solid $darkBrown;
     border-radius: 3px; 
     margin: $none auto;

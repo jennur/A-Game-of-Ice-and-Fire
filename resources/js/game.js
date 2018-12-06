@@ -44,9 +44,9 @@ path = [0,1,2,3,4,5,6,7,8,9,10,11, //right
         29,28,27,26, //left
         38,50, //down
         49,48, //left
-        60,72,84, //down
-        85,86,
-        74, //up
+        60,72,84,96,108, //down
+        109,110,//right
+        98,86,74, //up
         75,76, //left
         64, //up
         65,66,67,68,69,70, //left
@@ -81,7 +81,7 @@ class Board {
           if(j === 0){
             tile.classList.add('board__tile--start');
             let startImg = document.createElement('img');
-            startImg.setAttribute('src', '../assets/start.svg');
+            startImg.setAttribute('src', 'assets/start.svg');
             startImg.classList.add('board__tile--image');
             tile.appendChild(startImg);
             this.startTile = tile;
@@ -89,7 +89,7 @@ class Board {
           else if(j === this.path.length-1){
             tile.classList.add('board__tile--finish');
             let finishImg = document.createElement('img');
-            finishImg.setAttribute('src', '../assets/finish.svg');
+            finishImg.setAttribute('src', 'assets/finish.svg');
             finishImg.classList.add('board__tile--image');
             tile.appendChild(finishImg);
             this.endTile = tile;
@@ -98,7 +98,7 @@ class Board {
             if(j%5 === 2 || j%12 === 0){
               tile.classList.add('board__tile--challenge');
               let questionImg = document.createElement('img');
-              questionImg.setAttribute('src', '../assets/question.svg');
+              questionImg.setAttribute('src', 'assets/question.svg');
               questionImg.classList.add('board__tile--image');
               tile.appendChild(questionImg);
               this.challengeTiles.push(tile);
@@ -280,22 +280,22 @@ function rollDice(){
     let face;
     switch(result){
         case 1: 
-          face = '../assets/dice1.svg';
+          face = 'assets/dice1.svg';
           break;
         case 2:
-          face = '../assets/dice2.svg';
+          face = 'assets/dice2.svg';
           break;
         case 3: 
-          face = '../assets/dice3.svg';
+          face = 'assets/dice3.svg';
           break;
         case 4: 
-          face = '../assets/dice4.svg';
+          face = 'assets/dice4.svg';
           break;
         case 5: 
-          face = '../assets/dice5.svg';
+          face = 'assets/dice5.svg';
           break;
         case 6: 
-          face = '../assets/dice6.svg';
+          face = 'assets/dice6.svg';
           break;
     }
     diceFace.setAttribute('src', face);
@@ -312,7 +312,7 @@ function playGame(player){
   victory = player.checkVictory();
 
   if(challenge){
-    player.listMessage(player.name + " moved " + steps + " steps and stepped on a challenge tile!");
+    player.listMessage(player.name + " moved " + steps + " steps and stepped into forbidden territory!");
     if(!player.auto){
       if(steps === 6){
         prepareChallenge(player, steps);
@@ -369,17 +369,17 @@ function runAutoChallenge(player){
   if(result){
     player.moveForward(2);
     player.addQuestionResult("correct");
-    player.listMessage(player.name + " answered correctly and moved 2 extra steps forward.");
+    player.listMessage(player.name + " answered correctly and passed the gates, 2 extra steps forward.");
   }
   else{
     player.moveBackward(2);
     player.addQuestionResult("wrong");
-    player.listMessage(player.name + " didn't know the correct answer and moved 2 steps back.");
+    player.listMessage(player.name + " didn't know the correct answer and got kicked out of the territory, 2 steps back.");
   }
 
   newTile = player.piece.parentElement;
   if(player.board.isChallengeTile(newTile)){
-    player.listMessage(player.name + " stepped on another challenge tile!");
+    player.listMessage(player.name + " stepped into another forbidden territory!");
     runAutoChallenge(player);
   }
 }
@@ -397,9 +397,13 @@ function askQuestion(player, steps){
     let questionModal = document.getElementsByClassName('question-modal')[0];
     fadeIn(questionModal);
 
+    let image = document.createElement('img');
+    image.setAttribute('src', 'assets/castle.svg');
+    image.classList.add('question-modal__image');
+
     let headline = document.createElement('h1'); 
     headline.classList.add('question-modal__headline');
-    headline.innerHTML = "How well do you know Game of Thrones?";
+    headline.innerHTML = "You must answer correctly to pass the gates peacefully";
 
     let question = document.createElement('div');
     question.classList.add('question-modal__question');
@@ -425,14 +429,23 @@ function askQuestion(player, steps){
     answerSubmit.innerHTML = "That's my answer!";
 
     answer.append(answerInput, answerSubmit);
-    questionModal.append(headline, question, answer);
+    questionModal.append(image, headline, question, answer);
 
     let result = document.createElement('div');
     result.classList.add('question-modal__result');
 
+    let btnWrap = document.createElement('div');
+    btnWrap.classList.add('question-modal__button-wrap');
+
     let okBtn = document.createElement('button');
     okBtn.classList.add('question-modal__ok-btn');
     okBtn.innerHTML = "OK";
+
+    let warBtn = document.createElement('button');
+    warBtn.classList.add('question-modal__ok-btn');
+    warBtn.innerHTML = "Declare war";
+
+    btnWrap.append(okBtn, warBtn);
 
     answer.addEventListener('submit', function(e){
       e.preventDefault();
@@ -440,23 +453,23 @@ function askQuestion(player, steps){
       let input = answerInput.value.toLowerCase();
       let solution = data.character.toLowerCase();
 
-      if(solution.includes(input) || input.includes(solution) ){
-        result.innerHTML = 'Correct! "' + data.character + '" said this!';
+      if(input !== "" && (solution.includes(input) || input.includes(solution))){
+        result.innerHTML = 'Correct! "' + data.character + '" said this! You can pass the gates.';
         result.classList.add('question-modal__result--correct');
         questionModal.append(result, okBtn);
         
         player.addQuestionResult("correct");
         player.moveForward(2);
-        player.listMessage(player.name + " answered correctly and moved 2 extra steps!");
+        player.listMessage(player.name + " answered correctly and passed the gates, 2 extra steps!");
       }
       else{
-        result.innerHTML = '"' + answerInput.value + '" is wrong. "' + data.character + '" said this! You must move two steps back';
+        result.innerHTML = '"' + answerInput.value + '" is wrong. "' + data.character + '" said this! You are getting kicked out of the territory and must move two steps back';
         result.classList.add('question-modal__result--wrong');
-        questionModal.append(result, okBtn);
+        questionModal.append(result, btnWrap);
 
         player.addQuestionResult("wrong");
         player.moveBackward(2);
-        player.listMessage(player.name + " didn't know the answer and moved 2 steps back.");
+        player.listMessage(player.name + " didn't know the answer and got kicked out of the territory, 2 steps back.");
       }
     });
 
@@ -469,7 +482,7 @@ function askQuestion(player, steps){
       let victory = player.piece.parentElement === player.board.endTile ? true : false;
 
       if(challenge){
-        player.listMessage(player.name + " stepped on another challenge tile!");
+        player.listMessage(player.name + " stepped into another forbidden territory!");
         prepareChallenge(player);
       }
       if(victory){

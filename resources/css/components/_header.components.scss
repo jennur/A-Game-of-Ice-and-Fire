@@ -42,5 +42,14 @@
     display: flex; 
     justify-content: center;
     align-items: center; 
+    margin-top: 0; 
+  }
+  &__final-img {
+    width: 200px; 
+    height: auto;
+  }
+  &__characters-img {
+    width: 500px; 
+    height: auto;
   }
 }

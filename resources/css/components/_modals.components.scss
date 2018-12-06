@@ -42,6 +42,7 @@
     background-color: $strongRed; 
     border-top: 2px solid $cream; 
     border-bottom: 2px solid $darkBrown; 
+    border-radius: 5px; 
     padding: $spacingMedium;
     margin: $spacingMedium; 
     color: $cream !important; 
@@ -55,6 +56,11 @@
   }
 }
 .question-modal {
+
+  &__image {
+    width: 250px; 
+    height: auto; 
+  }
   &__question {
     max-width: $narrowWidth;
   }
@@ -81,6 +87,12 @@
   }
   &__answer-wrapper {
     padding-top: $spacingMedium;
+  }
+  &__button-wrap {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-around;
+    align-items: center; 
   }
   &__submit, &__ok-btn { 
     width: auto;
