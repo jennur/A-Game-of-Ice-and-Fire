@@ -14,10 +14,10 @@
   opacity: 0;
 
   &__headline {
-      padding: $spacingXLarge;
+      padding: $spacingLarge;
   }
   &__question {
-      padding: $spacingXLarge;
+      padding: $spacingLarge;
   }
 }
 .characters-modal {
@@ -117,6 +117,9 @@
       cursor: pointer; 
       background-color: $darkBrown; 
     }
+  }
+  &__result {
+    padding: $spacingLarge;
   }
   &__ok-btn {
     min-width: 100px; 

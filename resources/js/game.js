@@ -81,7 +81,7 @@ class Board {
           if(j === 0){
             tile.classList.add('board__tile--start');
             let startImg = document.createElement('img');
-            startImg.setAttribute('src', 'assets/start.svg');
+            startImg.setAttribute('src', 'assets/home.svg');
             startImg.classList.add('board__tile--image');
             tile.appendChild(startImg);
             this.startTile = tile;
@@ -89,7 +89,7 @@ class Board {
           else if(j === this.path.length-1){
             tile.classList.add('board__tile--finish');
             let finishImg = document.createElement('img');
-            finishImg.setAttribute('src', 'assets/finish.svg');
+            finishImg.setAttribute('src', 'assets/dragon.svg');
             finishImg.classList.add('board__tile--image');
             tile.appendChild(finishImg);
             this.endTile = tile;
@@ -403,7 +403,7 @@ function askQuestion(player, steps){
 
     let headline = document.createElement('h1'); 
     headline.classList.add('question-modal__headline');
-    headline.innerHTML = "You must answer correctly to pass the gates peacefully";
+    headline.innerHTML = "You must answer correctly to pass the gates in peace";
 
     let question = document.createElement('div');
     question.classList.add('question-modal__question');
