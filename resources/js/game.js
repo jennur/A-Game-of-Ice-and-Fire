@@ -445,7 +445,7 @@ function askQuestion(player, steps){
     warBtn.classList.add('question-modal__ok-btn');
     warBtn.innerHTML = "Declare war";
 
-    btnWrap.append(okBtn, warBtn);
+    btnWrap.append(okBtn);
 
     answer.addEventListener('submit', function(e){
       e.preventDefault();
@@ -499,7 +499,7 @@ function askQuestion(player, steps){
 }
 
 function flashVictory(player){
-  player.listMessage(player.name + " crossed the finish line!");
+  player.listMessage(player.name + " caught the dragon!");
   while(infoModal.firstChild){
     infoModal.removeChild(firstChild);
   }

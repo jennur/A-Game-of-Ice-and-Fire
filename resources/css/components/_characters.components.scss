@@ -12,7 +12,6 @@
     margin: $none auto; 
     padding: $spacingLarge;
   }
-
   &__card {
     display: flex; 
     flex-direction: column; 
@@ -57,7 +56,6 @@
     color: $black;
     align-self: center; 
     text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-    padding: $spacingMedium;
   }
   &__titles-list {
       display: block; 
@@ -65,6 +63,11 @@
       padding: $none; 
       background-color: $cream;
       padding: $spacingMedium;
+  }
+  &__image {
+    width: 200px;
+    height: auto; 
+    padding-bottom: $spacingMedium;
   }
   &--selected {
     box-shadow: 0px 0px 10px $cream;

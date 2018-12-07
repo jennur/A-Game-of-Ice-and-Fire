@@ -1,17 +1,18 @@
 // Pull characters from api:
+// 27 Tywin Lannister
+// 238 Cersei Lannister 
 // 271 Daenerys Targaryen 
 // 583 Jon Snow 
-// 27 Tywin Lannister
 // 565 Joffrey Baratheon
 // 148 Arya Stark
-// 238 Cersei Lannister 
 // 1052 Tyrion Lannister
 // 232 Catelyn Stark
 // 862 Renly Baratheon
 // 867 Rhaegar Targaryen
 window.localStorage.clear();
 
-var characterContainer, headline, charactersModal, characterNumbers, houseColors, players, cardList, loading, loaded, error;
+var characterContainer, headline, charactersModal, characterNumbers, 
+houseColors, characterImages, players, cardList, loading, loaded, error;
 
 characterContainer = document.getElementsByClassName('characters__container')[0];
 headline = document.getElementsByClassName('header__headline')[0];
@@ -19,6 +20,9 @@ charactersModal = document.getElementsByClassName('characters-modal')[0];
 loading = document.getElementById('loading')
 characterNumbers = [27, 238, 271, 583, 565, 148, 1052, 232, 862, 867];
 houseColors = ['#d6bf53', '#d6bf53','#993f40', '#a9ae9d', '#ce874b', '#a9ae9d', '#d6bf53', '#a9ae9d', '#ce874b', '#993f40'];
+characterImages = ['assets/tywin.svg', 'assets/cersei.svg', 'assets/daenerys.svg', 
+                   'assets/jonsnow.svg', 'assets/joffrey.svg', 'assets/arya.svg', 'assets/tyrion.svg', 'assets/catelyn.svg', 
+                   'assets/renly.svg', 'assets/rhaegar.svg'];
 players = [];
 cardList = [];
 loaded = [];
@@ -36,9 +40,14 @@ for(let i = 0; i < characterNumbers.length; i++){
     card.classList.add('characters__card');
     card.style.backgroundColor = houseColors[i];
 
+    let charImg = document.createElement('img');
+    charImg.setAttribute('src', characterImages[i]);
+    charImg.classList.add('card__image');
+
     let title = document.createElement('h3'); 
     title.classList.add('card__title');
     title.innerHTML = data.name;
+
     let list = document.createElement('ul');
 
     let born = document.createElement('li');
@@ -51,7 +60,7 @@ for(let i = 0; i < characterNumbers.length; i++){
       list.appendChild(culture);
     }
 
-    card.append(title, list)
+    card.append(title, charImg, list);
     /* Character selection */
     card.addEventListener('click', function(e){
       cardList.push(card);
