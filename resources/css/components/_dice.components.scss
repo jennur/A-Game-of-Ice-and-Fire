@@ -28,8 +28,12 @@
       cursor: pointer; 
     }
     
-    &--inactive:hover {
-      cursor: default;
+    &--inactive{
+      -webkit-filter: grayscale(100%);
+      filter: grayscale(100%);
+      &:hover {
+        cursor: default;
+      }
     }
     &-headline {
       color: $cream;

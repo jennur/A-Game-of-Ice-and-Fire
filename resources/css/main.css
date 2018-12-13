@@ -233,6 +233,10 @@
 .dice:hover {
   cursor: pointer;
 }
+.dice--inactive {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
 .dice--inactive:hover {
   cursor: default;
 }
