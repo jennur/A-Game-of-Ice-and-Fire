@@ -11,11 +11,13 @@
 // 867 Rhaegar Targaryen
 window.localStorage.clear();
 
-var characterContainer, headline, charactersModal, characterNumbers, 
+var characterContainer, headerWrap, headline, infoModal, charactersModal, characterNumbers, 
 houseColors, characterImages, players, cardList, loading, loaded, error;
 
 characterContainer = document.getElementsByClassName('characters__container')[0];
+headerWrap = document.getElementsByClassName('header-wrap')[0];
 headline = document.getElementsByClassName('header__headline')[0];
+infoModal = document.getElementsByClassName('info-modal')[0];
 charactersModal = document.getElementsByClassName('characters-modal')[0];
 loading = document.getElementById('loading')
 characterNumbers = [27, 238, 271, 583, 565, 148, 1052, 232, 862, 867];
@@ -63,7 +65,13 @@ for(let i = 0; i < characterNumbers.length; i++){
     card.append(title, charImg, list);
     /* Character selection */
     card.addEventListener('click', function(e){
+      if(cardList.length === 1 && card === cardList[0]){
+        cardClone = cardList[0].cloneNode(true);
+        cardClone.classList.remove('card--selected');
+        cardList.push(cardClone);
+      }
       cardList.push(card);
+
       if(players.length < 2){
         players.push(data);
         if(players.length === 2){
@@ -120,6 +128,20 @@ for(let i = 0; i < characterNumbers.length; i++){
         }
         else{
           headline.innerHTML = 'You selected "' + players[0].name + '". Select your enemy!';
+          infoModal.appendChild(headline);
+          infoModal.style.opacity = 0; 
+
+          fadeIn(infoModal);
+          count = 0; 
+          timer = setInterval(function(){
+            count += 0.1;
+            if(count > 1){
+              headline.innerHTML = 'Select your enemy';
+              headerWrap.appendChild(headline);
+              fadeOut(infoModal);
+              clearInterval(timer);
+            }
+          }, 200);
           card.classList.add('card--selected');
         }
       }
@@ -127,4 +149,32 @@ for(let i = 0; i < characterNumbers.length; i++){
     loading.style.display = "none"
     characterContainer.appendChild(card);
   });
+}
+
+function fadeIn(element){
+  element.style.display = "flex";
+  let opacity, timer;
+  opacity = 0;
+  
+  timer = setInterval(function(){
+  if(opacity >= 1){
+      clearInterval(timer);
+  }
+  element.style.opacity = opacity;
+  opacity += 0.1;
+  }, 20);
+}
+
+function fadeOut(element){
+  let opacity, timer;
+  opacity = 1;
+  
+  timer = setInterval(function(){ 
+  if(opacity <= 0){
+    element.style.display = "none";
+    clearInterval(timer);
+  }
+  element.style.opacity = opacity;
+  opacity -= 0.1;
+  }, 20);
 }
