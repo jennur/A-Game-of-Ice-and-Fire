@@ -3,8 +3,8 @@
 // 27 Tywin Lannister
 // 565 Joffrey Baratheon
 // 148 Arya Stark
-var body, infoModal, questionModal, headline, yourPlayer, dice, playerMessages, board, numTiles, questions, path, characters, charactersColors, 
-    startRound, continueRound, ragequit, rageScreen, characterSuggestions; 
+var body, infoModal, questionModal, headline, yourPlayer, dice, diceHeadline, playerMessages, board, numTiles, questions, path, characters, 
+    charactersColors, charactersImages, startRound, continueRound, ragequit, rageScreen, characterSuggestions; 
 
 body = document.querySelector('body');
 infoModal = document.getElementsByClassName('info-modal')[0];
@@ -12,6 +12,7 @@ questionModal = document.getElementsByClassName('question-modal')[0];
 headline = document.getElementsByClassName('header__headline')[0];
 yourPlayer = document.getElementsByClassName('header__player')[0];
 dice = document.getElementsByClassName('dice')[0];
+diceHeadline = document.getElementsByClassName('dice-headline')[0];
 diceFace = document.getElementsByClassName('dice-face')[0];
 playerMessages = document.getElementsByClassName('player-messages')[0];
 board = document.getElementsByClassName('board')[0];
@@ -62,6 +63,7 @@ questions = [];
 
 characters = JSON.parse(localStorage.getItem('players'));
 charactersColors = JSON.parse(localStorage.getItem('colors'));
+charactersImages = JSON.parse(localStorage.getItem('images'));
 
 class Board {
   constructor(numTiles, path){
@@ -144,7 +146,7 @@ class Board {
 }
 
 class Player{
-  constructor(name, color, index, auto){
+  constructor(name, color, image, index, auto){
     this.board; 
     this.results = [];
     this.auto = auto;
@@ -154,6 +156,7 @@ class Player{
     this.piece.style.backgroundColor = color;
     this.piece.innerHTML = name.charAt(0);
 
+    this.image = image; 
     this.color = color;
     this.name = name;
   }
@@ -204,15 +207,16 @@ class Player{
   }
 }
 
-const player1 = new Player(characters[0].name, charactersColors[0].color, 0, false);
-const player2 = new Player(characters[1].name, charactersColors[1].color, 1, true);
+//Build player objects
+const player1 = new Player(characters[0].name, charactersColors[0].color, charactersImages[0].image, 0, false);
+const player2 = new Player(characters[1].name, charactersColors[1].color, charactersImages[1].image, 1, true);
 const players = [player1, player2];
 
 const playerName = document.createTextNode(player1.name);
 yourPlayer.appendChild(playerName);
 const showPlayerPiece = document.getElementById('showPlayer');
-showPlayerPiece.innerHTML = player1.name.charAt(0);
-showPlayerPiece.style.backgroundColor = player1.color; 
+      showPlayerPiece.innerHTML = player1.name.charAt(0);
+      showPlayerPiece.style.backgroundColor = player1.color; 
 
 
 initiateGame(players);
@@ -349,13 +353,14 @@ function playGame(player){
 
 function prepareChallenge(player, steps){
   dice.removeEventListener('click', diceEventHandle);
+  diceHeadline.innerHTML = "Accept challenge to continue";
   dice.classList.add('dice--inactive');
   buttonWrap = document.createElement('li');
   buttonWrap.classList.add('player-messages__button-wrap');
   button = document.createElement('button');
   button.classList.add('player-messages__button');
   button.style.backgroundColor = player.color; 
-  button.innerHTML = "Accept challenge to continue";
+  button.innerHTML = "Take challenge!";
   buttonWrap.appendChild(button);
   button.addEventListener('click', function(){
     askQuestion(player, steps);
@@ -502,6 +507,7 @@ function askQuestion(player, steps){
     });
   });
   dice.addEventListener('click', diceEventHandle);
+  diceHeadline.innerHTML = "Roll the dice!";
   dice.classList.remove('dice--inactive');
 }
 
@@ -557,9 +563,12 @@ function flashVictory(player){
   headline.classList.add('info-modal__headline');
   headline.innerHTML = player.name + " won the game!";
   
+  let winnerImage = document.createElement('div');
+  winnerImage.innerHTML = player.image;
+/*
   let historyHeadline = document.createElement('h2');
   historyHeadline.innerHTML = "Game history: ";
-
+*/
   let answer = document.createElement('div');
   answer.classList.add('question-modal__answer-wrapper');
 
@@ -575,19 +584,10 @@ function flashVictory(player){
 
   answer.append(yesBtn, noBtn);
   playerMessages.classList.add('player-messages--history');
-  infoModal.append(headline, historyHeadline, playerMessages, answer);
+  infoModal.append(headline, winnerImage, answer);
 
   localStorage.setItem('history', playerMessages.innerHTML);
   localStorage.setItem('players', JSON.stringify(players));
-}
-
-
-function createRandomSuggestions(){
-  let suggestions = [];
-  for(let i = 0; i < 2; i++){
-    suggestions.push(characterSuggestions[Math.floor(Math.random()*characterSuggestions.length)]);  
-  }
-  return suggestions;
 }
 
 function fadeIn(element){

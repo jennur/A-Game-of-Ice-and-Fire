@@ -78,6 +78,8 @@ for(let i = 0; i < characterNumbers.length; i++){
           localStorage.setItem('players', JSON.stringify(players));
           localStorage.setItem('colors', JSON.stringify([{color: cardList[0].style.backgroundColor}, 
                                                          {color: cardList[1].style.backgroundColor}]));
+          localStorage.setItem('images', JSON.stringify([{image: cardList[0].childNodes[1].outerHTML},
+                                                        {image: cardList[1].childNodes[1].outerHTML}]));
           
           /* Create modal box for verification */ 
           let modalMessage = document.createElement('div'); 

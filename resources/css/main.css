@@ -240,6 +240,7 @@
   color: #F2E4CE;
   padding: 0 0 20px 0;
   margin: 0;
+  text-align: center;
 }
 .dice-face {
   width: inherit;
@@ -356,6 +357,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  overflow-y: scroll;
   z-index: 9999;
   opacity: 0;
 }
