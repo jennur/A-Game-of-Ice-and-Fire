@@ -14,7 +14,10 @@
     justify-content: center; 
     align-items: center; 
     padding-top: $spacingLarge;
-
+    order: 1;
+    @media #{$desktop} {
+      order: 2;
+    }
   }
   &__button {
     &-wrap {

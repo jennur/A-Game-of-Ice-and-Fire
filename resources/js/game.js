@@ -3,11 +3,12 @@
 // 27 Tywin Lannister
 // 565 Joffrey Baratheon
 // 148 Arya Stark
-var body, infoModal, headline, yourPlayer, dice, playerMessages, board, numTiles, questions, path, characters, charactersColors, 
-    startRound, continueRound, ragequit; 
+var body, infoModal, questionModal, headline, yourPlayer, dice, playerMessages, board, numTiles, questions, path, characters, charactersColors, 
+    startRound, continueRound, ragequit, rageScreen, characterSuggestions; 
 
 body = document.querySelector('body');
 infoModal = document.getElementsByClassName('info-modal')[0];
+questionModal = document.getElementsByClassName('question-modal')[0];
 headline = document.getElementsByClassName('header__headline')[0];
 yourPlayer = document.getElementsByClassName('header__player')[0];
 dice = document.getElementsByClassName('dice')[0];
@@ -16,6 +17,8 @@ playerMessages = document.getElementsByClassName('player-messages')[0];
 board = document.getElementsByClassName('board')[0];
 ragequit = document.getElementsByClassName('ragequit')[0];
 rageScreen = document.getElementsByClassName('rage-modal')[0];
+
+characterSuggestions = ["bronn", "brynden tully", "the hound", "jamie lannister", "littlefinger", "olenna tyrell", "renly baratheon", "tyrion", "varys"];
 
 ragequit.addEventListener('click', function(){
   let rageMessage = document.createElement('h1');
@@ -394,7 +397,6 @@ function askQuestion(player, steps){
     localStorage.setItem('questions', JSON.stringify(questions));
 
     //Creating modal elements
-    let questionModal = document.getElementsByClassName('question-modal')[0];
     fadeIn(questionModal);
 
     let image = document.createElement('img');
@@ -409,27 +411,10 @@ function askQuestion(player, steps){
     question.classList.add('question-modal__question');
     question.innerHTML = 'Who said this: "' + data.quote + '" ? ';
 
-    let answer = document.createElement('form');
+    let answer = document.createElement('div');
     answer.classList.add('question-modal__form');
     answer.setAttribute('id', 'answer');
-    answer.setAttribute('method', 'get');
     answer.classList.add('question-modal__answer-wrapper');
-
-    let answerInput = document.createElement('input'); 
-    answerInput.setAttribute('name', 'answer'); 
-    answerInput.setAttribute('type', 'text'); 
-    answerInput.setAttribute('placeholder', 'Your answer here ...');
-    answerInput.classList.add('question-modal__input');
-
-    let answerSubmit = document.createElement('button');
-    answerSubmit.setAttribute('type', 'sumbit');
-    answerSubmit.setAttribute('form', 'answer');
-    answer.setAttribute('value', 'submit');
-    answerSubmit.classList.add('question-modal__submit');
-    answerSubmit.innerHTML = "That's my answer!";
-
-    answer.append(answerInput, answerSubmit);
-    questionModal.append(image, headline, question, answer);
 
     let result = document.createElement('div');
     result.classList.add('question-modal__result');
@@ -440,38 +425,60 @@ function askQuestion(player, steps){
     let okBtn = document.createElement('button');
     okBtn.classList.add('question-modal__ok-btn');
     okBtn.innerHTML = "OK";
-
+/*
     let warBtn = document.createElement('button');
     warBtn.classList.add('question-modal__ok-btn');
     warBtn.innerHTML = "Declare war";
-
+*/
     btnWrap.append(okBtn);
 
-    answer.addEventListener('submit', function(e){
-      e.preventDefault();
-      questionModal.removeChild(answer);
-      let input = answerInput.value.toLowerCase();
-      let solution = data.character.toLowerCase();
+    let suggestions = [];
+    while(suggestions.length < 2){
+      let index = Math.floor(Math.random()*characterSuggestions.length);
+      let name = characterSuggestions[index].toLowerCase();
+      let correctName = data.character.toLowerCase();
 
-      if(input !== "" && (solution.includes(input) || input.includes(solution))){
-        result.innerHTML = 'Correct! "' + data.character + '" said this! You can pass the gates.';
-        result.classList.add('question-modal__result--correct');
-        questionModal.append(result, okBtn);
-        
-        player.addQuestionResult("correct");
-        player.moveForward(2);
-        player.listMessage(player.name + " answered correctly and passed the gates, 2 extra steps!");
+      if(suggestions.length === 0 && name !== correctName){
+        suggestions.push(name);
       }
-      else{
-        result.innerHTML = '"' + answerInput.value + '" is wrong. "' + data.character + '" said this! You are getting kicked out of the territory and must move two steps back';
-        result.classList.add('question-modal__result--wrong');
-        questionModal.append(result, btnWrap);
+      else if(suggestions.length === 1 && name !== correctName && name !== suggestions[0] ){
+        suggestions.push(name);
+      } 
+    }
+    let position = Math.floor(Math.random()*3);
+    suggestions.splice(position, 0, data.character.toLowerCase());
 
-        player.addQuestionResult("wrong");
-        player.moveBackward(2);
-        player.listMessage(player.name + " didn't know the answer and got kicked out of the territory, 2 steps back.");
-      }
+    suggestions.forEach( function(element){
+      let button = document.createElement('button');
+      button.innerHTML = element;
+      button.classList.add('question-modal__suggestion');
+      button.onclick = () => {
+        let submittedAnswer = element.toLowerCase();
+        questionModal.removeChild(answer);
+
+        if( submittedAnswer === data.character.toLowerCase() ){
+          result.innerHTML = 'Correct! "' + data.character + '" said this! You can pass the gates.';
+          result.classList.add('question-modal__result--correct');
+          questionModal.append(result, okBtn);
+          
+          player.addQuestionResult("correct");
+          player.moveForward(2);
+          player.listMessage(player.name + " answered correctly and passed the gates, 2 extra steps!");
+        }
+        else{
+          result.innerHTML = '"' + submittedAnswer + '" is wrong. "' + data.character + '" said this! You are getting kicked out of the territory and must move two steps back';
+          result.classList.add('question-modal__result--wrong');
+          questionModal.append(result, btnWrap);
+      
+          player.addQuestionResult("wrong");
+          player.moveBackward(2);
+          player.listMessage(player.name + " didn't know the answer and got kicked out of the territory, 2 steps back.");
+        } 
+      };
+      answer.appendChild(button);
     });
+
+    questionModal.append(image, headline, question, answer);
 
     okBtn.addEventListener('click', function(){
       fadeOut(questionModal);
@@ -572,6 +579,15 @@ function flashVictory(player){
 
   localStorage.setItem('history', playerMessages.innerHTML);
   localStorage.setItem('players', JSON.stringify(players));
+}
+
+
+function createRandomSuggestions(){
+  let suggestions = [];
+  for(let i = 0; i < 2; i++){
+    suggestions.push(characterSuggestions[Math.floor(Math.random()*characterSuggestions.length)]);  
+  }
+  return suggestions;
 }
 
 function fadeIn(element){

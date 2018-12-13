@@ -17,6 +17,7 @@ body {
   font-family: $bodyFont;
   font-size: $regular;
   color: $cream;
+  overflow-x: hidden; 
 }
 h1,h2,h3 {
   font-family: $bodyFont;

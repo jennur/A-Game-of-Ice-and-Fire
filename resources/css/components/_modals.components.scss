@@ -94,7 +94,7 @@
     justify-content: space-around;
     align-items: center; 
   }
-  &__submit, &__ok-btn { 
+  &__suggestion, &__submit, &__ok-btn { 
     width: auto;
     height: 40px; 
     padding: $spacingSmall;
@@ -121,7 +121,7 @@
   &__result {
     padding: $spacingLarge;
   }
-  &__ok-btn {
+  &__ok-btn, &__suggestion {
     min-width: 100px; 
     border-left: 1px solid $brown; 
     border-radius: 5px; 

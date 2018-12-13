@@ -223,6 +223,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  order: 2;
+}
+@media only screen and (min-width: 1000px) {
+  .dice-wrapper {
+    order: 1;
+  }
 }
 .dice:hover {
   cursor: pointer;
@@ -432,7 +438,7 @@
   justify-content: space-around;
   align-items: center;
 }
-.question-modal__submit, .question-modal__ok-btn {
+.question-modal__suggestion, .question-modal__submit, .question-modal__ok-btn {
   width: auto;
   height: 40px;
   padding: 10px;
@@ -448,17 +454,17 @@
   box-sizing: border-box;
   text-transform: uppercase;
 }
-.question-modal__submit:focus, .question-modal__ok-btn:focus {
+.question-modal__suggestion:focus, .question-modal__submit:focus, .question-modal__ok-btn:focus {
   outline: none;
 }
-.question-modal__submit:hover, .question-modal__ok-btn:hover {
+.question-modal__suggestion:hover, .question-modal__submit:hover, .question-modal__ok-btn:hover {
   cursor: pointer;
   background-color: #1C1C1A;
 }
 .question-modal__result {
   padding: 20px;
 }
-.question-modal__ok-btn {
+.question-modal__ok-btn, .question-modal__suggestion {
   min-width: 100px;
   border-left: 1px solid #2D2E2B;
   border-radius: 5px;
@@ -567,6 +573,12 @@
   justify-content: center;
   align-items: center;
   padding-top: 20px;
+  order: 1;
+}
+@media only screen and (min-width: 1000px) {
+  .player-messages-wrap {
+    order: 2;
+  }
 }
 .player-messages__button {
   width: inherit;
@@ -672,6 +684,7 @@ body {
   font-family: "Carrois Gothic SC", sans-serif;
   font-size: 16px;
   color: #F2E4CE;
+  overflow-x: hidden;
 }
 
 h1, h2, h3 {
