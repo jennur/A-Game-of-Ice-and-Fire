@@ -565,7 +565,8 @@
 .player-messages {
   width: 280px;
   height: 100px;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   list-style: none;
 }
 @media only screen and (min-width: 1000px) {
