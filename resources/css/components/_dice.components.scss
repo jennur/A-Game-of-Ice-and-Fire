@@ -8,6 +8,9 @@
       @media #{$desktop} {
         order: 1;
       }
+      user-select: none;
+      -ms-user-select: none; 
+      -webkit-user-select: none;
     }
     display: flex; 
     justify-content: center; 
