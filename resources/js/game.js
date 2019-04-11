@@ -348,6 +348,7 @@ function diceEventHandle() {
     }
     if (gameManager) {
       flashVictory(players[i]);
+      return;
     }
   }
   continueRound = 0;
@@ -609,7 +610,7 @@ function flashVictory(player) {
   if (player.index !== 0) {
     finalMessage.innerHTML = "You Lost";
     finalScreen.classList.add("final-modal--lost");
-    infoModal.style.backgroundColor = "#99282e";
+    infoModal.style.backgroundColor = "#940007";
 
     fadeIn(finalScreen);
     count = 0;
@@ -624,7 +625,7 @@ function flashVictory(player) {
   } else {
     finalMessage.innerHTML = "You Won";
     finalScreen.classList.add("final-modal--won");
-    infoModal.style.backgroundColor = "#688951";
+    infoModal.style.backgroundColor = "#6cb438";
 
     fadeIn(finalScreen);
     count = 0;
