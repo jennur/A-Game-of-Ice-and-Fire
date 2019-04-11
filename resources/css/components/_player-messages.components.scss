@@ -1,6 +1,5 @@
-
 .player-messages {
-  width: 280px; 
+  width: 280px;
   height: 100px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -10,10 +9,10 @@
   }
 
   &-wrap {
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: center; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding-top: $spacingLarge;
     order: 1;
     @media #{$desktop} {
@@ -22,63 +21,64 @@
   }
   &__button {
     &-wrap {
-      display: flex; 
+      display: flex;
       justify-content: center;
       align-items: center;
-      width: 100%; 
+      width: 100%;
     }
-    
-    width: inherit; 
+
+    width: inherit;
     height: 50px;
     color: $black;
-    font-size: $regular; 
+    font-size: $regular;
     font-family: $buttonFont;
     text-transform: uppercase;
-    border-top: 1px solid $cream; 
-    border-bottom: 1px solid $brown; 
+    border-top: 1px solid $cream;
+    border-bottom: 1px solid $brown;
     border-left: none;
-    border-right: none; 
+    border-right: none;
     border-radius: 5px;
-    box-shadow: 3px 0px 3px rgba(0,0,0,0.3);
-    margin: 10px 0px; 
+    box-shadow: 3px 0px 3px rgba(0, 0, 0, 0.3);
+    margin: 10px 0px;
     &:hover {
-      cursor: pointer; 
+      cursor: pointer;
     }
-    &:focus, &:active {
-      outline: none; 
+    &:focus,
+    &:active {
+      outline: none;
     }
   }
 
   &--history {
     background-color: $darkBrown;
-    border-radius: 5px; 
+    border-radius: 5px;
     padding: $spacingSmall;
   }
   &--final {
-    height: 650px; 
-    margin-top: 0; 
-    padding-top: 0; 
+    height: 650px;
+    margin-top: 0;
+    padding-top: 0;
   }
 }
 
 .ragequit {
   display: inline-flex;
-  justify-content: center; 
-  width: 150px; 
-  height: 40px; 
+  justify-content: center;
+  width: 150px;
+  height: 50px;
   padding: $spacingSmall;
-  background-color: $strongRed; 
+  background-color: $strongRed;
   border-top: 1px solid $cream;
   border-right: 1px solid $red;
-  border-bottom: 1px solid $darkBrown; 
+  border-bottom: 1px solid $darkBrown;
   border-left: 1px solid $brown;
-  border-radius: 5px; 
+  border-radius: 5px;
   box-sizing: border-box;
-  font-family: $buttonFont; 
-  font-size: $regular; 
-  color: $cream; 
-  text-transform: uppercase; 
-  text-decoration: none; 
+  font-family: $buttonFont;
+  font-size: $regular;
+  color: $cream;
+  text-transform: uppercase;
+  text-decoration: none;
   margin: $spacingLarge;
   &:hover {
     background-color: $brightRed;

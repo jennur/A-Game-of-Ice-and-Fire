@@ -1,20 +1,20 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta name="Description" content="A Game of Thrones board game." />
     <meta name="Author" content="Jenny Bonsak" />
 
-    <meta name="viewport" content="width=device-width"/>
+    <meta name="viewport" content="width=device-width" />
     <meta charset="utf-8" />
 
     <link href="resources/css/main.css" type="text/css" rel="stylesheet" />
-    <link rel='shortcut icon' type='image/x-icon' href='assets/favicon.png' />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.png" />
 
     <title>A Game of Ice and Fire | In Game</title>
   </head>
   <body>
     <header>
-      <audio autoplay="autoplay" loop="loop"> 
+      <audio autoplay="autoplay" loop="loop">
         <source src="sound/01-a-feast-for-crows.mp3" type="audio/mpeg" />
       </audio>
       <div class="header-wrap">
@@ -23,48 +23,47 @@
             <img src="assets/head.svg" alt="A Game of Ice and Fire" />
           </a>
         </div>
+        <h1 class="header__headline">Be the first to catch the dragon</h1>
       </div>
-    </header>  
-  
+    </header>
+
     <main>
       <div class="info-modal"></div>
       <div class="question-modal"></div>
       <div class="rage-modal"></div>
-        <div class="grid grid--center">
-          <div class="grid__item grid__item--two-thirds">
-              <div class="header__content">
-                  <h1 class="header__headline">Be the first to catch the dragon</h1>
+      <div class="grid grid--center">
+        <div class="grid__item grid__item--two-thirds">
+          <div class="board-wrapper">
+            <h2 class="header__player">
+              Your character is
+              <span id="showPlayer" class="player player--set-size"></span>
+            </h2>
+            <div class="board"></div>
+          </div>
+        </div>
+        <div class="grid__item grid__item--one-third">
+          <div class="history-wrapper">
+            <div class="dice-wrapper">
+              <h2 class="dice-headline">Roll the dice!</h2>
+              <div class="dice">
+                <img class="dice-face" src="assets/dice1.svg" alt="dice face" />
               </div>
-            <div class="board-wrapper">
-                <h2 class="header__player">Your character is <span id="showPlayer" class="player player--set-size"></span></h2>
-                <div class="board"></div>
+            </div>
+            <div class="player-messages-wrap">
+              <div class="player-messages">
+                <ul>
+                  <li>➸ START!</li>
+                </ul>
+              </div>
+              <button class="ragequit">Ragequit!</button>
             </div>
           </div>
-          <div class="grid__item grid__item--one-third">
-              <div class="history-wrapper">
-
-                <div class="dice-wrapper">
-                  <h2 class="dice-headline">Roll the dice!</h2>
-                  <div class="dice">
-                      <img class="dice-face" src="assets/dice1.svg" alt="dice face" />
-                  </div>
-                </div>
-                <div class="player-messages-wrap">
-                    <div class="player-messages">
-                      <ul>
-                        <li>➸  START!</li>
-                      </ul>
-                    </div>
-                    <button class="ragequit">Ragequit!</button>
-                </div>
-              </div>
-            </div>
         </div>
+      </div>
     </main>
     <footer>
       <div class="footer-wrap">
-        <div class="footer__item">
-        </div>
+        <div class="footer__item"></div>
       </div>
     </footer>
 

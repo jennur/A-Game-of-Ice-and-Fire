@@ -1,41 +1,48 @@
 html {
-  min-width: 100%; 
-  min-height: 100%; 
+  min-width: 100%;
+  min-height: 100%;
   margin: $none auto;
-  background-image: url(../../assets/trees.jpg);
-  background-position: center; 
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image: url(../../assets/sword-pattern.png);
+  background-repeat: repeat;
 }
 body {
-  display: block; 
-  width: 100vw; 
-  min-height: 100vh; 
-  margin: $none auto; 
-  background-color: rgba(49,51,58, 0.4); 
+  display: block;
+  width: 100vw;
+  min-height: 100vh;
+  margin: $none auto;
+  background-color: rgba(0, 0, 0, 0.7);
   font-family: $bodyFont;
-  font-size: $regular;
+  font-size: $small;
   color: $cream;
-  overflow-x: hidden; 
+  overflow-x: hidden;
 }
-h1,h2,h3 {
+h1,
+h2,
+h3 {
   font-family: $bodyFont;
 }
-h1 { font-size: $Xlarge; }
-h2 { font-size: $large; }
-h3 { font-size: $medium; }
+h1 {
+  font-size: $Xlarge;
+}
+h2 {
+  font-size: $medium;
+}
+h3 {
+  font-size: $regular;
+}
 
 header {
-  min-height: 150px; 
+  min-height: 150px;
 }
 main {
-  padding-bottom: $spacingXLarge; 
-  margin: $none auto; 
+  padding-bottom: $spacingXLarge;
+  margin: $none auto;
 }
-a{
+a {
   color: $brightRed;
-  &:visited , &:hover, &:active {
+  &:visited,
+  &:hover,
+  &:active {
     color: $brightRed;
   }
   &:hover {

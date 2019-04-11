@@ -1,48 +1,53 @@
 .board {
-  display: flex; 
-  flex-wrap: wrap; 
-  width: 600px; 
-  height: 500px;
-  margin: $none auto; 
-  padding: $none; 
-  background-color: $darkGray;
-  border-radius: 3px; 
+  display: flex;
+  flex-wrap: wrap;
+  width: 700px;
+  height: 600px;
+  margin: $none auto;
+  padding: $none;
 
   &-wrapper {
-    width: 600px; 
+    width: 700px;
     height: auto;
-    background-color: $darkGray; 
-    padding: $spacingLarge; 
-    border-top: 1px solid $cream;
-    border-right: 2px solid $brown;
-    border-bottom: 1px solid $darkBrown;
-    border-radius: 3px; 
     margin: $none auto;
   }
   &__tile {
     display: inline-flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 50px;
-    height: 50px;
+    width: 58px;
+    height: 58px;
     box-sizing: border-box;
-    border: 0.5px solid $brown;
+    //border: 0.5px solid $brown;
     position: relative;
 
-    &--dark-brown { background-color: $darkerBrown; }
-
-    &--start, &--finish { background-color: $blue; }
-    &--path {
-      background-color: $cream; 
-      &green { background-color: $lightGreen; }
+    &--dark-brown {
+      background-color: $darkerBrown;
     }
-    &--challenge { background-color: $brightRed; }
-    &--correct { background-color: $green; }
-    &--wrong { background-color: $strongRed; }
+
+    &--start,
+    &--finish {
+      background-color: $blue;
+    }
+    &--path {
+      background-color: $cream;
+      &green {
+        background-color: $lightGreen;
+      }
+    }
+    &--challenge {
+      background-color: $brightRed;
+    }
+    &--correct {
+      background-color: $green;
+    }
+    &--wrong {
+      background-color: $strongRed;
+    }
     &--image {
-      width: inherit; 
-      height: inherit; 
-      position: absolute; 
+      width: inherit;
+      height: inherit;
+      position: absolute;
     }
   }
 }

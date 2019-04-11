@@ -1,46 +1,45 @@
-
 /* Colors */
 
 $black: #000;
 $white: #fff;
-$darkGray: #31333a; /* rgb: 49 51 58*/
-$darkBrown: #1C1C1A;
+$lightGray: #868686;
+$gray: #2e2e2e;
+$darkGray: #1f1f1f; /* rgb: 49 51 58*/
+$darkBrown: #220d02;
 $darkerBrown: #191918;
-$brown: #2D2E2B;
+$brown: #311802;
 
-$lightGreen: #a9ae9d;  
-$cream: #F2E4CE; 
-$strongRed: #99282e;
-$brightRed: #FF434D;
+$lightGreen: #b6b6b6;
+$cream: rgb(255, 242, 220);
+$strongRed: #940007;
+$brightRed: rgb(255, 30, 41);
 
-$red: #993f40;
-$orange: #ce874b;
-$yellow: #d6bf53;
-$blue: #4761a0;
-$green: #688951;
-
+$red: #ff191d;
+$orange: #ff7300;
+$yellow: #ffc400;
+$blue: #60a0ff;
+$green: #6cb438;
 
 /* Fonts */
-$gotFont: 'Game of Thrones', 'Carrois Gothic SC', serif;
-$buttonFont: 'Kalam', cursive;
-$bodyFont: 'Carrois Gothic SC', sans-serif;
+$gotFont: "Game of Thrones", "Carrois Gothic SC", serif;
+$buttonFont: "Kalam", cursive;
+$bodyFont: "Carrois Gothic SC", sans-serif;
+$headlineFont: "Nothing You Could Do", cursive;
 
-$small: 12px; 
-$regular: 16px; 
-$medium: 20px; 
-$large: 24px; 
-$Xlarge: 30px;
-
+$small: 16px;
+$regular: 20px;
+$medium: 25px;
+$large: 30px;
+$Xlarge: 40px;
 
 /* Spacing */
 
-$none: 0px; 
-$spacingXSmall: 5px; 
+$none: 0px;
+$spacingXSmall: 5px;
 $spacingSmall: 10px;
 $spacingMedium: 15px;
 $spacingLarge: 20px;
-$spacingXLarge: 25px; 
-
+$spacingXLarge: 25px;
 
 /* Widths */
 
@@ -49,10 +48,9 @@ $siteWidth: 1280px;
 $mediumWidth: 1000px;
 $narrowWidth: 700px;
 
-
 /* Media queries */
 
-$mobile: 'only screen and (max-width: 767px)';
-$tablet: 'only screen and (min-width: 768px)';
-$desktop: 'only screen and (min-width: 1000px)';
-$desktop-wide: 'only screen and (min-width: 1200px)';
+$mobile: "only screen and (max-width: 767px)";
+$tablet: "only screen and (min-width: 768px)";
+$desktop: "only screen and (min-width: 1000px)";
+$desktop-wide: "only screen and (min-width: 1200px)";

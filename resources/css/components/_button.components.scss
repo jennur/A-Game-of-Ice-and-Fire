@@ -1,16 +1,14 @@
-
-.game-btn { 
-
+.game-btn {
   &:focus {
-      box-shadow: none; 
+    box-shadow: none;
   }
   &--wrapper {
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 200px;
     height: 70px;
-    box-shadow: 0px 10px 10px rgba(0,0,0,0.2);
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     background: linear-gradient(to bottom, $brightRed, $darkBrown 85%);
     border-top: 2px solid $brightRed;
@@ -18,35 +16,45 @@
     border-radius: 3px;
   }
   &--border {
-    display: flex; 
-    align-items: center; 
+    display: flex;
+    align-items: center;
     justify-content: center;
-    width: 202px;
-    height: 72px;
+    width: 222px;
+    height: 92px;
     padding: 7px 5px;
-    background-color: $darkGray;
-    border-top: 2px solid $cream; 
-    border-bottom: 2px solid $darkBrown;
+    background: linear-gradient(to bottom, $gray, $darkGray 85%);
+    border-top: 3px solid $cream;
+    border-bottom: 3px solid $black;
     border-radius: 3px;
   }
   &--textwrap {
-    display: flex; 
-    align-items: center; 
+    display: flex;
+    align-items: center;
     justify-content: center;
     width: 194px;
     height: 66px;
-    background: radial-gradient(circle, $brightRed 45%, $strongRed 85%, $darkBrown 105%);
+    background: radial-gradient(
+      circle,
+      $brightRed 45%,
+      $strongRed 85%,
+      $darkBrown 105%
+    );
     border-radius: 2px;
     text-decoration: none;
     &:hover {
-      background: radial-gradient(circle, $brightRed 75%, $strongRed 95%, $darkBrown 125%);
+      background: radial-gradient(
+        circle,
+        $brightRed 75%,
+        $strongRed 95%,
+        $darkBrown 125%
+      );
     }
   }
   &--text {
-    font-family: $buttonFont; 
-    font-size: $large; 
-    color: $black; 
-    text-shadow: 3px 3px 5px rgba(0,0,0,0.4);
-    user-select: none; 
+    font-family: $buttonFont;
+    font-size: $medium;
+    color: $black;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
+    user-select: none;
   }
 }
