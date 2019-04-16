@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   width: 700px;
-  height: 600px;
+  height: auto;
   margin: $none auto;
   padding: $none;
 
@@ -18,7 +18,6 @@
     width: 58px;
     height: 58px;
     box-sizing: border-box;
-    //border: 0.5px solid $brown;
     position: relative;
 
     &--dark-brown {

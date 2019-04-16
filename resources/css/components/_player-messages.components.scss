@@ -1,3 +1,21 @@
+.history-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 700px;
+  padding: 0 $spacingXLarge;
+  margin: $spacingSmall auto;
+  order: 1;
+  @media #{$desktop} {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    order: 2;
+  }
+}
+
 .player-messages {
   width: 280px;
   height: 100px;
@@ -7,13 +25,11 @@
   @media #{$desktop} {
     height: 270px;
   }
-
   &-wrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: $spacingLarge;
     order: 1;
     @media #{$desktop} {
       order: 2;
@@ -59,29 +75,7 @@
     margin-top: 0;
     padding-top: 0;
   }
-}
-
-.ragequit {
-  display: inline-flex;
-  justify-content: center;
-  width: 150px;
-  height: 50px;
-  padding: $spacingSmall;
-  background-color: $strongRed;
-  border-top: 1px solid $cream;
-  border-right: 1px solid $red;
-  border-bottom: 1px solid $darkBrown;
-  border-left: 1px solid $brown;
-  border-radius: 5px;
-  box-sizing: border-box;
-  font-family: $buttonFont;
-  font-size: $regular;
-  color: $cream;
-  text-transform: uppercase;
-  text-decoration: none;
-  margin: $spacingLarge;
-  &:hover {
-    background-color: $brightRed;
-    cursor: pointer;
+  &--first {
+    font-size: $regular;
   }
 }

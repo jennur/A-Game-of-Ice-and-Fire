@@ -265,6 +265,11 @@ class Player {
     let newMessage = document.createElement("li");
     newMessage.style.color = this.color;
     newMessage.innerHTML = message;
+    newMessage.classList.add("player-messages--first");
+    playerMessages.firstChild.classList &&
+    playerMessages.firstChild.classList.contains("player-messages--first")
+      ? playerMessages.firstChild.classList.remove("player-messages--first")
+      : null;
     playerMessages.insertBefore(newMessage, playerMessages.firstChild);
   }
   addQuestionResult(result) {
@@ -410,9 +415,9 @@ function prepareChallenge(player, steps) {
   diceHeadline.innerHTML = "Accept challenge to continue";
   dice.classList.add("dice--inactive");
   buttonWrap = document.createElement("li");
-  buttonWrap.classList.add("player-messages__button-wrap");
+  buttonWrap.classList.add("button-wrap");
   button = document.createElement("button");
-  button.classList.add("player-messages__button");
+  button.classList.add("button");
   button.style.backgroundColor = player.color;
   button.innerHTML = "Take challenge!";
   buttonWrap.appendChild(button);
@@ -487,10 +492,10 @@ function askQuestion(player, steps) {
       result.classList.add("question-modal__result");
 
       let btnWrap = document.createElement("div");
-      btnWrap.classList.add("question-modal__button-wrap");
+      btnWrap.classList.add("button-wrap");
 
       let okBtn = document.createElement("button");
-      okBtn.classList.add("question-modal__ok-btn");
+      okBtn.classList.add("button", "button--gray");
       okBtn.innerHTML = "OK";
 
       btnWrap.append(okBtn);
@@ -517,7 +522,7 @@ function askQuestion(player, steps) {
       suggestions.forEach(function(element) {
         let button = document.createElement("button");
         button.innerHTML = element;
-        button.classList.add("question-modal__suggestion");
+        button.classList.add("button", "button--gray");
         button.onclick = () => {
           let submittedAnswer = element.toLowerCase();
           questionModal.removeChild(answer);
@@ -610,7 +615,6 @@ function flashVictory(player) {
   if (player.index !== 0) {
     finalMessage.innerHTML = "You Lost";
     finalScreen.classList.add("final-modal--lost");
-    infoModal.style.backgroundColor = "#940007";
 
     fadeIn(finalScreen);
     count = 0;
@@ -625,7 +629,6 @@ function flashVictory(player) {
   } else {
     finalMessage.innerHTML = "You Won";
     finalScreen.classList.add("final-modal--won");
-    infoModal.style.backgroundColor = "#6cb438";
 
     fadeIn(finalScreen);
     count = 0;
@@ -653,12 +656,12 @@ function flashVictory(player) {
 
   let yesBtn = document.createElement("a");
   yesBtn.setAttribute("href", "select-character.html");
-  yesBtn.classList.add("info-modal__button");
+  yesBtn.classList.add("button");
   yesBtn.innerHTML = "Play again";
 
   let noBtn = document.createElement("a");
   noBtn.setAttribute("href", "final.html");
-  noBtn.classList.add("info-modal__button");
+  noBtn.classList.add("button");
   noBtn.innerHTML = "Take me to the score view";
 
   answer.append(yesBtn, noBtn);

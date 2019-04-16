@@ -19,13 +19,14 @@
 
   &__headline {
     padding: $spacingLarge;
+    font-size: $large;
   }
   &__question {
     padding: $spacingLarge;
   }
 }
 .characters-modal {
-  background-color: rgba(49, 51, 58, 1);
+  background-color: $strongRed;
   opacity: 1;
 
   &__cards {
@@ -37,26 +38,6 @@
     padding: $spacingLarge;
     color: $cream;
     font-size: $large;
-  }
-  &__button-wrap {
-    display: flex;
-    flex-direction: row;
-  }
-  &__button {
-    background-color: $strongRed;
-    border-top: 2px solid $cream;
-    border-bottom: 2px solid $darkBrown;
-    border-radius: 5px;
-    padding: $spacingMedium;
-    margin: $spacingMedium;
-    color: $cream !important;
-    font-family: $buttonFont;
-    font-size: $medium;
-    text-decoration: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    cursor: pointer;
   }
 }
 .question-modal {
@@ -72,122 +53,32 @@
     flex-direction: row;
     align-items: center;
   }
-  &__input {
-    min-width: 150px;
-    height: 40px;
-    padding: $spacingSmall;
-    border-top: 1px solid $cream;
-    border-bottom: 1px solid $darkBrown;
-    border-right: none;
-    border-radius: 5px 0px 0px 5px;
-    background-color: #fff;
-    color: $black;
-    font-size: $regular;
-    box-sizing: border-box;
-    &:focus {
-      outline: none;
-    }
-  }
   &__answer-wrapper {
     padding-top: $spacingMedium;
   }
-  &__button-wrap {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-  }
   &__suggestion,
-  &__submit,
-  &__ok-btn {
-    width: auto;
-    height: 40px;
-    padding: $spacingSmall;
-    border-top: 1px solid $cream;
-    border-bottom: 1px solid $darkBrown;
-    border-right: 1px solid $brown;
-    border-left: none;
-    border-radius: 0px 5px 5px 0px;
-    background-color: $brown;
-    color: $cream;
-    font-size: $regular;
-    font-family: $buttonFont;
-    box-sizing: border-box;
-    text-transform: uppercase;
-
-    &:focus {
-      outline: none;
-    }
-    &:hover {
-      cursor: pointer;
-      background-color: $darkBrown;
-    }
-  }
   &__result {
     padding: $spacingLarge;
-  }
-  &__ok-btn,
-  &__suggestion {
-    min-width: 100px;
-    border-left: 1px solid $brown;
-    border-radius: 5px;
-    margin: $spacingMedium;
   }
 }
 
 .info-modal {
   opacity: 1;
-
-  &__button {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 100px;
-    height: 40px;
-    padding: $spacingSmall;
-    background-color: $brown;
-    border-top: 1px solid $cream;
-    border-bottom: 1px solid $darkBrown;
-    border-left: 1px solid $brown;
-    border-right: 1px solid $brown;
-    border-radius: 5px;
-    box-sizing: border-box;
-    margin: $spacingMedium;
-    font-family: $buttonFont;
-    color: $cream;
-    text-decoration: none;
-    text-transform: uppercase;
-    &:hover {
-      cursor: pointer;
-      background-color: $darkBrown;
-    }
-    &:visited,
-    &:active {
-      color: inherit;
-    }
-    &--small {
-      max-width: 150px;
-      background-color: $strongRed;
-      &:hover {
-        background-color: $brightRed;
-      }
-    }
-  }
 }
 .final-modal {
   z-index: 999999;
   &--won {
     background-color: $green;
-    color: $lightGreen;
+    color: $cream;
   }
   &--lost {
     background-color: $strongRed;
-    color: $brightRed;
+    color: $cream;
   }
   &__message {
     font-size: 100px;
     font-family: $bodyFont;
-    color: inherit;
+    color: $cream;
   }
 }
 

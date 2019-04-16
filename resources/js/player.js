@@ -149,15 +149,15 @@ for (let i = 0; i < characterNumbers.length; i++) {
             charactersModal.appendChild(modalCardBox);
 
             let modalButtonBox = document.createElement("div");
-            modalButtonBox.classList.add("characters-modal__button-wrap");
+            modalButtonBox.classList.add("button-wrap");
 
             let redoButton = document.createElement("a");
-            redoButton.classList.add("characters-modal__button");
+            redoButton.classList.add("button", "button--gray");
             redoButton.innerHTML = "Change players";
             modalButtonBox.appendChild(redoButton);
 
             let modalButton = document.createElement("a");
-            modalButton.classList.add("characters-modal__button");
+            modalButton.classList.add("button", "button--gray");
             modalButton.setAttribute("href", "in-game.html");
             modalButton.innerHTML = "I'm ready!";
             modalButtonBox.appendChild(modalButton);

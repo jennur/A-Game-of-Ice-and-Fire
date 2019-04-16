@@ -17,7 +17,7 @@
   display: flex;
   flex-wrap: wrap;
   width: 700px;
-  height: 600px;
+  height: auto;
   margin: 0px auto;
   padding: 0px;
 }
@@ -111,6 +111,44 @@
   user-select: none;
 }
 
+.button {
+  border-left: none;
+  border-right: none;
+  border-top: 2px solid #fff2dc;
+  border-radius: 5px;
+  height: 50px;
+  padding: 0px 15px;
+  margin: 15px;
+  color: #fff2dc !important;
+  font-family: "Kalam", cursive;
+  font-size: 25px;
+  text-decoration: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+.button-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.button--gray {
+  background-color: #1f1f1f;
+  border-bottom: 2px solid #000;
+}
+.button--gray:hover {
+  background-color: #2e2e2e;
+}
+.button--red {
+  background-color: #940007;
+  border-bottom: 2px solid #311802;
+}
+.button--red:hover {
+  background-color: #ff191d;
+}
+
 .characters__container {
   display: flex;
   flex-wrap: wrap;
@@ -199,20 +237,23 @@
   -moz-transform: rotate(-7deg);
   -o-transform: rotate(-7deg);
   -webkit-transform: rotate(-7deg);
-  margin: 20px;
 }
 .dice-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  order: 2;
+  text-align: center;
+  width: 360px;
   user-select: none;
   -ms-user-select: none;
   -webkit-user-select: none;
+  order: 2;
 }
 @media only screen and (min-width: 1000px) {
   .dice-wrapper {
+    width: 300px;
+    margin-top: 70px;
     order: 1;
   }
 }
@@ -230,6 +271,7 @@
   color: #fff2dc;
   padding: 0 0 20px 0;
   margin: 0;
+  height: 80px;
   text-align: center;
 }
 .dice-face {
@@ -241,23 +283,6 @@
   max-width: 150px;
   color: #fff2dc;
   padding: 25px;
-}
-
-.history-wrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 600px;
-  padding: 0 25px;
-  margin: 10px auto;
-}
-@media only screen and (min-width: 1000px) {
-  .history-wrapper {
-    flex-direction: column;
-    justify-content: center;
-    width: 200px;
-  }
 }
 
 .footer-wrap {
@@ -328,10 +353,8 @@
   padding-left: 25px;
 }
 .header__player {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin-top: 0;
+  font-family: "Nothing You Could Do", cursive;
 }
 .header__final-img-combo {
   display: flex;
@@ -375,6 +398,7 @@
 .final-modal__headline,
 .rage-modal__headline {
   padding: 20px;
+  font-size: 30px;
 }
 .characters-modal__question,
 .question-modal__question,
@@ -385,7 +409,7 @@
 }
 
 .characters-modal {
-  background-color: #31333a;
+  background-color: #940007;
   opacity: 1;
 }
 .characters-modal__cards {
@@ -397,26 +421,6 @@
   padding: 20px;
   color: #fff2dc;
   font-size: 30px;
-}
-.characters-modal__button-wrap {
-  display: flex;
-  flex-direction: row;
-}
-.characters-modal__button {
-  background-color: #940007;
-  border-top: 2px solid #fff2dc;
-  border-bottom: 2px solid #220d02;
-  border-radius: 5px;
-  padding: 15px;
-  margin: 15px;
-  color: #fff2dc !important;
-  font-family: "Kalam", cursive;
-  font-size: 25px;
-  text-decoration: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  cursor: pointer;
 }
 
 .question-modal__image {
@@ -431,100 +435,15 @@
   flex-direction: row;
   align-items: center;
 }
-.question-modal__input {
-  min-width: 150px;
-  height: 40px;
-  padding: 10px;
-  border-top: 1px solid #fff2dc;
-  border-bottom: 1px solid #220d02;
-  border-right: none;
-  border-radius: 5px 0px 0px 5px;
-  background-color: #fff;
-  color: #000;
-  font-size: 20px;
-  box-sizing: border-box;
-}
-.question-modal__input:focus {
-  outline: none;
-}
 .question-modal__answer-wrapper {
   padding-top: 15px;
 }
-.question-modal__button-wrap {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-}
-.question-modal__suggestion, .question-modal__submit, .question-modal__ok-btn {
-  width: auto;
-  height: 40px;
-  padding: 10px;
-  border-top: 1px solid #fff2dc;
-  border-bottom: 1px solid #220d02;
-  border-right: 1px solid #311802;
-  border-left: none;
-  border-radius: 0px 5px 5px 0px;
-  background-color: #311802;
-  color: #fff2dc;
-  font-size: 20px;
-  font-family: "Kalam", cursive;
-  box-sizing: border-box;
-  text-transform: uppercase;
-}
-.question-modal__suggestion:focus, .question-modal__submit:focus, .question-modal__ok-btn:focus {
-  outline: none;
-}
-.question-modal__suggestion:hover, .question-modal__submit:hover, .question-modal__ok-btn:hover {
-  cursor: pointer;
-  background-color: #220d02;
-}
-.question-modal__result {
+.question-modal__suggestion, .question-modal__result {
   padding: 20px;
-}
-.question-modal__ok-btn, .question-modal__suggestion {
-  min-width: 100px;
-  border-left: 1px solid #311802;
-  border-radius: 5px;
-  margin: 15px;
 }
 
 .info-modal {
   opacity: 1;
-}
-.info-modal__button {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 100px;
-  height: 40px;
-  padding: 10px;
-  background-color: #311802;
-  border-top: 1px solid #fff2dc;
-  border-bottom: 1px solid #220d02;
-  border-left: 1px solid #311802;
-  border-right: 1px solid #311802;
-  border-radius: 5px;
-  box-sizing: border-box;
-  margin: 15px;
-  font-family: "Kalam", cursive;
-  color: #fff2dc;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-.info-modal__button:hover {
-  cursor: pointer;
-  background-color: #220d02;
-}
-.info-modal__button:visited, .info-modal__button:active {
-  color: inherit;
-}
-.info-modal__button--small {
-  max-width: 150px;
-  background-color: #940007;
-}
-.info-modal__button--small:hover {
-  background-color: #ff1e29;
 }
 
 .final-modal {
@@ -532,16 +451,16 @@
 }
 .final-modal--won {
   background-color: #6cb438;
-  color: #b6b6b6;
+  color: #fff2dc;
 }
 .final-modal--lost {
   background-color: #940007;
-  color: #ff1e29;
+  color: #fff2dc;
 }
 .final-modal__message {
   font-size: 100px;
   font-family: "Carrois Gothic SC", sans-serif;
-  color: inherit;
+  color: #fff2dc;
 }
 
 .rage-modal__message {
@@ -583,6 +502,26 @@
   margin: 0 10px;
 }
 
+.history-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 700px;
+  padding: 0 25px;
+  margin: 10px auto;
+  order: 1;
+}
+@media only screen and (min-width: 1000px) {
+  .history-wrapper {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    order: 2;
+  }
+}
+
 .player-messages {
   width: 280px;
   height: 100px;
@@ -600,7 +539,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 20px;
   order: 1;
 }
 @media only screen and (min-width: 1000px) {
@@ -645,30 +583,8 @@
   margin-top: 0;
   padding-top: 0;
 }
-
-.ragequit {
-  display: inline-flex;
-  justify-content: center;
-  width: 150px;
-  height: 50px;
-  padding: 10px;
-  background-color: #940007;
-  border-top: 1px solid #fff2dc;
-  border-right: 1px solid #ff191d;
-  border-bottom: 1px solid #220d02;
-  border-left: 1px solid #311802;
-  border-radius: 5px;
-  box-sizing: border-box;
-  font-family: "Kalam", cursive;
+.player-messages--first {
   font-size: 20px;
-  color: #fff2dc;
-  text-transform: uppercase;
-  text-decoration: none;
-  margin: 20px;
-}
-.ragequit:hover {
-  background-color: #ff1e29;
-  cursor: pointer;
 }
 
 .scores__wrapper {
@@ -700,6 +616,7 @@ html {
   margin: 0px auto;
   background-image: url(../../assets/sword-pattern.png);
   background-repeat: repeat;
+  overflow-x: hidden;
 }
 
 body {
@@ -774,6 +691,15 @@ a:hover {
     max-width: 1000px;
   }
 }
+.grid--nowrap {
+  flex-wrap: nowrap;
+}
+.grid--nowrap--one-third {
+  flex-basis: 33%;
+}
+.grid--nowrap--two-thirds {
+  flex-basis: 66%;
+}
 .grid__item {
   flex-basis: 100%;
   padding: 10px;
@@ -783,7 +709,7 @@ a:hover {
 }
 @media only screen and (min-width: 1000px) {
   .grid__item--one-third {
-    flex-basis: 33%;
+    flex-basis: 25%;
     order: 2;
   }
 }
@@ -792,7 +718,7 @@ a:hover {
 }
 @media only screen and (min-width: 1000px) {
   .grid__item--two-thirds {
-    flex-basis: 66%;
+    flex-basis: 75%;
     order: 1;
   }
 }
@@ -802,6 +728,10 @@ a:hover {
 }
 .grid--space {
   justify-content: space-around;
+}
+
+.text-align--center {
+  text-align: center;
 }
 
 /* Utilities */

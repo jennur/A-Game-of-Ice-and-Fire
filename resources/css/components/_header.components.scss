@@ -54,10 +54,8 @@
     padding-left: $spacingXLarge;
   }
   &__player {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin-top: 0;
+    font-family: $headlineFont;
   }
   &__final-img-combo {
     display: flex;

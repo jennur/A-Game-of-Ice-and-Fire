@@ -4,6 +4,7 @@ html {
   margin: $none auto;
   background-image: url(../../assets/sword-pattern.png);
   background-repeat: repeat;
+  overflow-x: hidden;
 }
 body {
   display: block;
